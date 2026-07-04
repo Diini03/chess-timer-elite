@@ -11,6 +11,7 @@ interface PlayerPanelProps {
   isActive: boolean;
   status: GameStatus;
   isLoser: boolean;
+  moves?: number;
   rotated?: boolean;
   onTap: () => void;
 }
@@ -23,6 +24,7 @@ export const PlayerPanel = memo(function PlayerPanel({
   isActive,
   status,
   isLoser,
+  moves = 0,
   rotated,
   onTap,
 }: PlayerPanelProps) {

@@ -79,6 +79,11 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
   const switchTurn = useCallback((tappedBy: PlayerId) => {
     if (status === "finished") return;
 
+    // Light haptic feedback where supported (mobile).
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate?.(8);
+    }
+
     // First tap: starts the OPPONENT of the tapper.
     if (status === "idle") {
       const opponent: PlayerId = tappedBy === "one" ? "two" : "one";
@@ -102,6 +107,8 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
       };
       setRemaining(remainingRef.current);
     }
+
+    setMoves((m) => ({ ...m, [tappedBy]: m[tappedBy] + 1 }));
 
     const next: PlayerId = tappedBy === "one" ? "two" : "one";
     setActivePlayer(next);

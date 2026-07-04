@@ -137,6 +137,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
     setRemaining(remainingRef.current);
     setActivePlayer(null);
     setWinner(null);
+    setMoves({ one: 0, two: 0 });
     setStatus("idle");
   }, [timeControl]);
 
@@ -146,12 +147,13 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
     remaining,
     winner,
     timeControl,
+    moves,
     switchTurn,
     pause,
     resume,
     reset,
     setTimeControl: (tc: TimeControl) => reset(tc),
-  }), [status, activePlayer, remaining, winner, timeControl, switchTurn, pause, resume, reset]);
+  }), [status, activePlayer, remaining, winner, timeControl, moves, switchTurn, pause, resume, reset]);
 }
 
 export function formatTime(ms: number): { main: string; deci: string; danger: boolean } {

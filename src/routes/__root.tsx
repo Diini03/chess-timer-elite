@@ -71,15 +71,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" },
+      { name: "theme-color", content: "#0b0b0f" },
+      { title: "Tempo — Minimal Chess Clock" },
+      { name: "description", content: "A premium mobile-first chess clock for over-the-board games. Precise timing, Fischer increment, and tournament-ready presets." },
+      { property: "og:title", content: "Tempo — Minimal Chess Clock" },
+      { property: "og:description", content: "Precise, tournament-ready chess clock built for your phone." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {

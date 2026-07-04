@@ -115,15 +115,22 @@ export const PlayerPanel = memo(function PlayerPanel({
         )}
       </div>
 
-      {/* Status sub-label */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-        {isLoser
-          ? "Time out"
-          : status === "idle"
-            ? "Tap when ready"
-            : isActive
-              ? status === "paused" ? "Paused" : "Your move"
-              : "Waiting"}
+      {/* Status sub-label + move counter */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
+        <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          {isLoser
+            ? "Time out"
+            : status === "idle"
+              ? "Tap when ready"
+              : isActive
+                ? status === "paused" ? "Paused" : "Your move"
+                : "Waiting"}
+        </div>
+        {moves > 0 && (
+          <div className="text-[10px] font-medium tracking-wider text-muted-foreground/60">
+            {moves} {moves === 1 ? "move" : "moves"}
+          </div>
+        )}
       </div>
     </button>
   );

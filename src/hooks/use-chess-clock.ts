@@ -23,6 +23,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
   const [status, setStatus] = useState<GameStatus>("idle");
   const [activePlayer, setActivePlayer] = useState<PlayerId | null>(null);
   const [winner, setWinner] = useState<PlayerId | null>(null);
+  const [moves, setMoves] = useState<Record<PlayerId, number>>({ one: 0, two: 0 });
 
   // Remaining time as a ref (truth) + state mirror (render trigger).
   const remainingRef = useRef<Record<PlayerId, number>>({

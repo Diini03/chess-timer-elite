@@ -141,6 +141,7 @@ export function ChessClock() {
         isActive={activePlayer === "one"}
         status={status}
         isLoser={winner === "two"}
+        moves={moves.one}
         onTap={() => switchTurn("one")}
       />
 

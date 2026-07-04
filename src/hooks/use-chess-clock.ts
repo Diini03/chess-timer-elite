@@ -23,6 +23,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
   const [status, setStatus] = useState<GameStatus>("idle");
   const [activePlayer, setActivePlayer] = useState<PlayerId | null>(null);
   const [winner, setWinner] = useState<PlayerId | null>(null);
+  const [moves, setMoves] = useState<Record<PlayerId, number>>({ one: 0, two: 0 });
 
   // Remaining time as a ref (truth) + state mirror (render trigger).
   const remainingRef = useRef<Record<PlayerId, number>>({
@@ -78,6 +79,11 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
   const switchTurn = useCallback((tappedBy: PlayerId) => {
     if (status === "finished") return;
 
+    // Light haptic feedback where supported (mobile).
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate?.(8);
+    }
+
     // First tap: starts the OPPONENT of the tapper.
     if (status === "idle") {
       const opponent: PlayerId = tappedBy === "one" ? "two" : "one";
@@ -101,6 +107,8 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
       };
       setRemaining(remainingRef.current);
     }
+
+    setMoves((m) => ({ ...m, [tappedBy]: m[tappedBy] + 1 }));
 
     const next: PlayerId = tappedBy === "one" ? "two" : "one";
     setActivePlayer(next);
@@ -129,6 +137,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
     setRemaining(remainingRef.current);
     setActivePlayer(null);
     setWinner(null);
+    setMoves({ one: 0, two: 0 });
     setStatus("idle");
   }, [timeControl]);
 
@@ -138,12 +147,13 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
     remaining,
     winner,
     timeControl,
+    moves,
     switchTurn,
     pause,
     resume,
     reset,
     setTimeControl: (tc: TimeControl) => reset(tc),
-  }), [status, activePlayer, remaining, winner, timeControl, switchTurn, pause, resume, reset]);
+  }), [status, activePlayer, remaining, winner, timeControl, moves, switchTurn, pause, resume, reset]);
 }
 
 export function formatTime(ms: number): { main: string; deci: string; danger: boolean } {

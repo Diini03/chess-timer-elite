@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pause, Play, RotateCcw, Settings2, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useChessClock } from "@/hooks/use-chess-clock";
@@ -6,13 +6,54 @@ import { PlayerPanel } from "@/components/PlayerPanel";
 import { TIME_CONTROLS, DEFAULT_TIME_CONTROL } from "@/lib/time-controls";
 import type { TimeControl } from "@/lib/time-controls";
 
+const NAMES_STORAGE_KEY = "tempo:player-names";
+
 export function ChessClock() {
   const clock = useChessClock(DEFAULT_TIME_CONTROL);
   const [names, setNames] = useState({ one: "Player 1", two: "Player 2" });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
 
-  const { status, activePlayer, remaining, winner, timeControl, switchTurn, pause, resume, reset, setTimeControl } = clock;
+  // Load persisted names on mount.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(NAMES_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed.one === "string" && typeof parsed.two === "string") {
+          setNames(parsed);
+        }
+      }
+    } catch { /* ignore */ }
+  }, []);
+
+  // Persist names on change.
+  useEffect(() => {
+    try {
+      localStorage.setItem(NAMES_STORAGE_KEY, JSON.stringify(names));
+    } catch { /* ignore */ }
+  }, [names]);
+
+  const { status, activePlayer, remaining, winner, timeControl, moves, switchTurn, pause, resume, reset, setTimeControl } = clock;
+
+  // Keyboard shortcuts: Space = pause/resume, R = reset (double-press pattern).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
+      if (e.code === "Space") {
+        e.preventDefault();
+        if (status === "running") pause();
+        else if (status === "paused") resume();
+      } else if (e.key === "ArrowDown") {
+        switchTurn("one");
+      } else if (e.key === "ArrowUp") {
+        switchTurn("two");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [status, pause, resume, switchTurn]);
 
   const handleReset = () => {
     if (status === "idle") return;
@@ -48,6 +89,7 @@ export function ChessClock() {
         isActive={activePlayer === "two"}
         status={status}
         isLoser={winner === "one"}
+        moves={moves.two}
         rotated
         onTap={() => switchTurn("two")}
       />
@@ -99,6 +141,7 @@ export function ChessClock() {
         isActive={activePlayer === "one"}
         status={status}
         isLoser={winner === "two"}
+        moves={moves.one}
         onTap={() => switchTurn("one")}
       />
 

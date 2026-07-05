@@ -81,8 +81,26 @@ export function ChessClock() {
     setSettingsOpen(false);
   };
 
+  // Low-time warning beeps at 10s and timeout.
+  const warnedRef = useRef<Record<"one" | "two", boolean>>({ one: false, two: false });
+  useEffect(() => {
+    (["one", "two"] as const).forEach((p) => {
+      const ms = remaining[p];
+      if (ms <= 10_000 && ms > 0 && !warnedRef.current[p]) {
+        warnedRef.current[p] = true;
+        sound.lowTime();
+      }
+      if (ms > 10_000 && warnedRef.current[p]) warnedRef.current[p] = false;
+    });
+  }, [remaining, sound]);
+
+  useEffect(() => {
+    if (status === "finished") sound.timeout();
+  }, [status, sound]);
+
   return (
     <main className="fixed inset-0 flex flex-col bg-background overflow-hidden">
+      <ShortcutsHelp />
       {/* Top player */}
       <PlayerPanel
         player="two"

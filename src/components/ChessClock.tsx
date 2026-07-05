@@ -99,7 +99,7 @@ export function ChessClock() {
   }, [status, sound]);
 
   return (
-    <main className="fixed inset-0 flex flex-col bg-background overflow-hidden">
+    <main className="grain fixed inset-0 flex flex-col bg-background overflow-hidden">
       <ShortcutsHelp />
       {/* Top player */}
       <PlayerPanel

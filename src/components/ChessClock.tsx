@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Pause, Play, RotateCcw, Settings2, Check } from "lucide-react";
+import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX } from "lucide-react";
+import { useSound } from "@/hooks/use-sound";
 import { cn } from "@/lib/utils";
 import { useChessClock } from "@/hooks/use-chess-clock";
 import { PlayerPanel } from "@/components/PlayerPanel";

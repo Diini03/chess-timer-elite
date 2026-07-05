@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX } from "lucide-react";
 import { useSound } from "@/hooks/use-sound";
+import { ShortcutsHelp } from "@/components/ShortcutsHelp";
 import { cn } from "@/lib/utils";
 import { useChessClock } from "@/hooks/use-chess-clock";
 import { PlayerPanel } from "@/components/PlayerPanel";
@@ -80,8 +81,26 @@ export function ChessClock() {
     setSettingsOpen(false);
   };
 
+  // Low-time warning beeps at 10s and timeout.
+  const warnedRef = useRef<Record<"one" | "two", boolean>>({ one: false, two: false });
+  useEffect(() => {
+    (["one", "two"] as const).forEach((p) => {
+      const ms = remaining[p];
+      if (ms <= 10_000 && ms > 0 && !warnedRef.current[p]) {
+        warnedRef.current[p] = true;
+        sound.lowTime();
+      }
+      if (ms > 10_000 && warnedRef.current[p]) warnedRef.current[p] = false;
+    });
+  }, [remaining, sound]);
+
+  useEffect(() => {
+    if (status === "finished") sound.timeout();
+  }, [status, sound]);
+
   return (
     <main className="fixed inset-0 flex flex-col bg-background overflow-hidden">
+      <ShortcutsHelp />
       {/* Top player */}
       <PlayerPanel
         player="two"

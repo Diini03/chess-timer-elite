@@ -1,0 +1,13 @@
+{
+  "name": "Tempo — Chess Clock",
+  "short_name": "Tempo",
+  "description": "A premium mobile-first chess clock for over-the-board games.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0b0f",
+  "theme_color": "#0b0b0f",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

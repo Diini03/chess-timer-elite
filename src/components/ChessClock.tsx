@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Pause, Play, RotateCcw, Settings2, Check } from "lucide-react";
+import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX } from "lucide-react";
+import { useSound } from "@/hooks/use-sound";
 import { cn } from "@/lib/utils";
 import { useChessClock } from "@/hooks/use-chess-clock";
 import { PlayerPanel } from "@/components/PlayerPanel";
@@ -10,6 +11,7 @@ const NAMES_STORAGE_KEY = "tempo:player-names";
 
 export function ChessClock() {
   const clock = useChessClock(DEFAULT_TIME_CONTROL);
+  const sound = useSound();
   const [names, setNames] = useState({ one: "Player 1", two: "Player 2" });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
@@ -91,7 +93,7 @@ export function ChessClock() {
         isLoser={winner === "one"}
         moves={moves.two}
         rotated
-        onTap={() => switchTurn("two")}
+        onTap={() => { sound.click(); switchTurn("two"); }}
       />
 
       {/* Center control bar */}
@@ -127,9 +129,13 @@ export function ChessClock() {
               : <Settings2 className="h-6 w-6" />}
         </button>
 
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-card text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-          {timeControl.name}
-        </div>
+        <button
+          onClick={sound.toggle}
+          className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-card text-muted-foreground tap-feedback"
+          aria-label={sound.enabled ? "Mute sounds" : "Unmute sounds"}
+        >
+          {sound.enabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
+        </button>
       </div>
 
       {/* Bottom player */}
@@ -142,7 +148,7 @@ export function ChessClock() {
         status={status}
         isLoser={winner === "two"}
         moves={moves.one}
-        onTap={() => switchTurn("one")}
+        onTap={() => { sound.click(); switchTurn("one"); }}
       />
 
       {/* Settings sheet */}

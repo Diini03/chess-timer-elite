@@ -93,7 +93,7 @@ export function ChessClock() {
         isLoser={winner === "one"}
         moves={moves.two}
         rotated
-        onTap={() => switchTurn("two")}
+        onTap={() => { sound.click(); switchTurn("two"); }}
       />
 
       {/* Center control bar */}
@@ -129,9 +129,13 @@ export function ChessClock() {
               : <Settings2 className="h-6 w-6" />}
         </button>
 
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-card text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-          {timeControl.name}
-        </div>
+        <button
+          onClick={sound.toggle}
+          className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-card text-muted-foreground tap-feedback"
+          aria-label={sound.enabled ? "Mute sounds" : "Unmute sounds"}
+        >
+          {sound.enabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
+        </button>
       </div>
 
       {/* Bottom player */}
@@ -144,7 +148,7 @@ export function ChessClock() {
         status={status}
         isLoser={winner === "two"}
         moves={moves.one}
-        onTap={() => switchTurn("one")}
+        onTap={() => { sound.click(); switchTurn("one"); }}
       />
 
       {/* Settings sheet */}

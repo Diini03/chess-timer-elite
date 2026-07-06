@@ -126,6 +126,7 @@ export function ChessClock() {
   return (
     <main className="grain fixed inset-0 flex flex-col bg-background overflow-hidden">
       <ShortcutsHelp />
+      <GameHistoryPanel />
       {/* Top player */}
       <PlayerPanel
         player="two"

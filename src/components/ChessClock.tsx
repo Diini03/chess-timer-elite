@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX } from "lucide-react";
 import { useSound } from "@/hooks/use-sound";
+import { useWakeLock } from "@/hooks/use-wake-lock";
 import { ShortcutsHelp } from "@/components/ShortcutsHelp";
+import { GameHistoryPanel } from "@/components/GameHistoryPanel";
+import { saveGame } from "@/lib/game-history";
 import { cn } from "@/lib/utils";
 import { useChessClock } from "@/hooks/use-chess-clock";
 import { PlayerPanel } from "@/components/PlayerPanel";

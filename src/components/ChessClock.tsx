@@ -124,7 +124,7 @@ export function ChessClock() {
   useWakeLock(status === "running");
 
   return (
-    <main className="grain fixed inset-0 flex flex-col bg-background overflow-hidden">
+    <main className="grain fixed inset-0 flex flex-row bg-background overflow-hidden">
       <ShortcutsHelp />
       <GameHistoryPanel />
       {/* Top player */}

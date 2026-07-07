@@ -34,6 +34,7 @@
   --color-player-two-foreground: var(--player-two-foreground);
   --color-danger: var(--danger);
   --font-display: var(--font-display);
+  --font-body: var(--font-body);
   --font-mono: var(--font-mono);
 }
 

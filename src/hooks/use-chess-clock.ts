@@ -139,6 +139,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
       two: tc.baseSeconds * 1000,
     };
     setRemaining(remainingRef.current);
+    activePlayerRef.current = null;
     setActivePlayer(null);
     setWinner(null);
     setMoves({ one: 0, two: 0 });

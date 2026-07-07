@@ -137,7 +137,7 @@ export const PlayerPanel = memo(function PlayerPanel({
           !isLoser && !danger && isActive && `text-[color:var(--${tone})]`,
           !isLoser && !danger && !isActive && "text-foreground/90",
         )}
-        style={{ fontSize: "clamp(4.5rem, 22vw, 9rem)", lineHeight: 1 }}
+        style={{ fontSize: "clamp(3.5rem, 16vw, 8rem)", lineHeight: 1 }}
       >
         <span>{main}</span>
         {deci && (

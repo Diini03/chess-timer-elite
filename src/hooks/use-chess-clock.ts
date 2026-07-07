@@ -34,6 +34,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
 
   const lastTickRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
+  const activePlayerRef = useRef<PlayerId | null>(null);
 
   const stopLoop = () => {
     if (rafRef.current !== null) {
@@ -49,20 +50,21 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
     const delta = now - last;
     lastTickRef.current = now;
 
-    setActivePlayer((curActive) => {
-      if (!curActive) return curActive;
-      const next = Math.max(0, remainingRef.current[curActive] - delta);
-      remainingRef.current = { ...remainingRef.current, [curActive]: next };
-      setRemaining(remainingRef.current);
+    const cur = activePlayerRef.current;
+    if (!cur) return;
 
-      if (next <= 0) {
-        setStatus("finished");
-        setWinner(curActive === "one" ? "two" : "one");
-        stopLoop();
-        return null;
-      }
-      return curActive;
-    });
+    const next = Math.max(0, remainingRef.current[cur] - delta);
+    remainingRef.current = { ...remainingRef.current, [cur]: next };
+    setRemaining(remainingRef.current);
+
+    if (next <= 0) {
+      activePlayerRef.current = null;
+      setActivePlayer(null);
+      setStatus("finished");
+      setWinner(cur === "one" ? "two" : "one");
+      stopLoop();
+      return;
+    }
 
     rafRef.current = requestAnimationFrame(tick);
   }, []);
@@ -87,6 +89,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
     // First tap: starts the OPPONENT of the tapper.
     if (status === "idle") {
       const opponent: PlayerId = tappedBy === "one" ? "two" : "one";
+      activePlayerRef.current = opponent;
       setActivePlayer(opponent);
       setStatus("running");
       startLoop();
@@ -111,6 +114,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
     setMoves((m) => ({ ...m, [tappedBy]: m[tappedBy] + 1 }));
 
     const next: PlayerId = tappedBy === "one" ? "two" : "one";
+    activePlayerRef.current = next;
     setActivePlayer(next);
   }, [status, activePlayer, timeControl, startLoop]);
 
@@ -135,6 +139,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
       two: tc.baseSeconds * 1000,
     };
     setRemaining(remainingRef.current);
+    activePlayerRef.current = null;
     setActivePlayer(null);
     setWinner(null);
     setMoves({ one: 0, two: 0 });

@@ -141,9 +141,9 @@ export function ChessClock() {
         onTap={() => { sound.click(); switchTurn("two"); }}
       />
 
-      {/* Center control bar — vertical floating capsule */}
-      <div className="relative z-20 flex w-24 shrink-0 items-center justify-center bg-background">
-        <div className="pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-border" />
+      {/* Center control bar — compact vertical floating capsule */}
+      <div className="relative z-20 flex w-14 shrink-0 items-center justify-center bg-transparent">
+        <div className="pointer-events-none absolute inset-y-8 left-1/2 w-px -translate-x-1/2 bg-border/60" />
         <div className="relative flex flex-col items-center gap-2 rounded-full border border-border bg-card/95 p-1.5 shadow-[var(--shadow-elevated)] backdrop-blur">
           <button
             onClick={handleReset}

@@ -89,6 +89,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
     // First tap: starts the OPPONENT of the tapper.
     if (status === "idle") {
       const opponent: PlayerId = tappedBy === "one" ? "two" : "one";
+      activePlayerRef.current = opponent;
       setActivePlayer(opponent);
       setStatus("running");
       startLoop();
@@ -113,6 +114,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
     setMoves((m) => ({ ...m, [tappedBy]: m[tappedBy] + 1 }));
 
     const next: PlayerId = tappedBy === "one" ? "two" : "one";
+    activePlayerRef.current = next;
     setActivePlayer(next);
   }, [status, activePlayer, timeControl, startLoop]);
 

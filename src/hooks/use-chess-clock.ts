@@ -34,6 +34,7 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
 
   const lastTickRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
+  const activePlayerRef = useRef<PlayerId | null>(null);
 
   const stopLoop = () => {
     if (rafRef.current !== null) {
@@ -49,20 +50,21 @@ export function useChessClock(initialControl: TimeControl = DEFAULT_TIME_CONTROL
     const delta = now - last;
     lastTickRef.current = now;
 
-    setActivePlayer((curActive) => {
-      if (!curActive) return curActive;
-      const next = Math.max(0, remainingRef.current[curActive] - delta);
-      remainingRef.current = { ...remainingRef.current, [curActive]: next };
-      setRemaining(remainingRef.current);
+    const cur = activePlayerRef.current;
+    if (!cur) return;
 
-      if (next <= 0) {
-        setStatus("finished");
-        setWinner(curActive === "one" ? "two" : "one");
-        stopLoop();
-        return null;
-      }
-      return curActive;
-    });
+    const next = Math.max(0, remainingRef.current[cur] - delta);
+    remainingRef.current = { ...remainingRef.current, [cur]: next };
+    setRemaining(remainingRef.current);
+
+    if (next <= 0) {
+      activePlayerRef.current = null;
+      setActivePlayer(null);
+      setStatus("finished");
+      setWinner(cur === "one" ? "two" : "one");
+      stopLoop();
+      return;
+    }
 
     rafRef.current = requestAnimationFrame(tick);
   }, []);

@@ -6,6 +6,17 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- Landing page at `/` with split-screen hero, quick-start chips, presets grid, and features
+- Dedicated `/clock` route with deep-linkable time-control via `?tc=<id>` search param
+- Home button in the clock control capsule for quick return to the landing page
+- Midnight Indigo color palette and Bebas Neue + Barlow typography pairing
+
+### Changed
+- Clock layout rotated back to vertical (stacked top/bottom) — the natural chess-clock orientation
+- Center control capsule is now a horizontal floating bar between the two players
+- Preset cards on the landing page are now deep links that launch the clock with the chosen time control
+
+### Added
 - Game history panel with per-game stats persisted to localStorage
 - Screen wake lock during active games (mobile)
 - Long-press hook scaffolding for gesture actions

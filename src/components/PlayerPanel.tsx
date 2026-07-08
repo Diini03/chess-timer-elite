@@ -50,16 +50,24 @@ export const PlayerPanel = memo(function PlayerPanel({
         ? status === "paused" ? "— paused —" : "Your move"
         : "Waiting";
 
+  const seconds = Math.ceil(remainingMs / 1000);
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  const spokenTime = `${mins} minute${mins === 1 ? "" : "s"} ${secs} second${secs === 1 ? "" : "s"}`;
+
   return (
     <button
       type="button"
       onClick={handleTap}
       disabled={status === "finished"}
+      aria-label={`${name}. ${spokenTime} remaining. ${statusLabel}. ${status === "finished" ? "" : "Tap to end your turn."}`}
+      aria-pressed={isActive}
       className={cn(
         "relative flex w-full flex-1 select-none overflow-hidden",
         "transition-all duration-300 ease-out outline-none",
+        "focus-visible:ring-4 focus-visible:ring-ring focus-visible:ring-inset",
         rotated && "rotate-180",
-        dim && "opacity-35",
+        dim && "opacity-45",
         isLoser && "bg-destructive/10",
       )}
       style={{ WebkitTapHighlightColor: "transparent" }}
@@ -70,16 +78,16 @@ export const PlayerPanel = memo(function PlayerPanel({
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
-            background: `radial-gradient(120% 80% at 50% ${player === "one" ? "100%" : "0%"}, color-mix(in oklab, var(--${tone}) 22%, transparent), transparent 65%)`,
+            background: `radial-gradient(120% 80% at 50% ${player === "one" ? "100%" : "0%"}, color-mix(in oklab, var(--${tone}) 32%, transparent), transparent 65%)`,
           }}
         />
       )}
 
-      {/* Active side rail */}
+      {/* Active side rail — thicker for AA non-text contrast */}
       {isActive && status === "running" && (
         <div
           aria-hidden
-          className="pointer-events-none absolute left-0 right-0 h-[3px]"
+          className="pointer-events-none absolute left-0 right-0 h-1"
           style={{
             top: player === "one" ? "auto" : 0,
             bottom: player === "one" ? 0 : "auto",
@@ -107,7 +115,8 @@ export const PlayerPanel = memo(function PlayerPanel({
           <button
             type="button"
             onClick={() => setEditing(true)}
-            className="group flex items-center gap-1.5 text-left"
+            aria-label={`Edit ${name} name`}
+            className="group flex min-h-11 items-center gap-1.5 rounded-md px-2 py-1 -mx-2 -my-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span
               className="inline-block h-2 w-2 rounded-full"
@@ -117,36 +126,43 @@ export const PlayerPanel = memo(function PlayerPanel({
             <span className="text-sm font-semibold tracking-wide text-foreground">
               {name}
             </span>
-            <Pencil className="h-3 w-3 text-muted-foreground/60 opacity-0 transition-opacity group-hover:opacity-100" />
+            <Pencil aria-hidden className="h-3 w-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
           </button>
         )}
       </div>
 
       {/* Top-right: moves */}
-      <div className="absolute right-5 top-5 z-10 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground/70">
-        {moves.toString().padStart(2, "0")} · moves
+      <div
+        className="absolute right-5 top-5 z-10 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground"
+        aria-label={`${moves} moves played`}
+      >
+        <span aria-hidden>{moves.toString().padStart(2, "0")} · moves</span>
       </div>
 
       {/* Timer — centered */}
       <div
         key={tapKey}
+        role="timer"
+        aria-live={isActive && status === "running" ? "off" : "polite"}
+        aria-atomic="true"
+        aria-label={`${spokenTime} remaining`}
         className={cn(
           "timer-digits m-auto flex items-baseline justify-center font-semibold animate-tap-burst",
           isLoser && "text-destructive",
           !isLoser && danger && "text-[color:var(--danger)]",
           !isLoser && !danger && isActive && `text-[color:var(--${tone})]`,
-          !isLoser && !danger && !isActive && "text-foreground/90",
+          !isLoser && !danger && !isActive && "text-foreground",
         )}
         style={{ fontSize: "clamp(3.5rem, 16vw, 8rem)", lineHeight: 1 }}
       >
-        <span>{main}</span>
+        <span aria-hidden>{main}</span>
         {deci && (
-          <span style={{ fontSize: "0.5em" }} className="opacity-80">{deci}</span>
+          <span aria-hidden style={{ fontSize: "0.5em" }} className="opacity-90">{deci}</span>
         )}
       </div>
 
       {/* Bottom center: status */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground" aria-hidden>
         {statusLabel}
       </div>
     </button>

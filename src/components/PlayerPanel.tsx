@@ -78,16 +78,16 @@ export const PlayerPanel = memo(function PlayerPanel({
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
-            background: `radial-gradient(120% 80% at 50% ${player === "one" ? "100%" : "0%"}, color-mix(in oklab, var(--${tone}) 22%, transparent), transparent 65%)`,
+            background: `radial-gradient(120% 80% at 50% ${player === "one" ? "100%" : "0%"}, color-mix(in oklab, var(--${tone}) 32%, transparent), transparent 65%)`,
           }}
         />
       )}
 
-      {/* Active side rail */}
+      {/* Active side rail — thicker for AA non-text contrast */}
       {isActive && status === "running" && (
         <div
           aria-hidden
-          className="pointer-events-none absolute left-0 right-0 h-[3px]"
+          className="pointer-events-none absolute left-0 right-0 h-1"
           style={{
             top: player === "one" ? "auto" : 0,
             bottom: player === "one" ? 0 : "auto",

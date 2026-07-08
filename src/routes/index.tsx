@@ -143,15 +143,24 @@ function Landing() {
         </div>
         <div className="grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-4">
           {presets.map((p) => (
-            <div key={p.name} className="group flex flex-col justify-between bg-card p-8 transition-colors hover:bg-accent">
+            <Link
+              key={p.id}
+              to="/clock"
+              search={{ tc: p.id }}
+              className="group flex flex-col justify-between bg-card p-8 transition-colors hover:bg-accent"
+            >
               <div>
-                <div className="text-[11px] font-mono uppercase tracking-[0.24em] text-muted-foreground">{p.name}</div>
+                <div className="flex items-center justify-between">
+                  <div className="text-[11px] font-mono uppercase tracking-[0.24em] text-muted-foreground">{p.name}</div>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                </div>
                 <div className="mt-4 font-display text-6xl tracking-tight text-foreground group-hover:text-primary">{p.time}</div>
               </div>
               <p className="mt-8 text-sm leading-relaxed text-muted-foreground">{p.note}</p>
-            </div>
+            </Link>
           ))}
         </div>
+
       </section>
 
       {/* Features */}

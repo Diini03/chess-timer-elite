@@ -154,6 +154,13 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
       <div className="relative z-20 flex h-16 shrink-0 items-center justify-center bg-transparent">
         <div className="pointer-events-none absolute inset-x-8 top-1/2 h-px -translate-y-1/2 bg-border/60" />
         <div className="relative flex flex-row items-center gap-2 rounded-full border border-border bg-card/95 p-1.5 shadow-[var(--shadow-elevated)] backdrop-blur">
+          <Link
+            to="/"
+            className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground tap-feedback hover:text-foreground"
+            aria-label="Back to home"
+          >
+            <Home className="h-4 w-4" />
+          </Link>
           <button
             onClick={handleReset}
             className={cn(

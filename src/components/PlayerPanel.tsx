@@ -115,7 +115,8 @@ export const PlayerPanel = memo(function PlayerPanel({
           <button
             type="button"
             onClick={() => setEditing(true)}
-            className="group flex items-center gap-1.5 text-left"
+            aria-label={`Edit ${name} name`}
+            className="group flex min-h-11 items-center gap-1.5 rounded-md px-2 py-1 -mx-2 -my-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span
               className="inline-block h-2 w-2 rounded-full"
@@ -125,14 +126,17 @@ export const PlayerPanel = memo(function PlayerPanel({
             <span className="text-sm font-semibold tracking-wide text-foreground">
               {name}
             </span>
-            <Pencil className="h-3 w-3 text-muted-foreground/60 opacity-0 transition-opacity group-hover:opacity-100" />
+            <Pencil aria-hidden className="h-3 w-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
           </button>
         )}
       </div>
 
       {/* Top-right: moves */}
-      <div className="absolute right-5 top-5 z-10 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground/70">
-        {moves.toString().padStart(2, "0")} · moves
+      <div
+        className="absolute right-5 top-5 z-10 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground"
+        aria-label={`${moves} moves played`}
+      >
+        <span aria-hidden>{moves.toString().padStart(2, "0")} · moves</span>
       </div>
 
       {/* Timer — centered */}

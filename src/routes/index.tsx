@@ -15,10 +15,10 @@ export const Route = createFileRoute("/")({
 });
 
 const presets = [
-  { name: "Bullet", time: "1+0", note: "60 seconds. Nothing else." },
-  { name: "Blitz", time: "3+2", note: "Fischer increment. Club night classic." },
-  { name: "Rapid", time: "10+0", note: "Enough time to think. Barely." },
-  { name: "Classical", time: "30+0", note: "For when the position deserves it." },
+  { id: "bullet-1-0",  name: "Bullet",    time: "1+0",  note: "60 seconds. Nothing else." },
+  { id: "blitz-3-2",   name: "Blitz",     time: "3+2",  note: "Fischer increment. Club night classic." },
+  { id: "rapid-10-0",  name: "Rapid",     time: "10+0", note: "Enough time to think. Barely." },
+  { id: "classical-30", name: "Classical", time: "30+0", note: "For when the position deserves it." },
 ];
 
 function Landing() {

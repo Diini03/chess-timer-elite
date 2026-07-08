@@ -50,16 +50,24 @@ export const PlayerPanel = memo(function PlayerPanel({
         ? status === "paused" ? "— paused —" : "Your move"
         : "Waiting";
 
+  const seconds = Math.ceil(remainingMs / 1000);
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  const spokenTime = `${mins} minute${mins === 1 ? "" : "s"} ${secs} second${secs === 1 ? "" : "s"}`;
+
   return (
     <button
       type="button"
       onClick={handleTap}
       disabled={status === "finished"}
+      aria-label={`${name}. ${spokenTime} remaining. ${statusLabel}. ${status === "finished" ? "" : "Tap to end your turn."}`}
+      aria-pressed={isActive}
       className={cn(
         "relative flex w-full flex-1 select-none overflow-hidden",
         "transition-all duration-300 ease-out outline-none",
+        "focus-visible:ring-4 focus-visible:ring-ring focus-visible:ring-inset",
         rotated && "rotate-180",
-        dim && "opacity-35",
+        dim && "opacity-45",
         isLoser && "bg-destructive/10",
       )}
       style={{ WebkitTapHighlightColor: "transparent" }}

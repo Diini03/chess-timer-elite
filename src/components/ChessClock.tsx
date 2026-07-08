@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX } from "lucide-react";
+import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX, Home } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useSound } from "@/hooks/use-sound";
 import { useWakeLock } from "@/hooks/use-wake-lock";
 import { ShortcutsHelp } from "@/components/ShortcutsHelp";
@@ -13,8 +14,16 @@ import type { TimeControl } from "@/lib/time-controls";
 
 const NAMES_STORAGE_KEY = "tempo:player-names";
 
-export function ChessClock() {
-  const clock = useChessClock(DEFAULT_TIME_CONTROL);
+interface ChessClockProps {
+  initialTimeControlId?: string;
+}
+
+export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
+  const initial =
+    (initialTimeControlId && TIME_CONTROLS.find((t) => t.id === initialTimeControlId)) ||
+    DEFAULT_TIME_CONTROL;
+  const clock = useChessClock(initial);
+
   const sound = useSound();
   const [names, setNames] = useState({ one: "Player 1", two: "Player 2" });
   const [settingsOpen, setSettingsOpen] = useState(false);

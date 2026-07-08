@@ -124,10 +124,10 @@ export function ChessClock() {
   useWakeLock(status === "running");
 
   return (
-    <main className="grain fixed inset-0 flex flex-row bg-background overflow-hidden">
+    <main className="grain fixed inset-0 flex flex-col bg-background overflow-hidden">
       <ShortcutsHelp />
       <GameHistoryPanel />
-      {/* Left player (was top) */}
+      {/* Top player (rotated for opposite side) */}
       <PlayerPanel
         player="two"
         name={names.two}
@@ -141,10 +141,10 @@ export function ChessClock() {
         onTap={() => { sound.click(); switchTurn("two"); }}
       />
 
-      {/* Center control bar — compact vertical floating capsule */}
-      <div className="relative z-20 flex w-14 shrink-0 items-center justify-center bg-transparent">
-        <div className="pointer-events-none absolute inset-y-8 left-1/2 w-px -translate-x-1/2 bg-border/60" />
-        <div className="relative flex flex-col items-center gap-2 rounded-full border border-border bg-card/95 p-1.5 shadow-[var(--shadow-elevated)] backdrop-blur">
+      {/* Center control bar — horizontal floating capsule */}
+      <div className="relative z-20 flex h-16 shrink-0 items-center justify-center bg-transparent">
+        <div className="pointer-events-none absolute inset-x-8 top-1/2 h-px -translate-y-1/2 bg-border/60" />
+        <div className="relative flex flex-row items-center gap-2 rounded-full border border-border bg-card/95 p-1.5 shadow-[var(--shadow-elevated)] backdrop-blur">
           <button
             onClick={handleReset}
             className={cn(

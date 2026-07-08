@@ -15,10 +15,10 @@ export const Route = createFileRoute("/")({
 });
 
 const presets = [
-  { name: "Bullet", time: "1+0", note: "60 seconds. Nothing else." },
-  { name: "Blitz", time: "3+2", note: "Fischer increment. Club night classic." },
-  { name: "Rapid", time: "10+0", note: "Enough time to think. Barely." },
-  { name: "Classical", time: "30+0", note: "For when the position deserves it." },
+  { id: "bullet-1-0",  name: "Bullet",    time: "1+0",  note: "60 seconds. Nothing else." },
+  { id: "blitz-3-2",   name: "Blitz",     time: "3+2",  note: "Fischer increment. Club night classic." },
+  { id: "rapid-10-0",  name: "Rapid",     time: "10+0", note: "Enough time to think. Barely." },
+  { id: "classical-30", name: "Classical", time: "30+0", note: "For when the position deserves it." },
 ];
 
 function Landing() {
@@ -73,6 +73,26 @@ function Landing() {
             >
               See presets
             </a>
+          </div>
+
+          {/* Quick-start chips */}
+          <div className="mt-8">
+            <div className="mb-3 text-[10px] font-mono uppercase tracking-[0.28em] text-muted-foreground">
+              Quick start
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {presets.map((p) => (
+                <Link
+                  key={p.id}
+                  to="/clock"
+                  search={{ tc: p.id }}
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:border-primary/60 hover:text-primary"
+                >
+                  <span className="text-muted-foreground">{p.name}</span>
+                  <span className="font-mono">{p.time}</span>
+                </Link>
+              ))}
+            </div>
           </div>
 
           <div className="mt-16 grid grid-cols-3 gap-8 border-t border-border pt-8">
@@ -143,15 +163,24 @@ function Landing() {
         </div>
         <div className="grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-4">
           {presets.map((p) => (
-            <div key={p.name} className="group flex flex-col justify-between bg-card p-8 transition-colors hover:bg-accent">
+            <Link
+              key={p.id}
+              to="/clock"
+              search={{ tc: p.id }}
+              className="group flex flex-col justify-between bg-card p-8 transition-colors hover:bg-accent"
+            >
               <div>
-                <div className="text-[11px] font-mono uppercase tracking-[0.24em] text-muted-foreground">{p.name}</div>
+                <div className="flex items-center justify-between">
+                  <div className="text-[11px] font-mono uppercase tracking-[0.24em] text-muted-foreground">{p.name}</div>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                </div>
                 <div className="mt-4 font-display text-6xl tracking-tight text-foreground group-hover:text-primary">{p.time}</div>
               </div>
               <p className="mt-8 text-sm leading-relaxed text-muted-foreground">{p.note}</p>
-            </div>
+            </Link>
           ))}
         </div>
+
       </section>
 
       {/* Features */}

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX } from "lucide-react";
+import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX, Home } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useSound } from "@/hooks/use-sound";
 import { useWakeLock } from "@/hooks/use-wake-lock";
 import { ShortcutsHelp } from "@/components/ShortcutsHelp";
@@ -13,8 +14,16 @@ import type { TimeControl } from "@/lib/time-controls";
 
 const NAMES_STORAGE_KEY = "tempo:player-names";
 
-export function ChessClock() {
-  const clock = useChessClock(DEFAULT_TIME_CONTROL);
+interface ChessClockProps {
+  initialTimeControlId?: string;
+}
+
+export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
+  const initial =
+    (initialTimeControlId && TIME_CONTROLS.find((t) => t.id === initialTimeControlId)) ||
+    DEFAULT_TIME_CONTROL;
+  const clock = useChessClock(initial);
+
   const sound = useSound();
   const [names, setNames] = useState({ one: "Player 1", two: "Player 2" });
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -124,10 +133,10 @@ export function ChessClock() {
   useWakeLock(status === "running");
 
   return (
-    <main className="grain fixed inset-0 flex flex-row bg-background overflow-hidden">
+    <main className="grain fixed inset-0 flex flex-col bg-background overflow-hidden">
       <ShortcutsHelp />
       <GameHistoryPanel />
-      {/* Left player (was top) */}
+      {/* Top player (rotated for opposite side) */}
       <PlayerPanel
         player="two"
         name={names.two}
@@ -141,10 +150,17 @@ export function ChessClock() {
         onTap={() => { sound.click(); switchTurn("two"); }}
       />
 
-      {/* Center control bar — compact vertical floating capsule */}
-      <div className="relative z-20 flex w-14 shrink-0 items-center justify-center bg-transparent">
-        <div className="pointer-events-none absolute inset-y-8 left-1/2 w-px -translate-x-1/2 bg-border/60" />
-        <div className="relative flex flex-col items-center gap-2 rounded-full border border-border bg-card/95 p-1.5 shadow-[var(--shadow-elevated)] backdrop-blur">
+      {/* Center control bar — horizontal floating capsule */}
+      <div className="relative z-20 flex h-16 shrink-0 items-center justify-center bg-transparent">
+        <div className="pointer-events-none absolute inset-x-8 top-1/2 h-px -translate-y-1/2 bg-border/60" />
+        <div className="relative flex flex-row items-center gap-2 rounded-full border border-border bg-card/95 p-1.5 shadow-[var(--shadow-elevated)] backdrop-blur">
+          <Link
+            to="/"
+            className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground tap-feedback hover:text-foreground"
+            aria-label="Back to home"
+          >
+            <Home className="h-4 w-4" />
+          </Link>
           <button
             onClick={handleReset}
             className={cn(

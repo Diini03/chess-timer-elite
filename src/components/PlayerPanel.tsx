@@ -142,23 +142,27 @@ export const PlayerPanel = memo(function PlayerPanel({
       {/* Timer — centered */}
       <div
         key={tapKey}
+        role="timer"
+        aria-live={isActive && status === "running" ? "off" : "polite"}
+        aria-atomic="true"
+        aria-label={`${spokenTime} remaining`}
         className={cn(
           "timer-digits m-auto flex items-baseline justify-center font-semibold animate-tap-burst",
           isLoser && "text-destructive",
           !isLoser && danger && "text-[color:var(--danger)]",
           !isLoser && !danger && isActive && `text-[color:var(--${tone})]`,
-          !isLoser && !danger && !isActive && "text-foreground/90",
+          !isLoser && !danger && !isActive && "text-foreground",
         )}
         style={{ fontSize: "clamp(3.5rem, 16vw, 8rem)", lineHeight: 1 }}
       >
-        <span>{main}</span>
+        <span aria-hidden>{main}</span>
         {deci && (
-          <span style={{ fontSize: "0.5em" }} className="opacity-80">{deci}</span>
+          <span aria-hidden style={{ fontSize: "0.5em" }} className="opacity-90">{deci}</span>
         )}
       </div>
 
       {/* Bottom center: status */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground" aria-hidden>
         {statusLabel}
       </div>
     </button>

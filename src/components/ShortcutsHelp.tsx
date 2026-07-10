@@ -7,9 +7,8 @@ export interface Shortcut {
 
 /** Single source of truth for the bindings shown in the cheat sheet. */
 export const SHORTCUTS: Shortcut[] = [
-  { keys: ["Enter"], label: "End your turn (on focused panel)" },
-  { keys: ["Space"], label: "Pause / resume" },
-  { keys: ["Space"], label: "End your turn (on focused panel)" },
+  { keys: ["Enter", "Space"], label: "End your turn (on focused panel)" },
+  { keys: ["Space"], label: "Pause / resume (elsewhere)" },
   { keys: ["↑"], label: "Focus top player" },
   { keys: ["↓"], label: "Focus bottom player" },
   { keys: ["←", "→"], label: "Move focus in the control bar" },

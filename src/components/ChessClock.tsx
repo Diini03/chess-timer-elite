@@ -65,6 +65,16 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
       const inToolbar = !!t?.closest?.('[role="toolbar"]');
       const onPanel = t?.id === "player-panel-one" || t?.id === "player-panel-two";
 
+      if (e.key === "?" || (e.key === "/" && e.shiftKey)) {
+        e.preventDefault();
+        setShortcutsOpen((v) => !v);
+        return;
+      }
+
+      if (e.key === "Escape") {
+        setShortcutsOpen(false);
+      }
+
       if (e.code === "Space" && !onPanel && !inToolbar) {
         e.preventDefault();
         if (status === "running") pause();

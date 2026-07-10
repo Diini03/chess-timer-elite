@@ -12,6 +12,8 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   control capsule (roving-focus toolbar pattern)
 - Focus trap inside the keyboard-shortcuts cheat sheet dialog: Tab cycles
   within the modal, focus moves to the close button on open, and Escape closes it
+- Player name edit button moved outside the player panel tap surface to fix
+  invalid nested-button HTML and restore toolbar/button interactions
 - Landing page at `/` with split-screen hero, quick-start chips, presets grid, and features
 - Dedicated `/clock` route with deep-linkable time-control via `?tc=<id>` search param
 - Home button in the clock control capsule for quick return to the landing page

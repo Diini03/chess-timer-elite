@@ -29,6 +29,7 @@ export const PlayerPanel = memo(function PlayerPanel({
   moves = 0,
   rotated,
   onTap,
+  id,
 }: PlayerPanelProps) {
   const { main, deci, danger } = formatTime(remainingMs);
   const [editing, setEditing] = useState(false);

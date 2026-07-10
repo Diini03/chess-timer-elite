@@ -58,60 +58,64 @@ export const PlayerPanel = memo(function PlayerPanel({
   const spokenTime = `${mins} minute${mins === 1 ? "" : "s"} ${secs} second${secs === 1 ? "" : "s"}`;
 
   return (
-    <button
-      type="button"
-      id={id}
-      onClick={handleTap}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          handleTap();
-        }
-      }}
-      disabled={status === "finished"}
-      aria-keyshortcuts="Enter Space"
-      aria-label={`${name}. ${spokenTime} remaining. ${statusLabel}. ${status === "finished" ? "" : "Press Enter or Space to end your turn."}`}
-      aria-pressed={isActive}
+    <div
       className={cn(
         "relative flex w-full flex-1 select-none overflow-hidden",
-        "transition-all duration-300 ease-out outline-none",
-        "focus-visible:ring-4 focus-visible:ring-ring focus-visible:ring-inset",
         rotated && "rotate-180",
         dim && "opacity-45",
-        isLoser && "bg-destructive/10",
       )}
-      style={{ WebkitTapHighlightColor: "transparent" }}
     >
-      {/* Diagonal accent wash when active */}
-      {isActive && status !== "finished" && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background: `radial-gradient(120% 80% at 50% ${player === "one" ? "100%" : "0%"}, color-mix(in oklab, var(--${tone}) 32%, transparent), transparent 65%)`,
-          }}
-        />
-      )}
-
-      {/* Active side rail — thicker for AA non-text contrast */}
-      {isActive && status === "running" && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute left-0 right-0 h-1"
-          style={{
-            top: player === "one" ? "auto" : 0,
-            bottom: player === "one" ? 0 : "auto",
-            background: `var(--${tone})`,
-            boxShadow: `0 0 24px 2px var(--${tone})`,
-          }}
-        />
-      )}
-
-      {/* Top-left: name */}
-      <div
-        className="absolute left-5 top-5 z-10 flex items-center gap-2"
-        onClick={(e) => e.stopPropagation()}
+      {/* Full-area player tap surface */}
+      <button
+        type="button"
+        id={id}
+        onClick={handleTap}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleTap();
+          }
+        }}
+        disabled={status === "finished"}
+        aria-keyshortcuts="Enter Space"
+        aria-label={`${name}. ${spokenTime} remaining. ${statusLabel}. ${status === "finished" ? "" : "Press Enter or Space to end your turn."}`}
+        aria-pressed={isActive}
+        className={cn(
+          "absolute inset-0 z-0",
+          "transition-all duration-300 ease-out outline-none",
+          "focus-visible:ring-4 focus-visible:ring-ring focus-visible:ring-inset",
+          isLoser && "bg-destructive/10",
+        )}
+        style={{ WebkitTapHighlightColor: "transparent" }}
       >
+        {/* Diagonal accent wash when active */}
+        {isActive && status !== "finished" && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: `radial-gradient(120% 80% at 50% ${player === "one" ? "100%" : "0%"}, color-mix(in oklab, var(--${tone}) 32%, transparent), transparent 65%)`,
+            }}
+          />
+        )}
+
+        {/* Active side rail — thicker for AA non-text contrast */}
+        {isActive && status === "running" && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-0 right-0 h-1"
+            style={{
+              top: player === "one" ? "auto" : 0,
+              bottom: player === "one" ? 0 : "auto",
+              background: `var(--${tone})`,
+              boxShadow: `0 0 24px 2px var(--${tone})`,
+            }}
+          />
+        )}
+      </button>
+
+      {/* Top-left: name / edit control (kept outside the player button) */}
+      <div className="absolute left-5 top-5 z-20 flex items-center gap-2">
         {editing ? (
           <input
             autoFocus
@@ -149,7 +153,7 @@ export const PlayerPanel = memo(function PlayerPanel({
         <span aria-hidden>{moves.toString().padStart(2, "0")} · moves</span>
       </div>
 
-      {/* Timer — centered */}
+      {/* Timer — centered, non-interactive overlay */}
       <div
         key={tapKey}
         role="timer"
@@ -157,7 +161,8 @@ export const PlayerPanel = memo(function PlayerPanel({
         aria-atomic="true"
         aria-label={`${spokenTime} remaining`}
         className={cn(
-          "timer-digits m-auto flex items-baseline justify-center font-semibold animate-tap-burst",
+          "pointer-events-none absolute inset-0 z-10 flex items-center justify-center",
+          "timer-digits font-semibold animate-tap-burst",
           isLoser && "text-destructive",
           !isLoser && danger && "text-[color:var(--danger)]",
           !isLoser && !danger && isActive && `text-[color:var(--${tone})]`,
@@ -172,9 +177,9 @@ export const PlayerPanel = memo(function PlayerPanel({
       </div>
 
       {/* Bottom center: status */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground" aria-hidden>
+      <div className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground" aria-hidden>
         {statusLabel}
       </div>
-    </button>
+    </div>
   );
 });

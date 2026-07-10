@@ -27,6 +27,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
   const sound = useSound();
   const [names, setNames] = useState({ one: "Player 1", two: "Player 2" });
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
 
   // Load persisted names on mount.

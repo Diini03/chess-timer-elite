@@ -6,6 +6,10 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- Full keyboard support: Enter/Space on a focused player panel ends that
+  player's turn; Space (elsewhere) toggles pause/resume; ↑/↓ move focus
+  between the two player panels; ←/→ move focus into and across the center
+  control capsule (roving-focus toolbar pattern)
 - Landing page at `/` with split-screen hero, quick-start chips, presets grid, and features
 - Dedicated `/clock` route with deep-linkable time-control via `?tc=<id>` search param
 - Home button in the clock control capsule for quick return to the landing page

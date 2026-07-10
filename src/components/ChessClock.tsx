@@ -51,24 +51,58 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
 
   const { status, activePlayer, remaining, winner, timeControl, moves, switchTurn, pause, resume, reset, setTimeControl } = clock;
 
-  // Keyboard shortcuts: Space = pause/resume, R = reset (double-press pattern).
+  // Keyboard shortcuts:
+  //  Space  → pause/resume (when focus is NOT on a player panel — the panel
+  //           button handles Space itself to end its own turn).
+  //  ↑ / ↓ → move focus between the two player panels.
+  //  ← / → → move focus into / across the center capsule toolbar.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement | null;
       if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
-      if (e.code === "Space") {
+
+      const inToolbar = !!t?.closest?.('[role="toolbar"]');
+      const onPanel = t?.id === "player-panel-one" || t?.id === "player-panel-two";
+
+      if (e.code === "Space" && !onPanel && !inToolbar) {
         e.preventDefault();
         if (status === "running") pause();
         else if (status === "paused") resume();
+        return;
+      }
+
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        document.getElementById("player-panel-two")?.focus();
       } else if (e.key === "ArrowDown") {
-        switchTurn("one");
-      } else if (e.key === "ArrowUp") {
-        switchTurn("two");
+        e.preventDefault();
+        document.getElementById("player-panel-one")?.focus();
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        if (!inToolbar) {
+          // Jump into the capsule from a player panel.
+          if (onPanel) {
+            e.preventDefault();
+            const toolbar = document.querySelector<HTMLElement>('[role="toolbar"]');
+            toolbar?.querySelector<HTMLElement>("button, a")?.focus();
+          }
+          return;
+        }
+        e.preventDefault();
+        const toolbar = t!.closest('[role="toolbar"]') as HTMLElement;
+        const items = Array.from(
+          toolbar.querySelectorAll<HTMLElement>("button, a"),
+        );
+        const idx = items.indexOf(t as HTMLElement);
+        const nextIdx =
+          e.key === "ArrowRight"
+            ? (idx + 1) % items.length
+            : (idx - 1 + items.length) % items.length;
+        items[nextIdx]?.focus();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [status, pause, resume, switchTurn]);
+  }, [status, pause, resume]);
 
   const handleReset = () => {
     if (status === "idle") return;
@@ -147,6 +181,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
         isLoser={winner === "one"}
         moves={moves.two}
         rotated
+        id="player-panel-two"
         onTap={() => { sound.click(); switchTurn("two"); }}
       />
 
@@ -234,6 +269,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
         status={status}
         isLoser={winner === "two"}
         moves={moves.one}
+        id="player-panel-one"
         onTap={() => { sound.click(); switchTurn("one"); }}
       />
 

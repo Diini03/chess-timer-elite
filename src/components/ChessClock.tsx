@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX, Home } from "lucide-react";
+import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX, Home, Keyboard } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useSound } from "@/hooks/use-sound";
 import { useWakeLock } from "@/hooks/use-wake-lock";

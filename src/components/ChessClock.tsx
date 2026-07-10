@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX, Home } from "lucide-react";
+import { Pause, Play, RotateCcw, Settings2, Check, Volume2, VolumeX, Home, Keyboard } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useSound } from "@/hooks/use-sound";
 import { useWakeLock } from "@/hooks/use-wake-lock";
@@ -27,6 +27,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
   const sound = useSound();
   const [names, setNames] = useState({ one: "Player 1", two: "Player 2" });
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
 
   // Load persisted names on mount.
@@ -63,6 +64,16 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
 
       const inToolbar = !!t?.closest?.('[role="toolbar"]');
       const onPanel = t?.id === "player-panel-one" || t?.id === "player-panel-two";
+
+      if (e.key === "?" || (e.key === "/" && e.shiftKey)) {
+        e.preventDefault();
+        setShortcutsOpen((v) => !v);
+        return;
+      }
+
+      if (e.key === "Escape") {
+        setShortcutsOpen(false);
+      }
 
       if (e.code === "Space" && !onPanel && !inToolbar) {
         e.preventDefault();
@@ -168,7 +179,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
 
   return (
     <main className="grain fixed inset-0 flex flex-col bg-background overflow-hidden">
-      <ShortcutsHelp />
+      <ShortcutsHelp open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
       <GameHistoryPanel />
       {/* Top player (rotated for opposite side) */}
       <PlayerPanel
@@ -255,6 +266,17 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
             aria-pressed={sound.enabled}
           >
             {sound.enabled ? <Volume2 aria-hidden className="h-4 w-4" /> : <VolumeX aria-hidden className="h-4 w-4" />}
+          </button>
+
+          <button
+            onClick={() => setShortcutsOpen((v) => !v)}
+            className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground tap-feedback hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label={shortcutsOpen ? "Hide keyboard shortcuts" : "Show keyboard shortcuts"}
+            aria-pressed={shortcutsOpen}
+            aria-haspopup="dialog"
+            aria-keyshortcuts="?"
+          >
+            <Keyboard aria-hidden className="h-4 w-4" />
           </button>
         </div>
       </div>

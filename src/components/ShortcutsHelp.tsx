@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
 export interface Shortcut {
@@ -19,15 +20,64 @@ interface ShortcutsHelpProps {
   onClose: () => void;
 }
 
+const FOCUSABLE_SELECTOR =
+  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
 /**
  * Modal cheat sheet listing the current keyboard bindings.
  * Rendered controlled — toggled from the capsule toolbar.
  */
 export function ShortcutsHelp({ open, onClose }: ShortcutsHelpProps) {
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const overlay = overlayRef.current;
+    const focusables = () =>
+      Array.from(overlay?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR) ?? []).filter(
+        (el) => !el.hasAttribute("disabled") && el.offsetParent !== null,
+      );
+
+    // Move focus into the dialog when it opens.
+    const closeButton = overlay?.querySelector<HTMLElement>(
+      '[aria-label="Close keyboard shortcuts"]',
+    );
+    (closeButton ?? focusables()[0])?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        onClose();
+        return;
+      }
+
+      if (e.key !== "Tab") return;
+
+      const items = focusables();
+      if (items.length === 0) return;
+
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    overlay?.addEventListener("keydown", onKey);
+    return () => overlay?.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
   if (!open) return null;
 
   return (
     <div
+      ref={overlayRef}
       role="dialog"
       aria-modal="true"
       aria-label="Keyboard shortcuts"

@@ -267,6 +267,17 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
           >
             {sound.enabled ? <Volume2 aria-hidden className="h-4 w-4" /> : <VolumeX aria-hidden className="h-4 w-4" />}
           </button>
+
+          <button
+            onClick={() => setShortcutsOpen((v) => !v)}
+            className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground tap-feedback hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label={shortcutsOpen ? "Hide keyboard shortcuts" : "Show keyboard shortcuts"}
+            aria-pressed={shortcutsOpen}
+            aria-haspopup="dialog"
+            aria-keyshortcuts="?"
+          >
+            <Keyboard aria-hidden className="h-4 w-4" />
+          </button>
         </div>
       </div>
 

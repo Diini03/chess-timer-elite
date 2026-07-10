@@ -60,9 +60,17 @@ export const PlayerPanel = memo(function PlayerPanel({
   return (
     <button
       type="button"
+      id={id}
       onClick={handleTap}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleTap();
+        }
+      }}
       disabled={status === "finished"}
-      aria-label={`${name}. ${spokenTime} remaining. ${statusLabel}. ${status === "finished" ? "" : "Tap to end your turn."}`}
+      aria-keyshortcuts="Enter Space"
+      aria-label={`${name}. ${spokenTime} remaining. ${statusLabel}. ${status === "finished" ? "" : "Press Enter or Space to end your turn."}`}
       aria-pressed={isActive}
       className={cn(
         "relative flex w-full flex-1 select-none overflow-hidden",

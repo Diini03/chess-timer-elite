@@ -269,6 +269,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
         status={status}
         isLoser={winner === "two"}
         moves={moves.one}
+        id="player-panel-one"
         onTap={() => { sound.click(); switchTurn("one"); }}
       />
 

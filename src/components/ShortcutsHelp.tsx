@@ -49,9 +49,11 @@ export function ShortcutsHelp() {
             </button>
             <h2 className="mb-4 text-base font-semibold">Keyboard shortcuts</h2>
             <ul className="space-y-2 text-sm">
+              <Row keys={["Enter"]} label="End your turn (on focused panel)" />
               <Row keys={["Space"]} label="Pause / resume" />
-              <Row keys={["↑"]} label="End Player 2's turn" />
-              <Row keys={["↓"]} label="End Player 1's turn" />
+              <Row keys={["↑"]} label="Focus top player" />
+              <Row keys={["↓"]} label="Focus bottom player" />
+              <Row keys={["←", "→"]} label="Move focus in the control bar" />
             </ul>
             <button
               onClick={() => {

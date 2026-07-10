@@ -15,6 +15,7 @@ interface PlayerPanelProps {
   moves?: number;
   rotated?: boolean;
   onTap: () => void;
+  id?: string;
 }
 
 export const PlayerPanel = memo(function PlayerPanel({

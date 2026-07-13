@@ -29,6 +29,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+  const keyboardButtonRef = useRef<HTMLButtonElement>(null);
 
   // Load persisted names on mount.
   useEffect(() => {

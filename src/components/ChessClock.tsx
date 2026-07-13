@@ -180,7 +180,13 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
 
   return (
     <main className="grain fixed inset-0 flex flex-col bg-background overflow-hidden">
-      <ShortcutsHelp open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+      <ShortcutsHelp
+        open={shortcutsOpen}
+        onClose={() => {
+          setShortcutsOpen(false);
+          keyboardButtonRef.current?.focus();
+        }}
+      />
       <GameHistoryPanel />
       {/* Top player (rotated for opposite side) */}
       <PlayerPanel

@@ -6,6 +6,8 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- Return focus to the Keyboard shortcuts button in the control capsule when the
+  shortcuts cheat sheet closes, so keyboard users keep their place
 - Full keyboard support: Enter/Space on a focused player panel ends that
   player's turn; Space (elsewhere) toggles pause/resume; ↑/↓ move focus
   between the two player panels; ←/→ move focus into and across the center

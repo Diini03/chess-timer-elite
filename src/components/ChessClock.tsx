@@ -29,6 +29,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+  const keyboardButtonRef = useRef<HTMLButtonElement>(null);
 
   // Load persisted names on mount.
   useEffect(() => {
@@ -179,7 +180,13 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
 
   return (
     <main className="grain fixed inset-0 flex flex-col bg-background overflow-hidden">
-      <ShortcutsHelp open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+      <ShortcutsHelp
+        open={shortcutsOpen}
+        onClose={() => {
+          setShortcutsOpen(false);
+          keyboardButtonRef.current?.focus();
+        }}
+      />
       <GameHistoryPanel />
       {/* Top player (rotated for opposite side) */}
       <PlayerPanel
@@ -269,6 +276,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
           </button>
 
           <button
+            ref={keyboardButtonRef}
             onClick={() => setShortcutsOpen((v) => !v)}
             className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground tap-feedback hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label={shortcutsOpen ? "Hide keyboard shortcuts" : "Show keyboard shortcuts"}

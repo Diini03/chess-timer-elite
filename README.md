@@ -11,6 +11,8 @@ it was just designed for practice, and this idea came when i was playing while w
 - Move counter per player
 - Tap-to-confirm reset, pause / resume, haptic feedback
 - Subtle synthesized click sounds (mute toggle)
+ - Keyboard shortcuts: `Space` pause/resume, `↑` / `↓` switch turns
+- Installable as a PWA (manifest included)
 
 
 ## Tech

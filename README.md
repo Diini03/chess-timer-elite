@@ -13,7 +13,8 @@ it was just designed for practice, and this idea came when i was playing while w
 - Subtle synthesized click sounds (mute toggle)
  - Keyboard shortcuts: `Space` pause/resume, `↑` / `↓` switch turns
 - Installable as a PWA (manifest included)
-
+- Keyboard shortcuts: `Space` pause/resume, `↑` / `↓` switch turns
+- Installable as a PWA (manifest included)
 
 ## Tech
 

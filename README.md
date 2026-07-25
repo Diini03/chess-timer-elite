@@ -29,7 +29,3 @@ bun dev
 
 ## Roadmap
 
-- Game history view
-- FIDE two-stage time controls
-- Online sync via Lovable Cloud
-- Themes

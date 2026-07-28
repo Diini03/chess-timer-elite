@@ -1,4 +1,4 @@
-# Tempo — Minimal Chess Clock
+#Tempo — Minimal Chess Clock
 
 A premium, mobile-first chess clock built for over-the-board play. Designed to sit next to a real board on your phone.
 it was just designed for practice, and this idea came when i was playing while we cant have any physical timer, so i created this one, then i notice some old ones exit ones.

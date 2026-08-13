@@ -10,11 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ClockRouteImport } from './routes/clock'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedLibraryIndexRouteImport } from './routes/_authenticated/library.index'
+import { Route as AuthenticatedLibraryBookIdIndexRouteImport } from './routes/_authenticated/library.$bookId.index'
+import { Route as AuthenticatedLibraryBookIdReadRouteImport } from './routes/_authenticated/library.$bookId.read'
 
 const ClockRoute = ClockRouteImport.update({
   id: '/clock',
   path: '/clock',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,30 +36,83 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedLibraryIndexRoute =
+  AuthenticatedLibraryIndexRouteImport.update({
+    id: '/library/',
+    path: '/library/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLibraryBookIdIndexRoute =
+  AuthenticatedLibraryBookIdIndexRouteImport.update({
+    id: '/library/$bookId/',
+    path: '/library/$bookId/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLibraryBookIdReadRoute =
+  AuthenticatedLibraryBookIdReadRouteImport.update({
+    id: '/library/$bookId/read',
+    path: '/library/$bookId/read',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/clock': typeof ClockRoute
+  '/library/': typeof AuthenticatedLibraryIndexRoute
+  '/library/$bookId/read': typeof AuthenticatedLibraryBookIdReadRoute
+  '/library/$bookId/': typeof AuthenticatedLibraryBookIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/clock': typeof ClockRoute
+  '/library': typeof AuthenticatedLibraryIndexRoute
+  '/library/$bookId/read': typeof AuthenticatedLibraryBookIdReadRoute
+  '/library/$bookId': typeof AuthenticatedLibraryBookIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/clock': typeof ClockRoute
+  '/_authenticated/library/': typeof AuthenticatedLibraryIndexRoute
+  '/_authenticated/library/$bookId/read': typeof AuthenticatedLibraryBookIdReadRoute
+  '/_authenticated/library/$bookId/': typeof AuthenticatedLibraryBookIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/clock'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/clock'
+    | '/library/'
+    | '/library/$bookId/read'
+    | '/library/$bookId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/clock'
-  id: '__root__' | '/' | '/clock'
+  to:
+    | '/'
+    | '/auth'
+    | '/clock'
+    | '/library'
+    | '/library/$bookId/read'
+    | '/library/$bookId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/clock'
+    | '/_authenticated/library/'
+    | '/_authenticated/library/$bookId/read'
+    | '/_authenticated/library/$bookId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   ClockRoute: typeof ClockRoute
 }
 
@@ -58,6 +125,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClockRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -65,11 +146,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/library/': {
+      id: '/_authenticated/library/'
+      path: '/library'
+      fullPath: '/library/'
+      preLoaderRoute: typeof AuthenticatedLibraryIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/library/$bookId/': {
+      id: '/_authenticated/library/$bookId/'
+      path: '/library/$bookId'
+      fullPath: '/library/$bookId/'
+      preLoaderRoute: typeof AuthenticatedLibraryBookIdIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/library/$bookId/read': {
+      id: '/_authenticated/library/$bookId/read'
+      path: '/library/$bookId/read'
+      fullPath: '/library/$bookId/read'
+      preLoaderRoute: typeof AuthenticatedLibraryBookIdReadRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedLibraryIndexRoute: typeof AuthenticatedLibraryIndexRoute
+  AuthenticatedLibraryBookIdReadRoute: typeof AuthenticatedLibraryBookIdReadRoute
+  AuthenticatedLibraryBookIdIndexRoute: typeof AuthenticatedLibraryBookIdIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedLibraryIndexRoute: AuthenticatedLibraryIndexRoute,
+  AuthenticatedLibraryBookIdReadRoute: AuthenticatedLibraryBookIdReadRoute,
+  AuthenticatedLibraryBookIdIndexRoute: AuthenticatedLibraryBookIdIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   ClockRoute: ClockRoute,
 }
 export const routeTree = rootRouteImport

@@ -194,6 +194,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
         name={names.two}
         onNameChange={(n) => setNames((s) => ({ ...s, two: n }))}
         remainingMs={remaining.two}
+        totalMs={timeControl.baseSeconds * 1000}
         isActive={activePlayer === "two"}
         status={status}
         isLoser={winner === "one"}

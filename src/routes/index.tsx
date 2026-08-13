@@ -33,6 +33,7 @@ function Landing() {
         <nav className="flex items-center gap-6">
           <a href="#presets" className="hidden text-sm uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground md:inline">Presets</a>
           <a href="#features" className="hidden text-sm uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground md:inline">Features</a>
+          <Link to="/library" className="text-sm uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">Library</Link>
           <Link
             to="/clock"
             className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold uppercase tracking-[0.18em] text-primary-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"

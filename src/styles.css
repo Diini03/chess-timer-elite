@@ -106,7 +106,7 @@
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum" 1;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.05em;
   }
   .glow-one {
     box-shadow: var(--shadow-glow-one);
@@ -120,6 +120,19 @@
   .tap-feedback:active {
     transform: scale(0.94);
   }
+}
+
+/* v2.0 editorial helpers */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.34em;
+  color: var(--muted-foreground);
+}
+
+@utility hairline {
+  border-top: 1px solid var(--border);
 }
 
 @keyframes pulse-ring {

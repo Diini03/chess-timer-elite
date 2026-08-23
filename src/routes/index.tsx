@@ -62,7 +62,7 @@ function Landing() {
             sub-frame accuracy, no ads — now with a private library for your chess books and PDFs.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-stretch gap-px bg-border">
+          <div className="mt-10 flex flex-wrap items-stretch gap-3">
             <Link
               to="/clock"
               className="group inline-flex items-center gap-3 bg-primary px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary-foreground"
@@ -72,7 +72,7 @@ function Landing() {
             </Link>
             <a
               href="#presets"
-              className="inline-flex items-center bg-background px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-foreground hover:bg-secondary"
+              className="inline-flex items-center border border-border px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-foreground hover:bg-secondary"
             >
               See presets
             </a>
@@ -80,13 +80,13 @@ function Landing() {
 
           <div className="mt-12">
             <div className="eyebrow mb-4">Quick start</div>
-            <div className="flex flex-wrap gap-px bg-border">
+            <div className="flex flex-wrap gap-2">
               {presets.map((p) => (
                 <Link
                   key={p.id}
                   to="/clock"
                   search={{ tc: p.id }}
-                  className="flex items-baseline gap-2 bg-background px-4 py-3 hover:bg-secondary"
+                  className="flex items-baseline gap-2 border border-border px-4 py-3 hover:bg-secondary"
                 >
                   <span className="eyebrow">{p.name}</span>
                   <span className="font-mono text-sm text-primary">{p.time}</span>

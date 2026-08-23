@@ -39,48 +39,49 @@
 }
 
 :root {
-  --radius: 1rem;
+  --radius: 0.25rem;
 
-  /* Midnight Indigo palette */
-  --background: oklch(0.14 0.04 275);        /* #0a0a1a-ish */
-  --foreground: oklch(0.97 0.008 260);
+  /* v2.0 — Noir & Gold: black canvas, brass accents, editorial contrast */
+  --background: oklch(0.15 0.004 90);        /* near-black ink */
+  --foreground: oklch(0.96 0.008 90);        /* warm bone */
 
-  --card: oklch(0.19 0.06 275);              /* #141432 */
-  --card-foreground: oklch(0.97 0.008 260);
+  --card: oklch(0.20 0.006 90);
+  --card-foreground: oklch(0.96 0.008 90);
 
-  --primary: oklch(0.62 0.22 275);           /* #4f46e5 electric indigo */
-  --primary-foreground: oklch(0.98 0.006 260);
+  --primary: oklch(0.78 0.13 88);            /* brass gold */
+  --primary-foreground: oklch(0.16 0.01 90);
 
-  --secondary: oklch(0.24 0.08 275);         /* #1e1e5a */
-  --secondary-foreground: oklch(0.97 0.008 260);
+  --secondary: oklch(0.25 0.008 90);
+  --secondary-foreground: oklch(0.95 0.008 90);
 
-  --muted: oklch(0.22 0.06 275);
-  --muted-foreground: oklch(0.78 0.03 265);
+  --muted: oklch(0.24 0.006 90);
+  --muted-foreground: oklch(0.76 0.015 88);
 
-  --accent: oklch(0.30 0.10 275);
-  --accent-foreground: oklch(0.98 0.006 260);
+  --accent: oklch(0.30 0.02 88);
+  --accent-foreground: oklch(0.97 0.006 90);
 
-  --destructive: oklch(0.62 0.22 25);
+  --destructive: oklch(0.58 0.19 25);
   --destructive-foreground: oklch(0.98 0.005 90);
-  --danger: oklch(0.72 0.22 30);
+  --danger: oklch(0.70 0.20 32);
 
-  --border: oklch(0.28 0.06 275);
-  --input: oklch(0.28 0.06 275);
-  --ring: oklch(0.62 0.22 275);
+  --border: oklch(0.31 0.008 90);
+  --input: oklch(0.31 0.008 90);
+  --ring: oklch(0.78 0.13 88);
 
-  /* Player accents — electric indigo vs warm coral for contrast */
-  --player-one: oklch(0.68 0.20 280);
-  --player-one-foreground: oklch(0.98 0.005 280);
-  --player-two: oklch(0.72 0.19 30);
-  --player-two-foreground: oklch(0.15 0.02 30);
+  /* Player accents — bone white vs brass gold, like the pieces themselves */
+  --player-one: oklch(0.80 0.12 88);         /* gold side */
+  --player-one-foreground: oklch(0.16 0.01 90);
+  --player-two: oklch(0.92 0.012 90);        /* bone side */
+  --player-two-foreground: oklch(0.16 0.01 90);
 
-  --font-display: "Bebas Neue", "Impact", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Barlow", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: "Instrument Serif", "Times New Roman", Georgia, serif;
+  --font-body: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --shadow-elevated: 0 30px 60px -25px oklch(0 0 0 / 0.7);
+  --shadow-elevated: 0 30px 60px -25px oklch(0 0 0 / 0.85);
   --shadow-glow-one: 0 0 80px -12px var(--player-one);
   --shadow-glow-two: 0 0 80px -12px var(--player-two);
+  --rule: 1px solid var(--border);
 }
 
 @layer base {

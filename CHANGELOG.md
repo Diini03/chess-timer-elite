@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Tempo (Chess Clock) are documented here.
+All notable changes to Taktik (Chess Clock & Library) are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]

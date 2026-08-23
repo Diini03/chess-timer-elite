@@ -1,6 +1,6 @@
 {
-  "name": "Tempo — Chess Clock",
-  "short_name": "Tempo",
+  "name": "Taktik — Chess Clock & Library",
+  "short_name": "Taktik",
   "description": "A premium mobile-first chess clock for over-the-board games.",
   "start_url": "/",
   "display": "standalone",

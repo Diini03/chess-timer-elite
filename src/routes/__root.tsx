@@ -73,7 +73,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" },
-      { name: "theme-color", content: "#0b0b0f" },
+      { name: "theme-color", content: "#0a0a09" },
       { title: "Tempo — Minimal Chess Clock" },
       { name: "description", content: "A premium mobile-first chess clock for over-the-board games. Precise timing, Fischer increment, and tournament-ready presets." },
       { property: "og:title", content: "Tempo — Minimal Chess Clock" },

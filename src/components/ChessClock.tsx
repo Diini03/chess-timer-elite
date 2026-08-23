@@ -204,17 +204,16 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
         onTap={() => { sound.click(); switchTurn("two"); }}
       />
 
-      {/* Center control bar — horizontal floating capsule */}
-      <div className="relative z-20 flex h-16 shrink-0 items-center justify-center bg-transparent">
-        <div className="pointer-events-none absolute inset-x-8 top-1/2 h-px -translate-y-1/2 bg-border/60" />
+      {/* Center control bar — v2.0 instrument rail */}
+      <div className="relative z-20 flex h-[4.5rem] shrink-0 items-stretch border-y border-border bg-card">
         <div
           role="toolbar"
           aria-label="Clock controls"
-          className="relative flex flex-row items-center gap-2 rounded-full border border-border bg-card/95 p-1.5 shadow-[var(--shadow-elevated)] backdrop-blur"
+          className="flex w-full items-stretch divide-x divide-border/70"
         >
           <Link
             to="/"
-            className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground tap-feedback hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex w-14 items-center justify-center text-muted-foreground tap-feedback hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
             aria-label="Back to home"
           >
             <Home aria-hidden className="h-4 w-4" />
@@ -222,8 +221,8 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
           <button
             onClick={handleReset}
             className={cn(
-              "flex h-11 w-11 items-center justify-center rounded-full tap-feedback text-muted-foreground",
-              "hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              "flex w-14 items-center justify-center tap-feedback text-muted-foreground",
+              "hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring",
               confirmReset && "bg-destructive text-destructive-foreground",
             )}
             aria-label={confirmReset ? "Confirm reset game" : "Reset game"}
@@ -233,19 +232,19 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
 
           <button
             onClick={() => setSettingsOpen(true)}
-            className="flex min-h-11 items-center gap-1.5 rounded-full px-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground tap-feedback hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex flex-1 items-center justify-center gap-2 px-3 text-muted-foreground tap-feedback hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
             aria-label={`Change time control. Current: ${timeControl.name}`}
           >
             <Settings2 aria-hidden className="h-3.5 w-3.5" />
-            <span aria-hidden>{timeControl.name}</span>
+            <span aria-hidden className="eyebrow text-foreground">{timeControl.name}</span>
           </button>
 
           <button
             onClick={handleCenter}
             className={cn(
-              "relative flex h-14 w-14 items-center justify-center rounded-full tap-feedback",
-              "bg-primary text-primary-foreground shadow-[0_10px_30px_-8px_var(--primary)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+              "relative flex w-20 items-center justify-center tap-feedback",
+              "bg-primary text-primary-foreground",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring",
             )}
             aria-label={
               status === "running"
@@ -257,19 +256,14 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
                     : "Open time control settings"
             }
           >
-            {status === "running" && (
-              <span aria-hidden className="absolute inset-0 rounded-full border-2 border-primary animate-pulse-ring" />
-            )}
             {status === "running"
               ? <Pause aria-hidden className="h-5 w-5" fill="currentColor" />
-              : status === "paused"
-                ? <Play aria-hidden className="h-5 w-5 ml-0.5" fill="currentColor" />
-                : <Play aria-hidden className="h-5 w-5 ml-0.5" fill="currentColor" />}
+              : <Play aria-hidden className="h-5 w-5 ml-0.5" fill="currentColor" />}
           </button>
 
           <button
             onClick={sound.toggle}
-            className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground tap-feedback hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex w-14 items-center justify-center text-muted-foreground tap-feedback hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
             aria-label={sound.enabled ? "Mute sounds" : "Unmute sounds"}
             aria-pressed={sound.enabled}
           >
@@ -279,7 +273,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
           <button
             ref={keyboardButtonRef}
             onClick={() => setShortcutsOpen((v) => !v)}
-            className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground tap-feedback hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex w-14 items-center justify-center text-muted-foreground tap-feedback hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
             aria-label={shortcutsOpen ? "Hide keyboard shortcuts" : "Show keyboard shortcuts"}
             aria-pressed={shortcutsOpen}
             aria-haspopup="dialog"

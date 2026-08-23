@@ -25,7 +25,7 @@ export default function PdfViewer({ url, title }: { url: string; title: string }
 
   return (
     <div className="flex flex-col items-center">
-      <div className="w-full overflow-auto rounded-3xl border border-border bg-card p-3">
+      <div className="w-full overflow-auto rounded-none border border-border bg-card p-3">
         <Document
           file={url}
           onLoadSuccess={({ numPages: n }) => setNumPages(n)}
@@ -44,7 +44,7 @@ export default function PdfViewer({ url, title }: { url: string; title: string }
       <div
         role="toolbar"
         aria-label="PDF controls"
-        className="sticky bottom-6 mt-6 flex items-center gap-2 rounded-full border border-border bg-card/95 p-1.5 shadow-[var(--shadow-elevated)] backdrop-blur"
+        className="sticky bottom-6 mt-6 flex items-center gap-2 rounded-sm border border-border bg-card/95 p-1.5 shadow-[var(--shadow-elevated)] backdrop-blur"
       >
         <Ctl label="Previous page" onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1}>
           <ChevronLeft className="h-4 w-4" />
@@ -88,7 +88,7 @@ function Ctl({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="flex h-11 w-11 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       {children}
     </button>

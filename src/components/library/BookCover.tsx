@@ -31,7 +31,7 @@ export function BookCover({
   return (
     <div
       className={cn(
-        "relative flex aspect-[3/4] w-full items-center justify-center overflow-hidden rounded-2xl border border-border bg-secondary",
+        "relative flex aspect-[3/4] w-full items-center justify-center overflow-hidden rounded-sm border border-border bg-secondary",
         className,
       )}
     >

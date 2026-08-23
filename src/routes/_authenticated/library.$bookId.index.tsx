@@ -94,12 +94,12 @@ function BookDetail() {
             <Link
               to="/library/$bookId/read"
               params={{ bookId: book.id }}
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-primary-foreground"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-sm bg-primary px-6 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-primary-foreground"
             >
               <BookOpen className="h-4 w-4" /> Read
             </Link>
           ) : (
-            <p className="mt-4 rounded-2xl border border-dashed border-border p-4 text-center text-xs text-muted-foreground">
+            <p className="mt-4 rounded-sm border border-dashed border-border p-4 text-center text-xs text-muted-foreground">
               No PDF uploaded for this book.
             </p>
           )}
@@ -119,7 +119,7 @@ function BookDetail() {
           <h1 className="font-display text-5xl tracking-tight md:text-6xl">{book.title}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{book.author || "Unknown author"}</p>
 
-          <div className="mt-8 space-y-4 rounded-3xl border border-border bg-card p-6">
+          <div className="mt-8 space-y-4 rounded-none border border-border bg-card p-6">
             <div className="space-y-2">
               <Label htmlFor="d-title">Title</Label>
               <Input id="d-title" value={form.title} onChange={(e) => setEdit({ ...form, title: e.target.value })} />
@@ -142,11 +142,11 @@ function BookDetail() {
               />
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
-              <Button onClick={save} disabled={saving || !edit} className="gap-2 rounded-full">
+              <Button onClick={save} disabled={saving || !edit} className="gap-2 rounded-sm">
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                 Save changes
               </Button>
-              <Button variant="ghost" onClick={remove} className="gap-2 rounded-full text-destructive">
+              <Button variant="ghost" onClick={remove} className="gap-2 rounded-sm text-destructive">
                 <Trash2 className="h-4 w-4" /> Delete
               </Button>
             </div>

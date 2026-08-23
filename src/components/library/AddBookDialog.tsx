@@ -62,7 +62,7 @@ export function AddBookDialog({
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} className="gap-2 rounded-full">
+      <Button onClick={() => setOpen(true)} className="gap-2 rounded-sm">
         <Plus className="h-4 w-4" /> Add book
       </Button>
 
@@ -72,7 +72,7 @@ export function AddBookDialog({
           onClick={() => !busy && setOpen(false)}
         >
           <div
-            className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border border-border bg-card p-6 sm:rounded-3xl"
+            className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-none border border-border bg-card p-6 sm:rounded-none"
             role="dialog"
             aria-modal="true"
             aria-label="Add a book"
@@ -86,7 +86,7 @@ export function AddBookDialog({
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close"
-                className="rounded-full p-2 text-muted-foreground hover:text-foreground"
+                className="rounded-sm p-2 text-muted-foreground hover:text-foreground"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -137,7 +137,7 @@ export function AddBookDialog({
                 />
               </div>
 
-              <Button type="submit" className="w-full rounded-full py-6" disabled={busy}>
+              <Button type="submit" className="w-full rounded-sm py-6" disabled={busy}>
                 {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {busy ? "Uploading…" : "Save to library"}
               </Button>
@@ -165,7 +165,7 @@ function FilePick({
   return (
     <label
       htmlFor={id}
-      className="flex cursor-pointer items-center gap-2 rounded-2xl border border-dashed border-border bg-secondary/40 px-4 py-4 text-xs text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground"
+      className="flex cursor-pointer items-center gap-2 rounded-sm border border-dashed border-border bg-secondary/40 px-4 py-4 text-xs text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground"
     >
       {icon}
       <span className="truncate">{label}</span>

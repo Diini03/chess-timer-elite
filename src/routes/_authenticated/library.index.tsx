@@ -83,11 +83,11 @@ function LibraryPage() {
         <div className="flex items-center gap-2">
           <Link
             to="/clock"
-            className="hidden items-center gap-2 rounded-full border border-border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground sm:inline-flex"
+            className="hidden items-center gap-2 rounded-sm border border-border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground sm:inline-flex"
           >
             <Clock3 className="h-3.5 w-3.5" /> Clock
           </Link>
-          <Button variant="ghost" size="sm" className="gap-2 rounded-full" onClick={signOut}>
+          <Button variant="ghost" size="sm" className="gap-2 rounded-sm" onClick={signOut}>
             <LogOut className="h-4 w-4" /> Sign out
           </Button>
         </div>
@@ -113,19 +113,19 @@ function LibraryPage() {
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search title or author"
               aria-label="Search books"
-              className="h-12 rounded-full pl-11"
+              className="h-12 rounded-sm pl-11"
             />
           </div>
           <div className="flex flex-wrap gap-2">
             <Select value={author} onChange={setAuthor} label="Author" options={authors} allLabel="All authors" />
             <Select value={tag} onChange={setTag} label="Tag" options={tags} allLabel="All tags" />
-            <div className="flex rounded-full border border-border bg-card p-1">
+            <div className="flex rounded-sm border border-border bg-card p-1">
               {(["newest", "oldest", "title"] as const).map((s) => (
                 <button
                   key={s}
                   onClick={() => setSort(s)}
                   className={cn(
-                    "rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors",
+                    "rounded-sm px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors",
                     sort === s ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
                   )}
                 >
@@ -169,7 +169,7 @@ function BookTile({ book }: { book: Book }) {
             {book.tags.slice(0, 3).map((t) => (
               <span
                 key={t}
-                className="rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-muted-foreground"
+                className="rounded-sm border border-border px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-muted-foreground"
               >
                 {t}
               </span>
@@ -183,8 +183,8 @@ function BookTile({ book }: { book: Book }) {
 
 function EmptyState({ hasBooks }: { hasBooks: boolean }) {
   return (
-    <div className="mt-16 flex flex-col items-center rounded-3xl border border-dashed border-border bg-card/60 px-6 py-20 text-center">
-      <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/15 text-primary">
+    <div className="mt-16 flex flex-col items-center rounded-none border border-dashed border-border bg-card/60 px-6 py-20 text-center">
+      <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-sm bg-primary/15 text-primary">
         {hasBooks ? <Search className="h-5 w-5" /> : <Library className="h-5 w-5" />}
       </div>
       <h2 className="font-display text-3xl tracking-wide">
@@ -222,7 +222,7 @@ function Select({
       aria-label={label}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="h-12 rounded-full border border-border bg-card px-4 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="h-12 rounded-sm border border-border bg-card px-4 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <option value="all">{allLabel}</option>
       {options.map((o) => (

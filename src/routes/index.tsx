@@ -1,245 +1,225 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Zap, Clock3, Trophy, Github } from "lucide-react";
+import { ArrowRight, Zap, Clock3, Trophy, Github, BookOpen } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({
     meta: [
-      { title: "Tempo — A chess clock built for the board" },
-      { name: "description", content: "Tournament-grade chess timing on your phone. Bullet to classical, Fischer increments, drift-free timing." },
-      { property: "og:title", content: "Tempo — A chess clock built for the board" },
-      { property: "og:description", content: "Tournament-grade chess timing on your phone." },
+      { title: "Tempo v2 — A chess clock built for the board" },
+      { name: "description", content: "Tournament-grade chess timing on your phone. Bullet to classical, Fischer increments, drift-free timing, plus a private book library." },
+      { property: "og:title", content: "Tempo v2 — A chess clock built for the board" },
+      { property: "og:description", content: "Tournament-grade chess timing on your phone, plus a private book library." },
       { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
 });
 
 const presets = [
-  { id: "bullet-1-0",  name: "Bullet",    time: "1+0",  note: "60 seconds. Nothing else." },
-  { id: "blitz-3-2",   name: "Blitz",     time: "3+2",  note: "Fischer increment. Club night classic." },
-  { id: "rapid-10-0",  name: "Rapid",     time: "10+0", note: "Enough time to think. Barely." },
+  { id: "bullet-1-0", name: "Bullet", time: "1+0", note: "Sixty seconds. Nothing else." },
+  { id: "blitz-3-2", name: "Blitz", time: "3+2", note: "Fischer increment. Club night classic." },
+  { id: "rapid-10-0", name: "Rapid", time: "10+0", note: "Enough time to think. Barely." },
   { id: "classical-30", name: "Classical", time: "30+0", note: "For when the position deserves it." },
 ];
 
 function Landing() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Nav */}
-      <header className="relative z-20 flex items-center justify-between px-6 py-5 md:px-12">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="inline-block h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_16px_var(--primary)]" />
-          <span className="font-display text-2xl tracking-[0.18em]">TEMPO</span>
-        </Link>
-        <nav className="flex items-center gap-6">
-          <a href="#presets" className="hidden text-sm uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground md:inline">Presets</a>
-          <a href="#features" className="hidden text-sm uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground md:inline">Features</a>
-          <Link to="/library" className="text-sm uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">Library</Link>
-          <Link
-            to="/clock"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold uppercase tracking-[0.18em] text-primary-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          >
-            Launch <ArrowRight className="h-4 w-4" />
+      {/* Masthead */}
+      <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur">
+        <div className="flex items-stretch justify-between">
+          <Link to="/" className="flex items-center gap-3 border-r border-border px-5 py-4">
+            <span className="inline-block h-3 w-3 rounded-full bg-primary" />
+            <span className="font-display text-3xl leading-none tracking-[0.06em]">Tempo</span>
+            <span className="eyebrow hidden sm:inline">v2.0</span>
           </Link>
-        </nav>
-      </header>
-
-      {/* Split hero */}
-      <section className="relative grid min-h-[calc(100vh-88px)] grid-cols-1 gap-12 px-6 pb-16 pt-8 md:grid-cols-2 md:gap-16 md:px-12 md:pt-16">
-        {/* Left: type */}
-        <div className="relative flex flex-col justify-center">
-          <div className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-[11px] font-mono uppercase tracking-[0.24em] text-muted-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-            v0.3 · Drift-free rAF timer
-          </div>
-          <h1 className="font-display text-[clamp(4rem,10vw,9rem)] leading-[0.85] tracking-tight">
-            Time is <br />
-            <span className="text-primary">the opponent</span> <br />
-            you never see.
-          </h1>
-          <p className="mt-8 max-w-md text-lg leading-relaxed text-muted-foreground">
-            Tempo is a tournament-grade chess clock built for the phone in your pocket.
-            Fischer increments. Sub-frame accuracy. No ads. No accounts.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <nav className="flex items-stretch divide-x divide-border">
+            <a href="#presets" className="eyebrow hidden items-center px-5 hover:text-foreground md:flex">Presets</a>
+            <a href="#craft" className="eyebrow hidden items-center px-5 hover:text-foreground md:flex">Craft</a>
+            <Link to="/library" className="eyebrow flex items-center gap-2 px-5 hover:text-foreground">
+              <BookOpen className="h-3.5 w-3.5" /> Library
+            </Link>
             <Link
               to="/clock"
-              className="group inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-semibold uppercase tracking-[0.18em] text-primary-foreground transition-all hover:shadow-[0_20px_60px_-15px_var(--primary)]"
+              className="flex items-center gap-2 bg-primary px-5 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-primary-foreground"
+            >
+              Launch <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </nav>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section className="grid grid-cols-1 border-b border-border md:grid-cols-[1.1fr_0.9fr]">
+        <div className="border-b border-border px-6 py-16 md:border-b-0 md:border-r md:px-12 md:py-24">
+          <div className="eyebrow mb-8">Issue 02 — Drift-free rAF timer</div>
+          <h1 className="font-display text-[clamp(3.5rem,9vw,8rem)] leading-[0.86] tracking-tight">
+            Time is the opponent{" "}
+            <span className="italic text-primary">you never see.</span>
+          </h1>
+          <p className="mt-10 max-w-md text-base leading-relaxed text-muted-foreground">
+            A tournament-grade chess clock for the phone beside your board. Fischer increments,
+            sub-frame accuracy, no ads — now with a private library for your chess books and PDFs.
+          </p>
+
+          <div className="mt-10 flex flex-wrap items-stretch gap-3">
+            <Link
+              to="/clock"
+              className="group inline-flex items-center gap-3 bg-primary px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary-foreground"
             >
               Start a game
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <a
               href="#presets"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-foreground hover:border-primary/60"
+              className="inline-flex items-center border border-border px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-foreground hover:bg-secondary"
             >
               See presets
             </a>
           </div>
 
-          {/* Quick-start chips */}
-          <div className="mt-8">
-            <div className="mb-3 text-[10px] font-mono uppercase tracking-[0.28em] text-muted-foreground">
-              Quick start
-            </div>
+          <div className="mt-12">
+            <div className="eyebrow mb-4">Quick start</div>
             <div className="flex flex-wrap gap-2">
               {presets.map((p) => (
                 <Link
                   key={p.id}
                   to="/clock"
                   search={{ tc: p.id }}
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:border-primary/60 hover:text-primary"
+                  className="flex items-baseline gap-2 border border-border px-4 py-3 hover:bg-secondary"
                 >
-                  <span className="text-muted-foreground">{p.name}</span>
-                  <span className="font-mono">{p.time}</span>
+                  <span className="eyebrow">{p.name}</span>
+                  <span className="font-mono text-sm text-primary">{p.time}</span>
                 </Link>
               ))}
             </div>
           </div>
 
-          <div className="mt-16 grid grid-cols-3 gap-8 border-t border-border pt-8">
+          <dl className="mt-14 grid grid-cols-3 gap-8 border-t border-border pt-8">
             {[
               { k: "±0ms", v: "Drift-free" },
-              { k: "4", v: "Categories" },
-              { k: "0", v: "Accounts" },
+              { k: "04", v: "Categories" },
+              { k: "∞", v: "Books" },
             ].map((s) => (
               <div key={s.v}>
-                <div className="font-display text-4xl text-primary">{s.k}</div>
-                <div className="mt-1 text-[11px] font-mono uppercase tracking-[0.24em] text-muted-foreground">{s.v}</div>
+                <dt className="font-display text-5xl leading-none text-primary">{s.k}</dt>
+                <dd className="eyebrow mt-2">{s.v}</dd>
               </div>
             ))}
-          </div>
+          </dl>
         </div>
 
-        {/* Right: clock mock */}
-        <div className="relative flex items-center justify-center">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-60"
-            style={{
-              background:
-                "radial-gradient(60% 50% at 70% 40%, color-mix(in oklab, var(--primary) 30%, transparent), transparent 70%)",
-            }}
-          />
-          <div className="relative w-full max-w-md rotate-1 overflow-hidden rounded-3xl border border-border bg-card shadow-[0_60px_120px_-40px_rgba(0,0,0,0.9)]">
-            {/* Top player */}
-            <div className="flex flex-col items-center justify-center px-8 py-16 opacity-60">
-              <div className="mb-2 text-[10px] font-mono uppercase tracking-[0.3em] text-muted-foreground">Player 2 · waiting</div>
-              <div className="timer-digits text-7xl font-semibold text-foreground/90">3:00</div>
+        {/* Specimen */}
+        <div className="flex items-center justify-center bg-card px-6 py-16 md:px-10">
+          <div className="w-full max-w-sm border border-border bg-background">
+            <div className="flex flex-col items-center border-b border-border px-8 py-14 opacity-70">
+              <div className="eyebrow mb-3">Player 2 — waiting</div>
+              <div className="timer-digits text-6xl text-muted-foreground">3:00</div>
             </div>
-            {/* Divider + control */}
-            <div className="relative flex items-center justify-center border-y border-border py-4">
-              <div className="flex items-center gap-3 rounded-full border border-border bg-background px-3 py-2">
-                <span className="text-[10px] font-mono uppercase tracking-[0.24em] text-muted-foreground">Blitz 3+2</span>
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                  <Zap className="h-4 w-4" fill="currentColor" />
-                </span>
+            <div className="flex items-stretch divide-x divide-border border-b border-border">
+              <div className="eyebrow flex flex-1 items-center justify-center py-4">Blitz 3+2</div>
+              <div className="flex w-16 items-center justify-center bg-primary text-primary-foreground">
+                <Zap className="h-4 w-4" fill="currentColor" />
               </div>
             </div>
-            {/* Bottom player active */}
-            <div
-              className="relative flex flex-col items-center justify-center px-8 py-16"
-              style={{
-                background:
-                  "radial-gradient(120% 80% at 50% 100%, color-mix(in oklab, var(--primary) 22%, transparent), transparent 65%)",
-              }}
-            >
-              <div className="mb-2 text-[10px] font-mono uppercase tracking-[0.3em] text-primary">Player 1 · your move</div>
-              <div className="timer-digits text-7xl font-semibold text-primary">2:47</div>
-              <div className="absolute inset-x-0 bottom-0 h-[3px] bg-primary shadow-[0_0_24px_2px_var(--primary)]" />
+            <div className="relative flex flex-col items-center px-8 py-14">
+              <div className="eyebrow mb-3 text-primary">Player 1 — your move</div>
+              <div className="timer-digits text-6xl text-primary">2:47</div>
+              <div className="absolute inset-x-0 bottom-0 h-[3px] bg-primary" />
             </div>
           </div>
         </div>
       </section>
 
       {/* Presets */}
-      <section id="presets" className="border-t border-border px-6 py-24 md:px-12">
-        <div className="mb-12 flex items-end justify-between">
+      <section id="presets" className="border-b border-border">
+        <div className="flex flex-wrap items-end justify-between gap-6 px-6 py-14 md:px-12">
           <div>
-            <div className="mb-3 text-[11px] font-mono uppercase tracking-[0.28em] text-primary">01 · Presets</div>
-            <h2 className="font-display text-5xl tracking-tight md:text-7xl">Every format, one tap away.</h2>
+            <div className="eyebrow mb-4">01 — Presets</div>
+            <h2 className="font-display text-5xl tracking-tight md:text-7xl">
+              Every format, <span className="italic text-primary">one tap away.</span>
+            </h2>
           </div>
-          <Link to="/clock" className="hidden text-sm uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground md:inline">
-            Open the clock →
-          </Link>
+          <Link to="/clock" className="eyebrow hover:text-foreground">Open the clock →</Link>
         </div>
-        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-px border-t border-border bg-border sm:grid-cols-2 md:grid-cols-4">
           {presets.map((p) => (
             <Link
               key={p.id}
               to="/clock"
               search={{ tc: p.id }}
-              className="group flex flex-col justify-between bg-card p-8 transition-colors hover:bg-accent"
+              className="group flex flex-col justify-between bg-background p-8 transition-colors hover:bg-card"
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <div className="text-[11px] font-mono uppercase tracking-[0.24em] text-muted-foreground">{p.name}</div>
+                  <span className="eyebrow">{p.name}</span>
                   <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
                 </div>
-                <div className="mt-4 font-display text-6xl tracking-tight text-foreground group-hover:text-primary">{p.time}</div>
+                <div className="mt-6 font-display text-6xl tracking-tight group-hover:text-primary">{p.time}</div>
               </div>
-              <p className="mt-8 text-sm leading-relaxed text-muted-foreground">{p.note}</p>
+              <p className="mt-10 text-sm leading-relaxed text-muted-foreground">{p.note}</p>
             </Link>
           ))}
         </div>
-
       </section>
 
-      {/* Features */}
-      <section id="features" className="border-t border-border px-6 py-24 md:px-12">
-        <div className="mb-12">
-          <div className="mb-3 text-[11px] font-mono uppercase tracking-[0.28em] text-primary">02 · Craft</div>
-          <h2 className="font-display text-5xl tracking-tight md:text-7xl">Built like a tournament clock.</h2>
+      {/* Craft */}
+      <section id="craft" className="border-b border-border">
+        <div className="px-6 py-14 md:px-12">
+          <div className="eyebrow mb-4">02 — Craft</div>
+          <h2 className="font-display text-5xl tracking-tight md:text-7xl">
+            Built like a <span className="italic text-primary">tournament clock.</span>
+          </h2>
         </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-px border-t border-border bg-border md:grid-cols-3">
           {[
-            { Icon: Clock3, t: "Drift-free timing", d: "requestAnimationFrame with delta-based accounting keeps the clock honest across tab switches and background stalls." },
-            { Icon: Zap, t: "Fischer increment", d: "Automatic increment on move for every preset that supports it. No fiddling with configuration mid-game." },
-            { Icon: Trophy, t: "Screen wake lock", d: "Your phone stays awake while a game is running. Never lose a bullet game to a screensaver." },
+            { Icon: Clock3, t: "Drift-free timing", d: "Delta-based accounting on requestAnimationFrame keeps the clock honest across tab switches and background stalls." },
+            { Icon: Zap, t: "Fischer increment", d: "Automatic increment on move for every preset that supports it. No configuration mid-game." },
+            { Icon: Trophy, t: "Screen wake lock", d: "Your phone stays awake while a game runs. Never lose a bullet game to a screensaver." },
           ].map(({ Icon, t, d }) => (
-            <div key={t} className="rounded-3xl border border-border bg-card p-8">
-              <div className="mb-6 inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary/15 text-primary">
-                <Icon className="h-5 w-5" />
-              </div>
-              <div className="font-display text-2xl tracking-wide">{t}</div>
+            <div key={t} className="bg-background p-8">
+              <Icon className="mb-8 h-5 w-5 text-primary" />
+              <div className="font-display text-3xl tracking-wide">{t}</div>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{d}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="border-t border-border px-6 py-24 md:px-12">
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-12 md:p-20">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(80% 100% at 100% 0%, color-mix(in oklab, var(--primary) 28%, transparent), transparent 60%)",
-            }}
-          />
-          <div className="relative flex flex-col items-start gap-8 md:flex-row md:items-end md:justify-between">
-            <h3 className="font-display text-5xl leading-none tracking-tight md:text-7xl">
-              Set the clock. <br /> <span className="text-primary">Play the game.</span>
-            </h3>
-            <Link
-              to="/clock"
-              className="inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-semibold uppercase tracking-[0.18em] text-primary-foreground hover:shadow-[0_20px_60px_-15px_var(--primary)]"
-            >
-              Launch Tempo <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+      {/* Library CTA */}
+      <section className="grid grid-cols-1 border-b border-border md:grid-cols-2">
+        <div className="border-b border-border px-6 py-16 md:border-b-0 md:border-r md:px-12">
+          <div className="eyebrow mb-4">03 — Library</div>
+          <h3 className="font-display text-4xl leading-tight tracking-tight md:text-6xl">
+            Your openings, endgames and PDFs — <span className="italic text-primary">private, searchable, readable in the browser.</span>
+          </h3>
+          <Link
+            to="/library"
+            className="mt-10 inline-flex items-center gap-3 border border-border px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] hover:bg-secondary"
+          >
+            Open library <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="flex flex-col items-start justify-center gap-8 bg-card px-6 py-16 md:px-12">
+          <h3 className="font-display text-5xl leading-none tracking-tight md:text-7xl">
+            Set the clock. <span className="italic text-primary">Play the game.</span>
+          </h3>
+          <Link
+            to="/clock"
+            className="inline-flex items-center gap-3 bg-primary px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary-foreground"
+          >
+            Launch Tempo <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="flex flex-col items-center justify-between gap-4 border-t border-border px-6 py-8 text-xs uppercase tracking-[0.24em] text-muted-foreground md:flex-row md:px-12">
-        <div>© {new Date().getFullYear()} Tempo</div>
+      <footer className="flex flex-col items-center justify-between gap-4 px-6 py-8 md:flex-row md:px-12">
+        <div className="eyebrow">© {new Date().getFullYear()} Tempo — v2.0</div>
         <a
           href="https://github.com"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 hover:text-foreground"
+          className="eyebrow inline-flex items-center gap-2 hover:text-foreground"
         >
           <Github className="h-4 w-4" /> Source
         </a>

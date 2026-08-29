@@ -211,7 +211,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
           aria-label="Clock controls"
           className="flex w-full items-center justify-between px-4"
         >
-          <div className="flex items-center gap-1">
+          <div className="flex flex-1 items-center justify-start gap-1">
             <Link
               to="/"
               className="flex h-12 w-12 items-center justify-center rounded-md text-primary tap-feedback hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -259,7 +259,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
             <span aria-hidden className="h-8 w-px bg-primary/20" />
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex flex-1 items-center justify-end gap-1">
             <button
               onClick={() => setSettingsOpen(true)}
               className="flex h-12 min-w-12 items-center justify-center gap-2 rounded-md px-2 text-primary tap-feedback hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"

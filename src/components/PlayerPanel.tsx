@@ -63,27 +63,31 @@ export const PlayerPanel = memo(function PlayerPanel({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-1 select-none overflow-hidden bg-background",
+        "relative flex w-full flex-1 select-none items-center justify-center overflow-hidden",
         rotated && "rotate-180",
       )}
     >
-      {/* Editorial plate: flat field, ruled edges, one accent bar */}
+      {/* Plate */}
       <div
         aria-hidden
         className={cn(
           "pointer-events-none absolute inset-0 transition-colors duration-300",
           isActive && status !== "finished" ? "bg-card" : "bg-background",
           dim && "opacity-70",
+          isLoser && "bg-destructive/10",
         )}
       />
+
+      {/* Active edge accent, always on the rail-facing side */}
       {isActive && status !== "finished" && (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 h-[3px]"
+          className="pointer-events-none absolute inset-x-0 h-1"
           style={{
-            top: player === "one" ? "auto" : 0,
-            bottom: player === "one" ? 0 : "auto",
+            top: player === "one" ? 0 : "auto",
+            bottom: player === "one" ? "auto" : 0,
             background: `var(--${tone})`,
+            boxShadow: `0 0 15px color-mix(in oklab, var(--${tone}) 45%, transparent)`,
           }}
         />
       )}
@@ -104,16 +108,49 @@ export const PlayerPanel = memo(function PlayerPanel({
         aria-label={`${name}. ${spokenTime} remaining. ${statusLabel}. ${status === "finished" ? "" : "Press Enter or Space to end your turn."}`}
         aria-pressed={isActive}
         className={cn(
-          "absolute inset-0 z-0 outline-none transition-colors duration-300",
+          "absolute inset-0 z-0 outline-none",
           "focus-visible:ring-4 focus-visible:ring-ring focus-visible:ring-inset",
-          isLoser && "bg-destructive/10",
         )}
         style={{ WebkitTapHighlightColor: "transparent" }}
       />
 
-      {/* Header rule: name / moves */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between gap-3 border-b border-border/70 px-5 py-3">
-        <div className="pointer-events-auto">
+      {/* Centered instrument stack */}
+      <div
+        key={tapKey}
+        className="pointer-events-none relative z-10 flex animate-tap-burst flex-col items-center px-8"
+      >
+        <span
+          className={cn(
+            "eyebrow mb-4",
+            isActive && status !== "finished"
+              ? `text-[color:var(--${tone})]`
+              : "text-muted-foreground",
+          )}
+          aria-hidden
+        >
+          {statusLabel}
+        </span>
+
+        <div
+          role="timer"
+          aria-live={isActive && status === "running" ? "off" : "polite"}
+          aria-atomic="true"
+          aria-label={`${spokenTime} remaining`}
+          className={cn(
+            "timer-digits flex items-baseline font-medium tabular-nums tracking-tighter",
+            isLoser && "text-destructive",
+            !isLoser && danger && "text-[color:var(--danger)]",
+            !isLoser && !danger && "text-foreground",
+            !isLoser && !danger && !isActive && status !== "idle" && "text-muted-foreground",
+          )}
+          style={{ fontSize: "clamp(3.25rem, 16vw, 7.5rem)", lineHeight: 1 }}
+        >
+          <span aria-hidden>{main}</span>
+          {deci && <span aria-hidden style={{ fontSize: "0.42em" }} className="opacity-80">{deci}</span>}
+        </div>
+
+        {/* Name — serif italic signature */}
+        <div className="pointer-events-auto mt-4 flex min-h-11 items-center gap-2">
           {editing ? (
             <input
               autoFocus
@@ -121,76 +158,62 @@ export const PlayerPanel = memo(function PlayerPanel({
               onChange={(e) => onNameChange(e.target.value.slice(0, 20))}
               onBlur={() => setEditing(false)}
               onKeyDown={(e) => e.key === "Enter" && setEditing(false)}
-              className="w-40 rounded-sm border border-border bg-card px-2 py-1 text-sm outline-none focus:border-ring"
+              className="w-44 rounded-sm border border-border bg-card px-2 py-1 text-center text-sm outline-none focus:border-ring"
             />
           ) : (
             <button
               type="button"
               onClick={() => setEditing(true)}
               aria-label={`Edit ${name} name`}
-              className="group flex min-h-11 items-center gap-2 pr-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="group flex min-h-11 items-center gap-2 px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <span
-                aria-hidden
-                className="inline-block h-3 w-3 rounded-full border"
-                style={{
-                  background: player === "one" ? `var(--${tone})` : "transparent",
-                  borderColor: `var(--${tone})`,
-                }}
-              />
-              <span className="font-display text-xl leading-none tracking-wide text-foreground">{name}</span>
+                className={cn(
+                  "font-display text-2xl italic leading-none",
+                  isActive && status !== "finished"
+                    ? `text-[color:var(--${tone})]`
+                    : "text-foreground/70",
+                )}
+              >
+                {name}
+              </span>
               <Pencil aria-hidden className="h-3 w-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
             </button>
           )}
         </div>
 
-        <div className="eyebrow" aria-label={`${moves} moves played`}>
-          <span aria-hidden>{moves.toString().padStart(2, "0")} moves</span>
-        </div>
-      </div>
-
-      {/* Timer */}
-      <div
-        key={tapKey}
-        role="timer"
-        aria-live={isActive && status === "running" ? "off" : "polite"}
-        aria-atomic="true"
-        aria-label={`${spokenTime} remaining`}
-        className={cn(
-          "pointer-events-none absolute inset-0 z-10 flex items-center justify-center",
-          "timer-digits font-medium animate-tap-burst tabular-nums",
-          isLoser && "text-destructive",
-          !isLoser && danger && "text-[color:var(--danger)]",
-          !isLoser && !danger && isActive && `text-[color:var(--${tone})]`,
-          !isLoser && !danger && !isActive && "text-muted-foreground",
-        )}
-        style={{ fontSize: "clamp(3.5rem, 17vw, 8.5rem)", lineHeight: 1 }}
-      >
-        <span aria-hidden>{main}</span>
-        {deci && <span aria-hidden style={{ fontSize: "0.45em" }} className="opacity-80">{deci}</span>}
-      </div>
-
-      {/* Footer rule: status + remaining bar */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10">
-        <div className="flex items-center justify-between gap-4 px-5 pb-3">
-          <span
-            className={cn("eyebrow", isActive && status !== "finished" && "text-foreground")}
-            aria-hidden
-          >
-            {statusLabel}
-          </span>
-          <span className="eyebrow" aria-hidden>
-            {Math.round(pct * 100)}%
-          </span>
-        </div>
-        <div className="h-[3px] w-full bg-border/50" aria-hidden>
-          <div
-            className="h-full transition-[width] duration-300 ease-linear"
-            style={{
-              width: `${pct * 100}%`,
-              background: isLoser || danger ? "var(--danger)" : `var(--${tone})`,
-            }}
-          />
+        {/* Move pips + remaining meter */}
+        <div className="mt-7 flex flex-col items-center gap-3" aria-hidden>
+          <div className="flex items-center gap-4">
+            <span
+              className="h-2 w-2 rounded-full transition-all"
+              style={{
+                background: isActive && status !== "finished" ? `var(--${tone})` : "transparent",
+                border: `1px solid var(--${tone})`,
+                boxShadow:
+                  isActive && status !== "finished"
+                    ? `0 0 8px color-mix(in oklab, var(--${tone}) 60%, transparent)`
+                    : "none",
+                opacity: isActive && status !== "finished" ? 1 : 0.4,
+              }}
+            />
+            <span className="eyebrow text-muted-foreground">
+              {moves.toString().padStart(2, "0")} moves
+            </span>
+            <span
+              className="h-2 w-2 rounded-full"
+              style={{ border: `1px solid var(--${tone})`, opacity: 0.4 }}
+            />
+          </div>
+          <div className="h-px w-40 bg-border">
+            <div
+              className="h-full transition-[width] duration-300 ease-linear"
+              style={{
+                width: `${pct * 100}%`,
+                background: isLoser || danger ? "var(--danger)" : `var(--${tone})`,
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

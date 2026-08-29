@@ -204,85 +204,93 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
         onTap={() => { sound.click(); switchTurn("two"); }}
       />
 
-      {/* Center control bar — v2.0 instrument rail */}
-      <div className="relative z-20 flex h-[4.5rem] shrink-0 items-stretch border-y border-border bg-card">
+      {/* Center control rail — noir brass minimalist */}
+      <div className="relative z-20 flex h-20 shrink-0 items-center border-y border-primary/40 bg-background">
         <div
           role="toolbar"
           aria-label="Clock controls"
-          className="flex w-full items-stretch divide-x divide-border/70"
+          className="flex w-full items-center justify-between px-4"
         >
-          <Link
-            to="/"
-            className="flex w-14 items-center justify-center text-muted-foreground tap-feedback hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
-            aria-label="Back to home"
-          >
-            <Home aria-hidden className="h-4 w-4" />
-          </Link>
-          <button
-            onClick={handleReset}
-            className={cn(
-              "flex w-14 items-center justify-center tap-feedback text-muted-foreground",
-              "hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring",
-              confirmReset && "bg-destructive text-destructive-foreground",
-            )}
-            aria-label={confirmReset ? "Confirm reset game" : "Reset game"}
-          >
-            {confirmReset ? <Check aria-hidden className="h-4 w-4" /> : <RotateCcw aria-hidden className="h-4 w-4" />}
-          </button>
+          <div className="flex items-center gap-1">
+            <Link
+              to="/"
+              className="flex h-12 w-12 items-center justify-center rounded-md text-primary tap-feedback hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-label="Back to home"
+            >
+              <Home aria-hidden className="h-5 w-5" />
+            </Link>
+            <button
+              onClick={handleReset}
+              className={cn(
+                "flex h-12 w-12 items-center justify-center rounded-md tap-feedback text-primary hover:bg-primary/10",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                confirmReset && "bg-destructive text-destructive-foreground hover:bg-destructive",
+              )}
+              aria-label={confirmReset ? "Confirm reset game" : "Reset game"}
+            >
+              {confirmReset ? <Check aria-hidden className="h-5 w-5" /> : <RotateCcw aria-hidden className="h-5 w-5" />}
+            </button>
+          </div>
 
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className="flex flex-1 items-center justify-center gap-2 px-3 text-muted-foreground tap-feedback hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
-            aria-label={`Change time control. Current: ${timeControl.name}`}
-          >
-            <Settings2 aria-hidden className="h-3.5 w-3.5" />
-            <span aria-hidden className="eyebrow text-foreground">{timeControl.name}</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <span aria-hidden className="h-8 w-px bg-primary/20" />
+            <button
+              onClick={handleCenter}
+              className={cn(
+                "flex h-14 w-14 items-center justify-center rounded-full tap-feedback",
+                "bg-primary text-primary-foreground shadow-[0_0_20px_color-mix(in_oklab,var(--primary)_30%,transparent)]",
+                "transition-transform hover:scale-105",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              )}
+              aria-label={
+                status === "running"
+                  ? "Pause game"
+                  : status === "paused"
+                    ? "Resume game"
+                    : status === "finished"
+                      ? "Start new game"
+                      : "Open time control settings"
+              }
+            >
+              {status === "running"
+                ? <Pause aria-hidden className="h-6 w-6" fill="currentColor" />
+                : <Play aria-hidden className="h-6 w-6 ml-0.5" fill="currentColor" />}
+            </button>
+            <span aria-hidden className="h-8 w-px bg-primary/20" />
+          </div>
 
-          <button
-            onClick={handleCenter}
-            className={cn(
-              "relative flex w-20 items-center justify-center tap-feedback",
-              "bg-primary text-primary-foreground",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring",
-            )}
-            aria-label={
-              status === "running"
-                ? "Pause game"
-                : status === "paused"
-                  ? "Resume game"
-                  : status === "finished"
-                    ? "Start new game"
-                    : "Open time control settings"
-            }
-          >
-            {status === "running"
-              ? <Pause aria-hidden className="h-5 w-5" fill="currentColor" />
-              : <Play aria-hidden className="h-5 w-5 ml-0.5" fill="currentColor" />}
-          </button>
-
-          <button
-            onClick={sound.toggle}
-            className="flex w-14 items-center justify-center text-muted-foreground tap-feedback hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
-            aria-label={sound.enabled ? "Mute sounds" : "Unmute sounds"}
-            aria-pressed={sound.enabled}
-          >
-            {sound.enabled ? <Volume2 aria-hidden className="h-4 w-4" /> : <VolumeX aria-hidden className="h-4 w-4" />}
-          </button>
-
-          <button
-            ref={keyboardButtonRef}
-            onClick={() => setShortcutsOpen((v) => !v)}
-            className="flex w-14 items-center justify-center text-muted-foreground tap-feedback hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
-            aria-label={shortcutsOpen ? "Hide keyboard shortcuts" : "Show keyboard shortcuts"}
-            aria-pressed={shortcutsOpen}
-            aria-haspopup="dialog"
-            aria-keyshortcuts="?"
-          >
-            <Keyboard aria-hidden className="h-4 w-4" />
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setSettingsOpen(true)}
+              className="flex h-12 min-w-12 items-center justify-center gap-2 rounded-md px-2 text-primary tap-feedback hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-label={`Change time control. Current: ${timeControl.name}`}
+            >
+              <Settings2 aria-hidden className="h-4 w-4" />
+              <span aria-hidden className="eyebrow text-foreground">{timeControl.name}</span>
+            </button>
+            <button
+              onClick={sound.toggle}
+              className="flex h-12 w-12 items-center justify-center rounded-md text-primary tap-feedback hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-label={sound.enabled ? "Mute sounds" : "Unmute sounds"}
+              aria-pressed={sound.enabled}
+            >
+              {sound.enabled ? <Volume2 aria-hidden className="h-5 w-5" /> : <VolumeX aria-hidden className="h-5 w-5" />}
+            </button>
+            <button
+              ref={keyboardButtonRef}
+              onClick={() => setShortcutsOpen((v) => !v)}
+              className="flex h-12 w-12 items-center justify-center rounded-md text-primary tap-feedback hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-label={shortcutsOpen ? "Hide keyboard shortcuts" : "Show keyboard shortcuts"}
+              aria-pressed={shortcutsOpen}
+              aria-haspopup="dialog"
+              aria-keyshortcuts="?"
+            >
+              <Keyboard aria-hidden className="h-5 w-5" />
+            </button>
+          </div>
         </div>
       </div>
+
 
       {/* Bottom player */}
       <PlayerPanel

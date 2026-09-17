@@ -26,6 +26,26 @@ export function GameHistoryPanel() {
     if (open) setGames(loadHistory());
   }, [open]);
 
+  // Aggregate stats across saved games.
+  const stats = (() => {
+    if (games.length === 0) return null;
+    const winsOne = games.filter((g) => g.winner === "one").length;
+    const winsTwo = games.filter((g) => g.winner === "two").length;
+    const totalMs = games.reduce((a, g) => a + g.durationMs, 0);
+    const totalMoves = games.reduce((a, g) => a + g.moves.one + g.moves.two, 0);
+    const nameOne = games[0].players.one;
+    const nameTwo = games[0].players.two;
+    return {
+      played: games.length,
+      winsOne,
+      winsTwo,
+      nameOne,
+      nameTwo,
+      avgDuration: Math.round(totalMs / games.length),
+      avgMoves: Math.round(totalMoves / games.length),
+    };
+  })();
+
   return (
     <>
       <button

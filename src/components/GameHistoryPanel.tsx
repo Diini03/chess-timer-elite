@@ -26,6 +26,26 @@ export function GameHistoryPanel() {
     if (open) setGames(loadHistory());
   }, [open]);
 
+  // Aggregate stats across saved games.
+  const stats = (() => {
+    if (games.length === 0) return null;
+    const winsOne = games.filter((g) => g.winner === "one").length;
+    const winsTwo = games.filter((g) => g.winner === "two").length;
+    const totalMs = games.reduce((a, g) => a + g.durationMs, 0);
+    const totalMoves = games.reduce((a, g) => a + g.moves.one + g.moves.two, 0);
+    const nameOne = games[0].players.one;
+    const nameTwo = games[0].players.two;
+    return {
+      played: games.length,
+      winsOne,
+      winsTwo,
+      nameOne,
+      nameTwo,
+      avgDuration: Math.round(totalMs / games.length),
+      avgMoves: Math.round(totalMoves / games.length),
+    };
+  })();
+
   return (
     <>
       <button
@@ -66,6 +86,49 @@ export function GameHistoryPanel() {
                 </button>
               </div>
             </div>
+
+            {stats && (
+              <div className="border-b border-border px-4 py-3">
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  {[
+                    { label: "Played", value: String(stats.played) },
+                    { label: "Avg length", value: fmtDuration(stats.avgDuration) },
+                    { label: "Avg moves", value: String(stats.avgMoves) },
+                  ].map((s) => (
+                    <div key={s.label} className="border border-border bg-secondary/40 px-2 py-2">
+                      <div className="timer-digits text-base text-foreground">{s.value}</div>
+                      <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                        {s.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-3">
+                  <div className="mb-1 flex items-center justify-between text-[11px] text-muted-foreground">
+                    <span>{stats.nameOne} · {stats.winsOne}</span>
+                    <span>{stats.winsTwo} · {stats.nameTwo}</span>
+                  </div>
+                  <div
+                    className="flex h-1.5 w-full overflow-hidden bg-border"
+                    role="img"
+                    aria-label={`${stats.nameOne} ${stats.winsOne} wins, ${stats.nameTwo} ${stats.winsTwo} wins`}
+                  >
+                    <span
+                      className="bg-primary"
+                      style={{
+                        width: `${(stats.winsOne / Math.max(1, stats.winsOne + stats.winsTwo)) * 100}%`,
+                      }}
+                    />
+                    <span
+                      className="bg-foreground/60"
+                      style={{
+                        width: `${(stats.winsTwo / Math.max(1, stats.winsOne + stats.winsTwo)) * 100}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="overflow-y-auto px-4 py-3" style={{ maxHeight: "60vh" }}>
               {games.length === 0 ? (

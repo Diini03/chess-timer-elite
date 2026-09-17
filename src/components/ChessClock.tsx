@@ -9,7 +9,13 @@ import { saveGame } from "@/lib/game-history";
 import { cn } from "@/lib/utils";
 import { useChessClock } from "@/hooks/use-chess-clock";
 import { PlayerPanel } from "@/components/PlayerPanel";
-import { TIME_CONTROLS, DEFAULT_TIME_CONTROL } from "@/lib/time-controls";
+import {
+  TIME_CONTROLS,
+  DEFAULT_TIME_CONTROL,
+  makeCustomControl,
+  loadCustomControl,
+  saveCustomControl,
+} from "@/lib/time-controls";
 import type { TimeControl } from "@/lib/time-controls";
 
 const NAMES_STORAGE_KEY = "tempo:player-names";

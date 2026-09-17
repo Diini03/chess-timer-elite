@@ -36,6 +36,12 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
   const keyboardButtonRef = useRef<HTMLButtonElement>(null);
+  const [custom, setCustom] = useState({ minutes: 10, increment: 5 });
+
+  // Load the saved custom time control on mount.
+  useEffect(() => {
+    setCustom(loadCustomControl());
+  }, []);
 
   // Load persisted names on mount.
   useEffect(() => {

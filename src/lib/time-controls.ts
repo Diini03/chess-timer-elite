@@ -23,3 +23,35 @@ export const TIME_CONTROLS: TimeControl[] = [
 ];
 
 export const DEFAULT_TIME_CONTROL: TimeControl = TIME_CONTROLS.find(t => t.id === "rapid-10-0")!;
+
+/** Build a custom (non-preset) time control from minutes + increment seconds. */
+export function makeCustomControl(minutes: number, incrementSeconds: number): TimeControl {
+  const m = Math.min(180, Math.max(1, Math.round(minutes)));
+  const inc = Math.min(60, Math.max(0, Math.round(incrementSeconds)));
+  return {
+    id: `custom-${m}-${inc}`,
+    name: `${m} | ${inc}`,
+    category: "custom",
+    baseSeconds: m * 60,
+    incrementSeconds: inc,
+  };
+}
+
+const CUSTOM_KEY = "tempo:custom-time-control";
+
+export function loadCustomControl(): { minutes: number; increment: number } {
+  try {
+    const raw = localStorage.getItem(CUSTOM_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      if (typeof p?.minutes === "number" && typeof p?.increment === "number") return p;
+    }
+  } catch { /* ignore */ }
+  return { minutes: 10, increment: 5 };
+}
+
+export function saveCustomControl(minutes: number, increment: number) {
+  try {
+    localStorage.setItem(CUSTOM_KEY, JSON.stringify({ minutes, increment }));
+  } catch { /* ignore */ }
+}

@@ -360,6 +360,76 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
                 </div>
               </div>
             ))}
+
+            {/* Custom time control */}
+            <div className="mt-5 border-t border-border pt-4">
+              <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                custom
+              </div>
+              <div className="flex items-center gap-3">
+                {([
+                  { key: "minutes" as const, label: "Minutes", min: 1, max: 180, step: 1 },
+                  { key: "increment" as const, label: "Increment", min: 0, max: 60, step: 1 },
+                ]).map((f) => (
+                  <div key={f.key} className="flex-1">
+                    <label
+                      htmlFor={`custom-${f.key}`}
+                      className="mb-1 block text-[11px] text-muted-foreground"
+                    >
+                      {f.label}
+                    </label>
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setCustom((c) => ({ ...c, [f.key]: Math.max(f.min, c[f.key] - f.step) }))
+                        }
+                        aria-label={`Decrease ${f.label.toLowerCase()}`}
+                        className="h-11 w-11 shrink-0 border border-border bg-secondary text-secondary-foreground tap-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        −
+                      </button>
+                      <input
+                        id={`custom-${f.key}`}
+                        type="number"
+                        inputMode="numeric"
+                        min={f.min}
+                        max={f.max}
+                        value={custom[f.key]}
+                        onChange={(e) => {
+                          const n = Number(e.target.value);
+                          setCustom((c) => ({
+                            ...c,
+                            [f.key]: Number.isFinite(n) ? Math.min(f.max, Math.max(f.min, n)) : c[f.key],
+                          }));
+                        }}
+                        className="timer-digits h-11 w-full min-w-0 border border-border bg-background text-center text-base text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setCustom((c) => ({ ...c, [f.key]: Math.min(f.max, c[f.key] + f.step) }))
+                        }
+                        aria-label={`Increase ${f.label.toLowerCase()}`}
+                        className="h-11 w-11 shrink-0 border border-border bg-secondary text-secondary-foreground tap-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  saveCustomControl(custom.minutes, custom.increment);
+                  pickControl(makeCustomControl(custom.minutes, custom.increment));
+                }}
+                className="mt-3 h-12 w-full bg-primary text-sm font-semibold uppercase tracking-[0.18em] text-primary-foreground tap-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                Start {custom.minutes} | {custom.increment}
+              </button>
+            </div>
           </div>
         </div>
       )}

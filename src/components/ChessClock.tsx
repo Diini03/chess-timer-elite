@@ -191,7 +191,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
   useWakeLock(status === "running");
 
   return (
-    <main className="grain fixed inset-0 flex flex-col bg-background overflow-hidden">
+    <main className="fixed inset-0 flex flex-col overflow-hidden bg-background">
       <ShortcutsHelp
         open={shortcutsOpen}
         onClose={() => {
@@ -216,17 +216,17 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
         onTap={() => { sound.click(); switchTurn("two"); }}
       />
 
-      {/* Center control rail — noir brass minimalist */}
-      <div className="relative z-20 flex h-20 shrink-0 items-center border-y border-primary/40 bg-background">
+      {/* Center control rail */}
+      <div className="relative z-20 flex h-[5.5rem] shrink-0 items-center border-y border-border bg-card shadow-[var(--shadow-elevated)]">
         <div
           role="toolbar"
           aria-label="Clock controls"
-          className="flex w-full items-center justify-between px-4"
+          className="mx-auto flex w-full max-w-5xl items-center justify-between px-3 sm:px-5"
         >
           <div className="flex flex-1 items-center justify-start gap-1">
             <Link
               to="/"
-              className="flex h-12 w-12 items-center justify-center rounded-md text-primary tap-feedback hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-12 w-12 items-center justify-center rounded-lg border border-transparent text-muted-foreground tap-feedback hover:border-border hover:bg-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               aria-label="Back to home"
             >
               <Home aria-hidden className="h-5 w-5" />
@@ -234,7 +234,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
             <button
               onClick={handleReset}
               className={cn(
-                "flex h-12 w-12 items-center justify-center rounded-md tap-feedback text-primary hover:bg-primary/10",
+                "flex h-12 w-12 items-center justify-center rounded-lg border border-transparent tap-feedback text-muted-foreground hover:border-border hover:bg-secondary hover:text-primary",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 confirmReset && "bg-destructive text-destructive-foreground hover:bg-destructive",
               )}
@@ -245,13 +245,13 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
           </div>
 
           <div className="flex items-center gap-3">
-            <span aria-hidden className="h-8 w-px bg-primary/20" />
+             <span aria-hidden className="hidden h-8 w-px bg-border sm:block" />
             <button
               onClick={handleCenter}
               className={cn(
-                "flex h-14 w-14 items-center justify-center rounded-full tap-feedback",
-                "bg-primary text-primary-foreground shadow-[0_0_20px_color-mix(in_oklab,var(--primary)_30%,transparent)]",
-                "transition-transform hover:scale-105",
+                 "flex h-16 w-16 items-center justify-center rounded-lg border border-primary tap-feedback",
+                 "bg-primary text-primary-foreground shadow-[0_10px_30px_-18px_var(--primary)]",
+                 "transition-transform hover:-translate-y-0.5",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               )}
               aria-label={
@@ -268,13 +268,13 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
                 ? <Pause aria-hidden className="h-6 w-6" fill="currentColor" />
                 : <Play aria-hidden className="h-6 w-6 ml-0.5" fill="currentColor" />}
             </button>
-            <span aria-hidden className="h-8 w-px bg-primary/20" />
+             <span aria-hidden className="hidden h-8 w-px bg-border sm:block" />
           </div>
 
           <div className="flex flex-1 items-center justify-end gap-1">
             <button
               onClick={() => setSettingsOpen(true)}
-              className="flex h-12 min-w-12 items-center justify-center gap-2 rounded-md px-2 text-primary tap-feedback hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+               className="flex h-12 min-w-12 items-center justify-center gap-2 rounded-lg border border-transparent px-2 text-muted-foreground tap-feedback hover:border-border hover:bg-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               aria-label={`Change time control. Current: ${timeControl.name}`}
             >
               <Settings2 aria-hidden className="h-4 w-4" />
@@ -282,7 +282,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
             </button>
             <button
               onClick={sound.toggle}
-              className="flex h-12 w-12 items-center justify-center rounded-md text-primary tap-feedback hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+               className="hidden h-12 w-12 items-center justify-center rounded-lg border border-transparent text-muted-foreground tap-feedback hover:border-border hover:bg-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex"
               aria-label={sound.enabled ? "Mute sounds" : "Unmute sounds"}
               aria-pressed={sound.enabled}
             >
@@ -291,7 +291,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
             <button
               ref={keyboardButtonRef}
               onClick={() => setShortcutsOpen((v) => !v)}
-              className="flex h-12 w-12 items-center justify-center rounded-md text-primary tap-feedback hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+               className="flex h-12 w-12 items-center justify-center rounded-lg border border-transparent text-muted-foreground tap-feedback hover:border-border hover:bg-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               aria-label={shortcutsOpen ? "Hide keyboard shortcuts" : "Show keyboard shortcuts"}
               aria-pressed={shortcutsOpen}
               aria-haspopup="dialog"
@@ -326,7 +326,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
           onClick={() => setSettingsOpen(false)}
         >
           <div
-            className="w-full max-w-md rounded-t-3xl border-t border-border bg-card p-6 shadow-2xl animate-in slide-in-from-bottom duration-300"
+            className="w-full max-w-md rounded-t-xl border border-border bg-card p-6 shadow-[var(--shadow-elevated)] animate-in slide-in-from-bottom duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-1 flex items-center justify-between">
@@ -342,13 +342,13 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
                 <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                   {cat}
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                 className="grid grid-cols-3 gap-2">
                   {TIME_CONTROLS.filter((t) => t.category === cat).map((tc) => (
                     <button
                       key={tc.id}
                       onClick={() => pickControl(tc)}
                       className={cn(
-                        "rounded-xl border px-3 py-3 text-sm font-medium tap-feedback",
+                         "rounded-lg border px-3 py-3 text-sm font-semibold tap-feedback",
                         tc.id === timeControl.id
                           ? "border-primary bg-primary/10 text-primary"
                           : "border-border bg-secondary text-secondary-foreground",

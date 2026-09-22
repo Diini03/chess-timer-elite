@@ -11,12 +11,16 @@ export const Route = createFileRoute("/clock")({
   validateSearch: (search) => searchSchema.parse(search),
   head: () => ({
     meta: [
-      { title: "Tempo Clock — Play" },
+      { title: "Taktik Clock — Play" },
       {
         name: "description",
         content:
           "The chess clock, full-screen. Bullet, blitz, rapid, and classical presets with Fischer increments.",
-      },
+       },
+       { property: "og:title", content: "Taktik Clock — Play" },
+       { property: "og:description", content: "A precise full-screen chess clock with tournament-ready presets." },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary" },
     ],
   }),
 });

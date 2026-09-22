@@ -41,44 +41,43 @@
 :root {
   --radius: 0.25rem;
 
-  /* v2.0 — Noir & Gold: black canvas, brass accents, editorial contrast */
-  --background: oklch(0.15 0.004 90);        /* near-black ink */
-  --foreground: oklch(0.96 0.008 90);        /* warm bone */
+  /* v3.0 — Carbon & Signal: a tactile tournament instrument */
+  --background: oklch(0.16 0.008 135);
+  --foreground: oklch(0.96 0.008 95);
 
-  --card: oklch(0.20 0.006 90);
-  --card-foreground: oklch(0.96 0.008 90);
+  --card: oklch(0.205 0.01 135);
+  --card-foreground: oklch(0.96 0.008 95);
 
-  --primary: oklch(0.78 0.13 88);            /* brass gold */
-  --primary-foreground: oklch(0.16 0.01 90);
+  --primary: oklch(0.91 0.22 117);
+  --primary-foreground: oklch(0.16 0.008 135);
 
-  --secondary: oklch(0.25 0.008 90);
-  --secondary-foreground: oklch(0.95 0.008 90);
+  --secondary: oklch(0.25 0.012 135);
+  --secondary-foreground: oklch(0.95 0.008 95);
 
-  --muted: oklch(0.24 0.006 90);
-  --muted-foreground: oklch(0.76 0.015 88);
+  --muted: oklch(0.235 0.01 135);
+  --muted-foreground: oklch(0.72 0.014 110);
 
-  --accent: oklch(0.30 0.02 88);
-  --accent-foreground: oklch(0.97 0.006 90);
+  --accent: oklch(0.66 0.17 34);
+  --accent-foreground: oklch(0.98 0.006 95);
 
-  --destructive: oklch(0.58 0.19 25);
-  --destructive-foreground: oklch(0.98 0.005 90);
-  --danger: oklch(0.70 0.20 32);
+  --destructive: oklch(0.64 0.2 31);
+  --destructive-foreground: oklch(0.98 0.005 95);
+  --danger: oklch(0.66 0.2 31);
 
-  --border: oklch(0.31 0.008 90);
-  --input: oklch(0.31 0.008 90);
-  --ring: oklch(0.78 0.13 88);
+  --border: oklch(0.32 0.014 135);
+  --input: oklch(0.28 0.012 135);
+  --ring: oklch(0.91 0.22 117);
 
-  /* Player accents — bone white vs brass gold, like the pieces themselves */
-  --player-one: oklch(0.80 0.12 88);         /* gold side */
-  --player-one-foreground: oklch(0.16 0.01 90);
-  --player-two: oklch(0.92 0.012 90);        /* bone side */
-  --player-two-foreground: oklch(0.16 0.01 90);
+  --player-one: oklch(0.91 0.22 117);
+  --player-one-foreground: oklch(0.16 0.008 135);
+  --player-two: oklch(0.82 0.02 105);
+  --player-two-foreground: oklch(0.16 0.008 135);
 
   --font-display: "Instrument Serif", "Times New Roman", Georgia, serif;
   --font-body: "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --shadow-elevated: 0 30px 60px -25px oklch(0 0 0 / 0.85);
+  --shadow-elevated: 0 24px 60px -28px oklch(0 0 0 / 0.9);
   --shadow-glow-one: 0 0 80px -12px var(--player-one);
   --shadow-glow-two: 0 0 80px -12px var(--player-two);
   --rule: 1px solid var(--border);
@@ -106,7 +105,7 @@
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum" 1;
-    letter-spacing: -0.05em;
+    letter-spacing: 0;
   }
   .glow-one {
     box-shadow: var(--shadow-glow-one);
@@ -122,12 +121,12 @@
   }
 }
 
-/* v2.0 editorial helpers */
+/* v3.0 command-center helpers */
 @utility eyebrow {
   font-family: var(--font-mono);
   font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.34em;
+  letter-spacing: 0.18em;
   color: var(--muted-foreground);
 }
 

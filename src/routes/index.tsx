@@ -1,14 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Zap, Clock3, Trophy, Github, BookOpen } from "lucide-react";
+import { ArrowRight, BookOpen, Clock3, Gauge, Library, Play, ShieldCheck, Zap } from "lucide-react";
 
 export const Route = createFileRoute("/")({
-  component: Landing,
+  component: CommandCenter,
   head: () => ({
     meta: [
-      { title: "Tempo v2 — A chess clock built for the board" },
-      { name: "description", content: "Tournament-grade chess timing on your phone. Bullet to classical, Fischer increments, drift-free timing, plus a private book library." },
-      { property: "og:title", content: "Tempo v2 — A chess clock built for the board" },
-      { property: "og:description", content: "Tournament-grade chess timing on your phone, plus a private book library." },
+      { title: "Taktik — Chess Command Center" },
+      { name: "description", content: "Start a precise chess clock, choose a tournament preset, and open your private chess library." },
+      { property: "og:title", content: "Taktik — Chess Command Center" },
+      { property: "og:description", content: "Precise chess timing and your private chess library in one focused command center." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -16,214 +16,70 @@ export const Route = createFileRoute("/")({
 });
 
 const presets = [
-  { id: "bullet-1-0", name: "Bullet", time: "1+0", note: "Sixty seconds. Nothing else." },
-  { id: "blitz-3-2", name: "Blitz", time: "3+2", note: "Fischer increment. Club night classic." },
-  { id: "rapid-10-0", name: "Rapid", time: "10+0", note: "Enough time to think. Barely." },
-  { id: "classical-30", name: "Classical", time: "30+0", note: "For when the position deserves it." },
+  { id: "bullet-1-0", name: "Bullet", time: "1|0", detail: "No increment" },
+  { id: "blitz-3-2", name: "Blitz", time: "3|2", detail: "Fischer" },
+  { id: "rapid-10-0", name: "Rapid", time: "10|0", detail: "Think fast" },
+  { id: "classical-30", name: "Classical", time: "30|0", detail: "Full focus" },
 ];
 
-function Landing() {
+function CommandCenter() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Masthead */}
-      <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur">
-        <div className="flex items-stretch justify-between">
-          <Link to="/" className="flex items-center gap-3 border-r border-border px-5 py-4">
-            <span className="inline-block h-3 w-3 rounded-full bg-primary" />
-            <span className="font-display text-3xl leading-none tracking-[0.06em]">Tempo</span>
-            <span className="eyebrow hidden sm:inline">v2.0</span>
+      <header className="border-b border-border bg-background/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
+          <Link to="/" className="flex items-center gap-3" aria-label="Taktik home">
+            <span className="grid h-10 w-10 place-items-center rounded-lg border border-primary/50 bg-primary/10 font-display text-2xl text-primary">T</span>
+            <span><strong className="block font-display text-2xl leading-none">Taktik</strong><span className="eyebrow text-[0.55rem]">Chess command</span></span>
           </Link>
-          <nav className="flex items-stretch divide-x divide-border">
-            <a href="#presets" className="eyebrow hidden items-center px-5 hover:text-foreground md:flex">Presets</a>
-            <a href="#craft" className="eyebrow hidden items-center px-5 hover:text-foreground md:flex">Craft</a>
-            <Link to="/library" className="eyebrow flex items-center gap-2 px-5 hover:text-foreground">
-              <BookOpen className="h-3.5 w-3.5" /> Library
-            </Link>
-            <Link
-              to="/clock"
-              className="flex items-center gap-2 bg-primary px-5 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-primary-foreground"
-            >
-              Launch <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
+          <nav className="flex items-center gap-2" aria-label="Primary navigation">
+            <Link to="/library" className="flex h-11 items-center gap-2 rounded-lg border border-border px-3 text-xs font-semibold text-muted-foreground hover:border-primary/50 hover:text-foreground"><Library className="h-4 w-4" /><span className="hidden sm:inline">Library</span></Link>
+            <Link to="/clock" className="flex h-11 items-center gap-2 rounded-lg border border-primary bg-primary px-4 text-xs font-bold text-primary-foreground"><Play className="h-4 w-4" fill="currentColor" /> Start</Link>
           </nav>
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="grid grid-cols-1 border-b border-border md:grid-cols-[1.1fr_0.9fr]">
-        <div className="border-b border-border px-6 py-16 md:border-b-0 md:border-r md:px-12 md:py-24">
-          <div className="eyebrow mb-8">Issue 02 — Drift-free rAF timer</div>
-          <h1 className="font-display text-[clamp(3.5rem,9vw,8rem)] leading-[0.86] tracking-tight">
-            Time is the opponent{" "}
-            <span className="italic text-primary">you never see.</span>
-          </h1>
-          <p className="mt-10 max-w-md text-base leading-relaxed text-muted-foreground">
-            A tournament-grade chess clock for the phone beside your board. Fischer increments,
-            sub-frame accuracy, no ads — now with a private library for your chess books and PDFs.
-          </p>
+      <main className="mx-auto grid max-w-7xl gap-5 px-5 py-5 md:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.6fr)] md:px-8 md:py-8">
+        <section className="relative overflow-hidden rounded-lg border border-border bg-card p-6 md:min-h-[510px] md:p-10">
+          <div className="absolute inset-x-0 top-0 h-1 bg-primary" />
+          <div className="eyebrow flex items-center gap-2 text-primary"><span className="h-2 w-2 rounded-full bg-primary" /> System ready</div>
+          <h1 className="mt-8 max-w-3xl font-display text-6xl leading-[0.92] md:text-8xl">Your move.<br/><em className="text-primary">Right on time.</em></h1>
+          <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground">A precise, distraction-free clock for the board beside you. Choose a format and begin in one tap.</p>
 
-          <div className="mt-10 flex flex-wrap items-stretch gap-3">
-            <Link
-              to="/clock"
-              className="group inline-flex items-center gap-3 bg-primary px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary-foreground"
-            >
-              Start a game
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <Link to="/clock" className="group flex min-h-14 flex-1 items-center justify-between rounded-lg border border-primary bg-primary px-5 font-bold text-primary-foreground transition-transform active:translate-y-px">
+              <span className="flex items-center gap-3"><Play className="h-5 w-5" fill="currentColor" /> Start clock</span><ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
-            <a
-              href="#presets"
-              className="inline-flex items-center border border-border px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-foreground hover:bg-secondary"
-            >
-              See presets
-            </a>
+            <Link to="/library" className="flex min-h-14 items-center justify-center gap-3 rounded-lg border border-border bg-background px-6 font-semibold hover:border-primary/60"><BookOpen className="h-5 w-5 text-primary" /> Open library</Link>
           </div>
 
-          <div className="mt-12">
-            <div className="eyebrow mb-4">Quick start</div>
-            <div className="flex flex-wrap gap-2">
-              {presets.map((p) => (
-                <Link
-                  key={p.id}
-                  to="/clock"
-                  search={{ tc: p.id }}
-                  className="flex items-baseline gap-2 border border-border px-4 py-3 hover:bg-secondary"
-                >
-                  <span className="eyebrow">{p.name}</span>
-                  <span className="font-mono text-sm text-primary">{p.time}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <dl className="mt-14 grid grid-cols-3 gap-8 border-t border-border pt-8">
-            {[
-              { k: "±0ms", v: "Drift-free" },
-              { k: "04", v: "Categories" },
-              { k: "∞", v: "Books" },
-            ].map((s) => (
-              <div key={s.v}>
-                <dt className="font-display text-5xl leading-none text-primary">{s.k}</dt>
-                <dd className="eyebrow mt-2">{s.v}</dd>
+          <div className="mt-10 grid grid-cols-3 border-t border-border pt-6">
+            {[{ icon: Gauge, value: "±0ms", label: "drift" }, { icon: Zap, value: "+60s", label: "increment" }, { icon: ShieldCheck, value: "Private", label: "library" }].map(({icon: Icon, value, label}) => (
+              <div key={label} className="border-r border-border px-3 first:pl-0 last:border-0">
+                <Icon className="mb-3 h-4 w-4 text-primary"/><strong className="block font-mono text-sm sm:text-lg">{value}</strong><span className="eyebrow text-[0.5rem]">{label}</span>
               </div>
             ))}
-          </dl>
-        </div>
-
-        {/* Specimen */}
-        <div className="flex items-center justify-center bg-card px-6 py-16 md:px-10">
-          <div className="w-full max-w-sm border border-border bg-background">
-            <div className="flex flex-col items-center border-b border-border px-8 py-14 opacity-70">
-              <div className="eyebrow mb-3">Player 2 — waiting</div>
-              <div className="timer-digits text-6xl text-muted-foreground">3:00</div>
-            </div>
-            <div className="flex items-stretch divide-x divide-border border-b border-border">
-              <div className="eyebrow flex flex-1 items-center justify-center py-4">Blitz 3+2</div>
-              <div className="flex w-16 items-center justify-center bg-primary text-primary-foreground">
-                <Zap className="h-4 w-4" fill="currentColor" />
-              </div>
-            </div>
-            <div className="relative flex flex-col items-center px-8 py-14">
-              <div className="eyebrow mb-3 text-primary">Player 1 — your move</div>
-              <div className="timer-digits text-6xl text-primary">2:47</div>
-              <div className="absolute inset-x-0 bottom-0 h-[3px] bg-primary" />
-            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Presets */}
-      <section id="presets" className="border-b border-border">
-        <div className="flex flex-wrap items-end justify-between gap-6 px-6 py-14 md:px-12">
-          <div>
-            <div className="eyebrow mb-4">01 — Presets</div>
-            <h2 className="font-display text-5xl tracking-tight md:text-7xl">
-              Every format, <span className="italic text-primary">one tap away.</span>
-            </h2>
-          </div>
-          <Link to="/clock" className="eyebrow hover:text-foreground">Open the clock →</Link>
-        </div>
-        <div className="grid grid-cols-1 gap-px border-t border-border bg-border sm:grid-cols-2 md:grid-cols-4">
-          {presets.map((p) => (
-            <Link
-              key={p.id}
-              to="/clock"
-              search={{ tc: p.id }}
-              className="group flex flex-col justify-between bg-background p-8 transition-colors hover:bg-card"
-            >
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="eyebrow">{p.name}</span>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-                </div>
-                <div className="mt-6 font-display text-6xl tracking-tight group-hover:text-primary">{p.time}</div>
-              </div>
-              <p className="mt-10 text-sm leading-relaxed text-muted-foreground">{p.note}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
+        <aside className="grid gap-5">
+          <section className="rounded-lg border border-border bg-card p-5">
+            <div className="flex items-center justify-between"><div><span className="eyebrow">Active setup</span><h2 className="mt-1 font-display text-3xl">Blitz match</h2></div><Clock3 className="h-6 w-6 text-primary" /></div>
+            <div className="mt-6 grid grid-cols-2 gap-2 font-mono text-4xl"><div className="rounded-md border border-border bg-background p-4 text-center">3:00</div><div className="rounded-md border border-primary/50 bg-primary/10 p-4 text-center text-primary">3:00</div></div>
+            <Link to="/clock" search={{tc: "blitz-3-2"}} className="mt-3 flex h-12 items-center justify-center gap-2 rounded-lg border border-primary bg-primary font-bold text-primary-foreground"><Zap className="h-4 w-4" fill="currentColor"/> Launch 3|2</Link>
+          </section>
 
-      {/* Craft */}
-      <section id="craft" className="border-b border-border">
-        <div className="px-6 py-14 md:px-12">
-          <div className="eyebrow mb-4">02 — Craft</div>
-          <h2 className="font-display text-5xl tracking-tight md:text-7xl">
-            Built like a <span className="italic text-primary">tournament clock.</span>
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 gap-px border-t border-border bg-border md:grid-cols-3">
-          {[
-            { Icon: Clock3, t: "Drift-free timing", d: "Delta-based accounting on requestAnimationFrame keeps the clock honest across tab switches and background stalls." },
-            { Icon: Zap, t: "Fischer increment", d: "Automatic increment on move for every preset that supports it. No configuration mid-game." },
-            { Icon: Trophy, t: "Screen wake lock", d: "Your phone stays awake while a game runs. Never lose a bullet game to a screensaver." },
-          ].map(({ Icon, t, d }) => (
-            <div key={t} className="bg-background p-8">
-              <Icon className="mb-8 h-5 w-5 text-primary" />
-              <div className="font-display text-3xl tracking-wide">{t}</div>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{d}</p>
+          <section className="rounded-lg border border-border bg-card p-5">
+            <div className="mb-4 flex items-end justify-between"><div><span className="eyebrow">Quick launch</span><h2 className="mt-1 font-display text-3xl">Presets</h2></div><span className="text-xs text-muted-foreground">4 formats</span></div>
+            <div className="grid grid-cols-2 gap-2">
+              {presets.map((preset) => <Link key={preset.id} to="/clock" search={{tc: preset.id}} className="group rounded-lg border border-border bg-background p-4 hover:border-primary/60"><div className="flex items-start justify-between"><span className="font-mono text-xl group-hover:text-primary">{preset.time}</span><ArrowRight className="h-4 w-4 text-muted-foreground"/></div><strong className="mt-4 block text-xs">{preset.name}</strong><span className="text-[11px] text-muted-foreground">{preset.detail}</span></Link>)}
             </div>
-          ))}
-        </div>
-      </section>
+          </section>
+        </aside>
 
-      {/* Library CTA */}
-      <section className="grid grid-cols-1 border-b border-border md:grid-cols-2">
-        <div className="border-b border-border px-6 py-16 md:border-b-0 md:border-r md:px-12">
-          <div className="eyebrow mb-4">03 — Library</div>
-          <h3 className="font-display text-4xl leading-tight tracking-tight md:text-6xl">
-            Your openings, endgames and PDFs — <span className="italic text-primary">private, searchable, readable in the browser.</span>
-          </h3>
-          <Link
-            to="/library"
-            className="mt-10 inline-flex items-center gap-3 border border-border px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] hover:bg-secondary"
-          >
-            Open library <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="flex flex-col items-start justify-center gap-8 bg-card px-6 py-16 md:px-12">
-          <h3 className="font-display text-5xl leading-none tracking-tight md:text-7xl">
-            Set the clock. <span className="italic text-primary">Play the game.</span>
-          </h3>
-          <Link
-            to="/clock"
-            className="inline-flex items-center gap-3 bg-primary px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary-foreground"
-          >
-            Launch Tempo <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </section>
-
-      <footer className="flex flex-col items-center justify-between gap-4 px-6 py-8 md:flex-row md:px-12">
-        <div className="eyebrow">© {new Date().getFullYear()} Tempo — v2.0</div>
-        <a
-          href="https://github.com"
-          target="_blank"
-          rel="noreferrer"
-          className="eyebrow inline-flex items-center gap-2 hover:text-foreground"
-        >
-          <Github className="h-4 w-4" /> Source
-        </a>
-      </footer>
+        <section className="rounded-lg border border-border bg-card p-5 md:col-span-2 md:p-7">
+          <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center"><div><span className="eyebrow text-primary">Private study vault</span><h2 className="mt-2 font-display text-4xl md:text-5xl">Books, notes, and PDFs beside the board.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">Keep opening manuals and endgame studies searchable, private, and ready to read without leaving Taktik.</p></div><Link to="/library" className="flex h-12 items-center justify-center gap-2 rounded-lg border border-border bg-background px-5 font-semibold hover:border-primary/60"><BookOpen className="h-4 w-4 text-primary"/> Enter library <ArrowRight className="h-4 w-4"/></Link></div>
+        </section>
+      </main>
     </div>
   );
 }

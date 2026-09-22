@@ -73,7 +73,7 @@ export const PlayerPanel = memo(function PlayerPanel({
         className={cn(
           "pointer-events-none absolute inset-0 transition-colors duration-300",
           isActive && status !== "finished" ? "bg-card" : "bg-background",
-          dim && "opacity-70",
+          dim && "opacity-60",
           isLoser && "bg-destructive/10",
         )}
       />
@@ -82,7 +82,7 @@ export const PlayerPanel = memo(function PlayerPanel({
       {isActive && status !== "finished" && (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 h-1"
+           className="pointer-events-none absolute inset-x-0 h-1.5"
           style={{
             top: player === "one" ? 0 : "auto",
             bottom: player === "one" ? "auto" : 0,
@@ -117,11 +117,11 @@ export const PlayerPanel = memo(function PlayerPanel({
       {/* Centered instrument stack */}
       <div
         key={tapKey}
-        className="pointer-events-none relative z-10 flex animate-tap-burst flex-col items-center px-8"
+        className="pointer-events-none relative z-10 flex animate-tap-burst flex-col items-center px-5"
       >
         <span
           className={cn(
-            "eyebrow mb-4",
+            "eyebrow mb-3 rounded-full border border-current/25 px-3 py-1",
             isActive && status !== "finished"
               ? `text-[color:var(--${tone})]`
               : "text-muted-foreground",
@@ -137,19 +137,19 @@ export const PlayerPanel = memo(function PlayerPanel({
           aria-atomic="true"
           aria-label={`${spokenTime} remaining`}
           className={cn(
-            "timer-digits flex items-baseline font-medium tabular-nums tracking-tighter",
+            "timer-digits flex items-baseline font-semibold tabular-nums",
             isLoser && "text-destructive",
             !isLoser && danger && "text-[color:var(--danger)]",
             !isLoser && !danger && "text-foreground",
             !isLoser && !danger && !isActive && status !== "idle" && "text-muted-foreground",
           )}
-          style={{ fontSize: "clamp(3.25rem, 16vw, 7.5rem)", lineHeight: 1 }}
+          style={{ fontSize: "clamp(3.25rem, 16vw, 7rem)", lineHeight: 1 }}
         >
           <span aria-hidden>{main}</span>
           {deci && <span aria-hidden style={{ fontSize: "0.42em" }} className="opacity-80">{deci}</span>}
         </div>
 
-        {/* Name — serif italic signature */}
+        {/* Player identity */}
         <div className="pointer-events-auto mt-4 flex min-h-11 items-center gap-2">
           {editing ? (
             <input
@@ -169,7 +169,7 @@ export const PlayerPanel = memo(function PlayerPanel({
             >
               <span
                 className={cn(
-                  "font-display text-2xl italic leading-none",
+                  "font-display text-3xl leading-none",
                   isActive && status !== "finished"
                     ? `text-[color:var(--${tone})]`
                     : "text-foreground/70",
@@ -183,7 +183,7 @@ export const PlayerPanel = memo(function PlayerPanel({
         </div>
 
         {/* Move pips + remaining meter */}
-        <div className="mt-7 flex flex-col items-center gap-3" aria-hidden>
+        <div className="mt-6 flex flex-col items-center gap-3" aria-hidden>
           <div className="flex items-center gap-4">
             <span
               className="h-2 w-2 rounded-full transition-all"
@@ -205,7 +205,7 @@ export const PlayerPanel = memo(function PlayerPanel({
               style={{ border: `1px solid var(--${tone})`, opacity: 0.4 }}
             />
           </div>
-          <div className="h-px w-40 bg-border">
+          <div className="h-1 w-40 overflow-hidden rounded-full bg-border">
             <div
               className="h-full transition-[width] duration-300 ease-linear"
               style={{

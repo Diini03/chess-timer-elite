@@ -51,7 +51,7 @@ export function GameHistoryPanel() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-3 left-3 z-30 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/80 text-muted-foreground backdrop-blur tap-feedback hover:text-foreground"
+        className="fixed bottom-3 left-3 z-30 flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-card/90 text-muted-foreground backdrop-blur tap-feedback hover:border-primary/50 hover:text-primary"
         aria-label="Game history"
       >
         <History className="h-4 w-4" />
@@ -63,7 +63,7 @@ export function GameHistoryPanel() {
           onClick={() => setOpen(false)}
         >
           <div
-            className="max-h-[80vh] w-full max-w-md overflow-hidden rounded-t-3xl border-t border-border bg-card shadow-2xl animate-in slide-in-from-bottom duration-300"
+            className="max-h-[80vh] w-full max-w-md overflow-hidden rounded-t-xl border border-border bg-card shadow-[var(--shadow-elevated)] animate-in slide-in-from-bottom duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-border px-6 py-4">
@@ -71,7 +71,7 @@ export function GameHistoryPanel() {
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => { clearHistory(); setGames([]); }}
-                  className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-destructive"
+                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-transparent text-muted-foreground hover:border-border hover:text-destructive"
                   aria-label="Clear history"
                   disabled={games.length === 0}
                 >
@@ -79,7 +79,7 @@ export function GameHistoryPanel() {
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground"
+                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-transparent text-muted-foreground hover:border-border hover:text-foreground"
                   aria-label="Close"
                 >
                   <X className="h-4 w-4" />
@@ -142,7 +142,7 @@ export function GameHistoryPanel() {
                     return (
                       <li
                         key={g.id}
-                        className="rounded-xl border border-border bg-secondary/40 px-4 py-3"
+                         className="rounded-lg border border-border bg-secondary/40 px-4 py-3"
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">

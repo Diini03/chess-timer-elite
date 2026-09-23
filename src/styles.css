@@ -98,6 +98,12 @@
     overscroll-behavior: none;
     touch-action: manipulation;
   }
+  html[dir="rtl"] body {
+    font-family: "Noto Sans Arabic", var(--font-body);
+  }
+  html[dir="rtl"] .font-display {
+    font-family: "Noto Sans Arabic", var(--font-body);
+  }
 }
 
 @layer utilities {

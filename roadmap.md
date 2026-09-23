@@ -5,3 +5,4 @@
 - [ ] Restyle the clock and overlays for consistent tactile controls
 - [ ] Restyle sign-in and library screens
 - [ ] Verify core screens on phone and desktop
+- [ ] Add English/Arabic switching with persistent RTL support across the app

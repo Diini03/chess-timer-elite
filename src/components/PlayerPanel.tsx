@@ -3,6 +3,7 @@ import { formatTime } from "@/hooks/use-chess-clock";
 import type { PlayerId, GameStatus } from "@/hooks/use-chess-clock";
 import { cn } from "@/lib/utils";
 import { Pencil } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface PlayerPanelProps {
   player: PlayerId;
@@ -34,6 +35,7 @@ export const PlayerPanel = memo(function PlayerPanel({
   id,
 }: PlayerPanelProps) {
   const { main, deci, danger } = formatTime(remainingMs);
+  const { t, locale } = useI18n();
   const [editing, setEditing] = useState(false);
   const [tapKey, setTapKey] = useState(0);
 
@@ -48,17 +50,17 @@ export const PlayerPanel = memo(function PlayerPanel({
   };
 
   const statusLabel = isLoser
-    ? "Flag fell"
+    ? t("flagFell")
     : status === "idle"
-      ? "Tap to start"
+      ? t("tapStart")
       : isActive
-        ? status === "paused" ? "Paused" : "Your move"
-        : "Waiting";
+        ? status === "paused" ? t("paused") : t("yourMove")
+        : t("waiting");
 
   const seconds = Math.ceil(remainingMs / 1000);
   const mins = Math.floor(seconds / 60);
   const secs = seconds % 60;
-  const spokenTime = `${mins} minute${mins === 1 ? "" : "s"} ${secs} second${secs === 1 ? "" : "s"}`;
+  const spokenTime = locale === "ar" ? `${mins} دقيقة و${secs} ثانية` : `${mins} minute${mins === 1 ? "" : "s"} ${secs} second${secs === 1 ? "" : "s"}`;
 
   return (
     <div
@@ -198,7 +200,7 @@ export const PlayerPanel = memo(function PlayerPanel({
               }}
             />
             <span className="eyebrow text-muted-foreground">
-              {moves.toString().padStart(2, "0")} moves
+               {moves.toString().padStart(2, "0")} {t("moves")}
             </span>
             <span
               className="h-2 w-2 rounded-full"

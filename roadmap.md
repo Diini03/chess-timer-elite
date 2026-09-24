@@ -7,3 +7,4 @@
 - [ ] Verify core screens on phone and desktop
 - [ ] Add English/Arabic switching with persistent RTL support across the app
 - [x] Offline play and home-screen launch for the chess clock
+- [x] AI coach that reviews a PGN or game notes

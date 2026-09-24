@@ -6,3 +6,4 @@
 - [ ] Restyle sign-in and library screens
 - [ ] Verify core screens on phone and desktop
 - [ ] Add English/Arabic switching with persistent RTL support across the app
+- [x] Offline play and home-screen launch for the chess clock

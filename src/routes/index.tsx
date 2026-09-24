@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Clock3, Gauge, Library, Play, ShieldCheck, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, Clock3, Gauge, Library, Play, ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useI18n } from "@/lib/i18n";
 
@@ -53,6 +53,7 @@ function CommandCenter() {
                <span className="flex items-center gap-3"><Play className="h-5 w-5" fill="currentColor" /> {t("startClock")}</span><ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1 rtl:rotate-180" />
             </Link>
              <Link to="/library" className="flex min-h-14 items-center justify-center gap-3 rounded-lg border border-border bg-background px-6 font-semibold hover:border-primary/60"><BookOpen className="h-5 w-5 text-primary" /> {t("openLibrary")}</Link>
+            <Link to="/coach" className="flex min-h-14 items-center justify-center gap-3 rounded-lg border border-border bg-background px-6 font-semibold hover:border-primary/60"><Sparkles className="h-5 w-5 text-primary" /> AI coach</Link>
           </div>
 
           <div className="mt-10 grid grid-cols-3 border-t border-border pt-6">

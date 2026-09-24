@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as CoachRouteImport } from './routes/coach'
 import { Route as ClockRouteImport } from './routes/clock'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -17,6 +18,11 @@ import { Route as AuthenticatedLibraryIndexRouteImport } from './routes/_authent
 import { Route as AuthenticatedLibraryBookIdIndexRouteImport } from './routes/_authenticated/library.$bookId.index'
 import { Route as AuthenticatedLibraryBookIdReadRouteImport } from './routes/_authenticated/library.$bookId.read'
 
+const CoachRoute = CoachRouteImport.update({
+  id: '/coach',
+  path: '/coach',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClockRoute = ClockRouteImport.update({
   id: '/clock',
   path: '/clock',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/clock': typeof ClockRoute
+  '/coach': typeof CoachRoute
   '/library/': typeof AuthenticatedLibraryIndexRoute
   '/library/$bookId/read': typeof AuthenticatedLibraryBookIdReadRoute
   '/library/$bookId/': typeof AuthenticatedLibraryBookIdIndexRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/clock': typeof ClockRoute
+  '/coach': typeof CoachRoute
   '/library': typeof AuthenticatedLibraryIndexRoute
   '/library/$bookId/read': typeof AuthenticatedLibraryBookIdReadRoute
   '/library/$bookId': typeof AuthenticatedLibraryBookIdIndexRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/clock': typeof ClockRoute
+  '/coach': typeof CoachRoute
   '/_authenticated/library/': typeof AuthenticatedLibraryIndexRoute
   '/_authenticated/library/$bookId/read': typeof AuthenticatedLibraryBookIdReadRoute
   '/_authenticated/library/$bookId/': typeof AuthenticatedLibraryBookIdIndexRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/clock'
+    | '/coach'
     | '/library/'
     | '/library/$bookId/read'
     | '/library/$bookId/'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/clock'
+    | '/coach'
     | '/library'
     | '/library/$bookId/read'
     | '/library/$bookId'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/clock'
+    | '/coach'
     | '/_authenticated/library/'
     | '/_authenticated/library/$bookId/read'
     | '/_authenticated/library/$bookId/'
@@ -114,10 +126,18 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ClockRoute: typeof ClockRoute
+  CoachRoute: typeof CoachRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/coach': {
+      id: '/coach'
+      path: '/coach'
+      fullPath: '/coach'
+      preLoaderRoute: typeof CoachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/clock': {
       id: '/clock'
       path: '/clock'
@@ -190,6 +210,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ClockRoute: ClockRoute,
+  CoachRoute: CoachRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

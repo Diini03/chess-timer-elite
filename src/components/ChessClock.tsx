@@ -342,7 +342,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
                 <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                   {cat}
                 </div>
-                 className="grid grid-cols-3 gap-2">
+                 <div className="grid grid-cols-3 gap-2">
                   {TIME_CONTROLS.filter((t) => t.category === cat).map((tc) => (
                     <button
                       key={tc.id}

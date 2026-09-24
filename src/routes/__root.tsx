@@ -8,7 +8,9 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import { registerOfflineSupport } from "@/lib/pwa";
 import { I18nProvider } from "@/lib/i18n";
 import appCss from "../styles.css?url";
 
@@ -120,6 +122,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => { registerOfflineSupport(); }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

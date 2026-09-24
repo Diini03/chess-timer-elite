@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Clock3, Gauge, Library, Play, ShieldCheck, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, Clock3, Gauge, Library, Play, ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useI18n } from "@/lib/i18n";
 

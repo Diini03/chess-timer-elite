@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { History, Trash2, X } from "lucide-react";
 import { loadHistory, clearHistory, type GameRecord } from "@/lib/game-history";
+import { readCloudGames, clearCloudGames } from "@/lib/clock-sync";
+import { useAuth } from "@/hooks/use-auth";
+import { toast } from "sonner";
 
 function fmtDuration(ms: number) {
   const s = Math.floor(ms / 1000);
@@ -19,12 +22,15 @@ function fmtDate(ts: number) {
 }
 
 export function GameHistoryPanel() {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [games, setGames] = useState<GameRecord[]>([]);
 
   useEffect(() => {
-    if (open) setGames(loadHistory());
-  }, [open]);
+    if (!open) return;
+    if (!user) { setGames(loadHistory()); return; }
+    readCloudGames(user.id).then(setGames).catch(() => toast.error("Could not load saved games"));
+  }, [open, user?.id]);
 
   // Aggregate stats across saved games.
   const stats = (() => {
@@ -70,7 +76,10 @@ export function GameHistoryPanel() {
               <h2 className="text-lg font-semibold">Recent games</h2>
               <div className="flex items-center gap-1">
                 <button
-                  onClick={() => { clearHistory(); setGames([]); }}
+                  onClick={async () => {
+                    try { if (user) await clearCloudGames(user.id); else clearHistory(); setGames([]); }
+                    catch { toast.error("Could not clear games"); }
+                  }}
                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-transparent text-muted-foreground hover:border-border hover:text-destructive"
                   aria-label="Clear history"
                   disabled={games.length === 0}

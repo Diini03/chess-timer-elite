@@ -4,6 +4,8 @@ import { ArrowLeft, Loader2, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
+import { LanguageToggle } from "@/components/LanguageToggle";
+import { useI18n } from "@/lib/i18n";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
@@ -12,9 +14,9 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
   head: () => ({
     meta: [
-      { title: "Sign in — Tempo Library" },
+      { title: "Sign in — Taktik Library" },
       { name: "description", content: "Sign in or create an account to manage your private book and PDF library." },
-      { property: "og:title", content: "Sign in — Tempo Library" },
+      { property: "og:title", content: "Sign in — Taktik Library" },
       { property: "og:description", content: "Your private books and PDFs, in one place." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -24,6 +26,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,7 +53,7 @@ function AuthPage() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/library`,
+            emailRedirectTo: `${window.location.origin}/auth`,
             data: { display_name: displayName || email.split("@")[0] },
           },
         });
@@ -88,52 +91,52 @@ function AuthPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <header className="flex items-center justify-between px-6 py-5 md:px-12">
+      <header className="flex items-center justify-between border-b border-border px-5 py-4 md:px-8">
         <Link to="/" className="flex items-center gap-2">
-          <span className="inline-block h-2.5 w-2.5 rounded-full bg-primary" />
-          <span className="font-display text-2xl tracking-[0.18em]">TEMPO</span>
+          <span className="grid h-10 w-10 place-items-center rounded-lg border border-primary/50 bg-primary/10 font-display text-2xl text-primary">T</span>
+          <span className="font-display text-2xl">Taktik</span>
         </Link>
-        <Link
+        <div className="flex items-center gap-2"><LanguageToggle compact /><Link
           to="/"
           className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
         >
-          <ArrowLeft className="h-4 w-4" /> Back
-        </Link>
+          <ArrowLeft className="h-4 w-4" /> {t("back")}
+        </Link></div>
       </header>
 
-      <main className="flex flex-1 items-center justify-center px-6 pb-16">
-        <div className="w-full max-w-md rounded-3xl border border-border bg-card p-8">
+      <main className="flex flex-1 items-center justify-center px-5 py-12">
+        <div className="w-full max-w-md border-t-2 border-primary bg-card p-6 sm:p-8">
           {checkEmail ? (
             <div className="text-center">
               <div className="mx-auto mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/15 text-primary">
                 <Mail className="h-5 w-5" />
               </div>
-              <h1 className="font-display text-4xl tracking-wide">Check your email</h1>
+              <h1 className="font-display text-4xl tracking-wide">{t("checkEmail")}</h1>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                We sent a confirmation link to <span className="text-foreground">{email}</span>. Click it
+                {t("checkEmailBody")} <span className="text-foreground">{email}</span>. Click it
                 to activate your library.
               </p>
               <Button variant="ghost" className="mt-6" onClick={() => setCheckEmail(false)}>
-                Back to sign in
+                {t("backSignIn")}
               </Button>
             </div>
           ) : (
             <>
               <h1 className="font-display text-5xl tracking-wide">
-                {mode === "signin" ? "Sign in" : "Create account"}
+                {t(mode === "signin" ? "signIn" : "createAccount")}
               </h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                Your books and PDFs, private to your account.
+                {t("authBody")}
               </p>
 
               <Button
                 type="button"
                 variant="outline"
-                className="mt-8 w-full gap-3 rounded-full py-6"
+                className="mt-8 w-full gap-3 py-6"
                 onClick={handleGoogle}
                 disabled={busy}
               >
-                <GoogleMark /> Continue with Google
+                <GoogleMark /> {t("continueGoogle")}
               </Button>
 
               <div className="my-6 flex items-center gap-4">
@@ -147,7 +150,7 @@ function AuthPage() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 {mode === "signup" && (
                   <div className="space-y-2">
-                    <Label htmlFor="displayName">Display name</Label>
+                    <Label htmlFor="displayName">{t("displayName")}</Label>
                     <Input
                       id="displayName"
                       value={displayName}
@@ -158,7 +161,7 @@ function AuthPage() {
                   </div>
                 )}
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t("email")}</Label>
                   <Input
                     id="email"
                     type="email"
@@ -170,7 +173,7 @@ function AuthPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t("password")}</Label>
                   <Input
                     id="password"
                     type="password"
@@ -182,21 +185,21 @@ function AuthPage() {
                     autoComplete={mode === "signin" ? "current-password" : "new-password"}
                   />
                 </div>
-                <Button type="submit" className="w-full rounded-full py-6" disabled={busy}>
+                <Button type="submit" className="w-full py-6" disabled={busy}>
                   {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {mode === "signin" ? "Sign in" : "Create account"}
+                  {t(mode === "signin" ? "signIn" : "createAccount")}
                 </Button>
               </form>
 
-              <button
+              <Button
                 type="button"
-                className="mt-6 w-full text-center text-sm text-muted-foreground hover:text-foreground"
+                variant="link" className="mt-6 w-full text-center text-sm text-muted-foreground hover:text-foreground"
                 onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
               >
                 {mode === "signin"
                   ? "No account yet? Create one"
                   : "Already have an account? Sign in"}
-              </button>
+              </Button>
             </>
           )}
         </div>

@@ -59,6 +59,39 @@ export type Database = {
         }
         Relationships: []
       }
+      clock_settings: {
+        Row: {
+          created_at: string
+          custom_increment: number
+          custom_minutes: number
+          player_one: string
+          player_two: string
+          time_control_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          custom_increment?: number
+          custom_minutes?: number
+          player_one?: string
+          player_two?: string
+          time_control_id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          custom_increment?: number
+          custom_minutes?: number
+          player_one?: string
+          player_two?: string
+          time_control_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -80,6 +113,54 @@ export type Database = {
           display_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      saved_games: {
+        Row: {
+          created_at: string
+          duration_ms: number
+          id: string
+          moves_one: number
+          moves_two: number
+          played_at: string
+          player_one: string
+          player_two: string
+          time_control_id: string
+          time_control_name: string
+          updated_at: string
+          user_id: string
+          winner: string | null
+        }
+        Insert: {
+          created_at?: string
+          duration_ms: number
+          id: string
+          moves_one: number
+          moves_two: number
+          played_at: string
+          player_one: string
+          player_two: string
+          time_control_id: string
+          time_control_name: string
+          updated_at?: string
+          user_id: string
+          winner?: string | null
+        }
+        Update: {
+          created_at?: string
+          duration_ms?: number
+          id?: string
+          moves_one?: number
+          moves_two?: number
+          played_at?: string
+          player_one?: string
+          player_two?: string
+          time_control_id?: string
+          time_control_name?: string
+          updated_at?: string
+          user_id?: string
+          winner?: string | null
         }
         Relationships: []
       }

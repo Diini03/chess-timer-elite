@@ -9,14 +9,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/library/$bookId/")({
   component: BookDetail,
   head: () => ({
     meta: [
-      { title: "Book details — Tempo Library" },
+      { title: "Book details — Taktik Library" },
       { name: "description", content: "View, edit, and open a book from your private library." },
-      { property: "og:title", content: "Book details — Tempo Library" },
+      { property: "og:title", content: "Book details — Taktik Library" },
       { property: "og:description", content: "View, edit, and open a book from your library." },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary" },
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/_authenticated/library/$bookId/")({
 
 function BookDetail() {
   const { bookId } = Route.useParams();
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
   const [edit, setEdit] = useState<{ title: string; author: string; description: string; tags: string } | null>(null);
@@ -36,12 +38,12 @@ function BookDetail() {
   });
 
   if (isLoading) {
-    return <Shell><p className="text-sm text-muted-foreground">Loading…</p></Shell>;
+    return <Shell><p className="text-sm text-muted-foreground">{t("loading")}</p></Shell>;
   }
   if (!book) {
     return (
       <Shell>
-        <p className="text-sm text-muted-foreground">This book could not be found.</p>
+        <p className="text-sm text-muted-foreground">{t("notFoundBook")}</p>
       </Shell>
     );
   }
@@ -94,22 +96,22 @@ function BookDetail() {
             <Link
               to="/library/$bookId/read"
               params={{ bookId: book.id }}
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-sm bg-primary px-6 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-primary-foreground"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-primary bg-primary px-6 py-4 text-sm font-semibold text-primary-foreground"
             >
-              <BookOpen className="h-4 w-4" /> Read
+              <BookOpen className="h-4 w-4" /> {t("read")}
             </Link>
           ) : (
             <p className="mt-4 rounded-sm border border-dashed border-border p-4 text-center text-xs text-muted-foreground">
-              No PDF uploaded for this book.
+              {t("noPdf")}
             </p>
           )}
           <dl className="mt-6 space-y-2 text-xs text-muted-foreground">
             <div className="flex justify-between">
-              <dt>File size</dt>
+              <dt>{t("fileSize")}</dt>
               <dd className="text-foreground">{formatBytes(book.file_size)}</dd>
             </div>
             <div className="flex justify-between">
-              <dt>Added</dt>
+              <dt>{t("added")}</dt>
               <dd className="text-foreground">{new Date(book.created_at).toLocaleDateString()}</dd>
             </div>
           </dl>
@@ -117,23 +119,23 @@ function BookDetail() {
 
         <div>
           <h1 className="font-display text-5xl tracking-tight md:text-6xl">{book.title}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">{book.author || "Unknown author"}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{book.author || t("unknownAuthor")}</p>
 
-          <div className="mt-8 space-y-4 rounded-none border border-border bg-card p-6">
+          <div className="mt-8 space-y-4 border-t border-border pt-6">
             <div className="space-y-2">
-              <Label htmlFor="d-title">Title</Label>
+              <Label htmlFor="d-title">{t("title")}</Label>
               <Input id="d-title" value={form.title} onChange={(e) => setEdit({ ...form, title: e.target.value })} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="d-author">Author</Label>
+              <Label htmlFor="d-author">{t("author")}</Label>
               <Input id="d-author" value={form.author} onChange={(e) => setEdit({ ...form, author: e.target.value })} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="d-tags">Tags</Label>
+              <Label htmlFor="d-tags">{t("tag")}</Label>
               <Input id="d-tags" value={form.tags} onChange={(e) => setEdit({ ...form, tags: e.target.value })} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="d-desc">Description</Label>
+              <Label htmlFor="d-desc">{t("description")}</Label>
               <Textarea
                 id="d-desc"
                 rows={4}
@@ -144,10 +146,10 @@ function BookDetail() {
             <div className="flex flex-wrap gap-3 pt-2">
               <Button onClick={save} disabled={saving || !edit} className="gap-2 rounded-sm">
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                Save changes
+                {t("saveChanges")}
               </Button>
               <Button variant="ghost" onClick={remove} className="gap-2 rounded-sm text-destructive">
-                <Trash2 className="h-4 w-4" /> Delete
+                <Trash2 className="h-4 w-4" /> {t("delete")}
               </Button>
             </div>
           </div>
@@ -159,7 +161,7 @@ function BookDetail() {
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-background px-6 py-8 text-foreground md:px-12">
+    <div className="mx-auto min-h-screen max-w-6xl bg-background px-5 py-8 text-foreground md:px-8">
       <Link
         to="/library"
         className="mb-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"

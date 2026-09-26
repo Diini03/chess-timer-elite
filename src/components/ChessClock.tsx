@@ -6,6 +6,9 @@ import { useWakeLock } from "@/hooks/use-wake-lock";
 import { ShortcutsHelp } from "@/components/ShortcutsHelp";
 import { GameHistoryPanel } from "@/components/GameHistoryPanel";
 import { saveGame } from "@/lib/game-history";
+import { readClockSettings, writeClockSettings, writeCloudGame } from "@/lib/clock-sync";
+import { useAuth } from "@/hooks/use-auth";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useChessClock } from "@/hooks/use-chess-clock";
 import { PlayerPanel } from "@/components/PlayerPanel";
@@ -31,6 +34,10 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
   const clock = useChessClock(initial);
 
   const sound = useSound();
+  const { user, loading: authLoading } = useAuth();
+  const [selectedControlId, setSelectedControlId] = useState(initial.id);
+  const hydratedUser = useRef<string | null>(null);
+  const settingsReady = useRef(false);
   const [names, setNames] = useState({ one: "Player 1", two: "Player 2" });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
@@ -55,6 +62,41 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
       }
     } catch { /* ignore */ }
   }, []);
+
+  // Remote settings are authoritative for returning accounts. First-time accounts adopt
+  // the current device's settings; a selected launch preset is never overwritten.
+  useEffect(() => {
+    if (authLoading || !user) { settingsReady.current = false; hydratedUser.current = null; return; }
+    if (hydratedUser.current === user.id) return;
+    hydratedUser.current = user.id;
+    settingsReady.current = false;
+    readClockSettings(user.id).then((saved) => {
+      if (hydratedUser.current !== user.id) return;
+      if (saved) {
+        setNames({ one: saved.player_one, two: saved.player_two });
+        setCustom({ minutes: saved.custom_minutes, increment: saved.custom_increment });
+        if (!initialTimeControlId) {
+          const control = TIME_CONTROLS.find((item) => item.id === saved.time_control_id)
+            ?? makeCustomControl(saved.custom_minutes, saved.custom_increment);
+          setTimeControl(control);
+          setSelectedControlId(control.id);
+        }
+      }
+      settingsReady.current = true;
+    }).catch(() => { settingsReady.current = true; toast.error("Could not load saved clock settings"); });
+  }, [user?.id, authLoading]);
+
+  useEffect(() => {
+    if (!user || !settingsReady.current) return;
+    const timer = window.setTimeout(() => {
+      writeClockSettings(user.id, {
+        player_one: names.one, player_two: names.two,
+        custom_minutes: custom.minutes, custom_increment: custom.increment,
+        time_control_id: selectedControlId,
+      }).catch(() => toast.error("Could not sync clock settings"));
+    }, 600);
+    return () => window.clearTimeout(timer);
+  }, [user?.id, names, custom, selectedControlId]);
 
   // Persist names on change.
   useEffect(() => {
@@ -148,6 +190,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
 
   const pickControl = (tc: TimeControl) => {
     setTimeControl(tc);
+    setSelectedControlId(tc.id);
     setSettingsOpen(false);
   };
 
@@ -177,7 +220,7 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
     savedRef.current = key;
     const total = timeControl.baseSeconds * 1000 * 2;
     const durationMs = total - (remaining.one + remaining.two);
-    saveGame({
+    const game = saveGame({
       timeControlId: timeControl.id,
       timeControlName: timeControl.name,
       players: names,
@@ -185,7 +228,8 @@ export function ChessClock({ initialTimeControlId }: ChessClockProps = {}) {
       winner,
       durationMs,
     });
-  }, [status, winner, timeControl, moves, remaining, names]);
+    if (user) writeCloudGame(user.id, game).catch(() => toast.error("Game saved on this device but could not sync"));
+  }, [status, winner, timeControl, moves, remaining, names, user?.id]);
 
   // Keep the phone awake while a game is running.
   useWakeLock(status === "running");

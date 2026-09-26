@@ -31,7 +31,7 @@ export function BookCover({
   return (
     <div
       className={cn(
-        "relative flex aspect-[3/4] w-full items-center justify-center overflow-hidden rounded-sm border border-border bg-secondary",
+        "relative flex aspect-[3/4] w-full items-center justify-center overflow-hidden rounded-md border border-border bg-secondary",
         className,
       )}
     >
@@ -40,7 +40,7 @@ export function BookCover({
       ) : (
         <div className="flex flex-col items-center gap-3 px-4 text-center">
           <BookOpen aria-hidden className="h-7 w-7 text-primary" />
-          <span className="font-display text-xl leading-tight tracking-wide text-muted-foreground line-clamp-3">
+          <span className="font-display text-xl leading-tight text-muted-foreground line-clamp-3">
             {title}
           </span>
         </div>

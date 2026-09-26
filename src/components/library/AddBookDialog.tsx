@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createBook, formatBytes } from "@/lib/books";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 export function AddBookDialog({
   userId,
@@ -14,6 +15,7 @@ export function AddBookDialog({
   userId: string;
   onCreated: () => void;
 }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [title, setTitle] = useState("");
@@ -62,8 +64,8 @@ export function AddBookDialog({
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} className="gap-2 rounded-sm">
-        <Plus className="h-4 w-4" /> Add book
+      <Button onClick={() => setOpen(true)} className="gap-2">
+        <Plus className="h-4 w-4" /> {t("addBook")}
       </Button>
 
       {open && (
@@ -72,37 +74,37 @@ export function AddBookDialog({
           onClick={() => !busy && setOpen(false)}
         >
           <div
-            className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-none border border-border bg-card p-6 sm:rounded-none"
+            className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-none border border-border bg-card p-6 sm:rounded-md"
             role="dialog"
             aria-modal="true"
-            aria-label="Add a book"
+            aria-label={t("addBook")}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-6 flex items-start justify-between">
               <div>
-                <h2 className="font-display text-4xl tracking-wide">Add a book</h2>
-                <p className="mt-1 text-sm text-muted-foreground">Only you can see this.</p>
+                <h2 className="font-display text-4xl tracking-wide">{t("addBook")}</h2>
+                <p className="mt-1 text-sm text-muted-foreground">{t("addBookBody")}</p>
               </div>
-              <button
-                onClick={() => setOpen(false)}
-                aria-label="Close"
+              <Button
+                variant="ghost" size="icon" onClick={() => setOpen(false)}
+                aria-label={t("close")}
                 className="rounded-sm p-2 text-muted-foreground hover:text-foreground"
               >
                 <X className="h-4 w-4" />
-              </button>
+              </Button>
             </div>
 
             <form onSubmit={submit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="title">Title</Label>
+                <Label htmlFor="title">{t("title")} </Label>
                 <Input id="title" required value={title} onChange={(e) => setTitle(e.target.value)} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="author">Author</Label>
+                <Label htmlFor="author">{t("author")} </Label>
                 <Input id="author" value={author} onChange={(e) => setAuthor(e.target.value)} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="tags">Tags (comma separated)</Label>
+                <Label htmlFor="tags">{t("tagsComma")} </Label>
                 <Input
                   id="tags"
                   value={tags}
@@ -111,7 +113,7 @@ export function AddBookDialog({
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">{t("description")} </Label>
                 <Textarea
                   id="description"
                   rows={3}
@@ -124,22 +126,22 @@ export function AddBookDialog({
                 <FilePick
                   id="pdf"
                   icon={<FileUp className="h-4 w-4" />}
-                  label={pdf ? `${pdf.name} · ${formatBytes(pdf.size)}` : "Choose PDF"}
+                  label={pdf ? `${pdf.name} · ${formatBytes(pdf.size)}` : t("choosePdf")}
                   accept="application/pdf"
                   onPick={setPdf}
                 />
                 <FilePick
                   id="cover"
                   icon={<ImageUp className="h-4 w-4" />}
-                  label={cover ? cover.name : "Choose cover image"}
+                  label={cover ? cover.name : t("chooseCover")}
                   accept="image/*"
                   onPick={setCover}
                 />
               </div>
 
-              <Button type="submit" className="w-full rounded-sm py-6" disabled={busy}>
+              <Button type="submit" className="w-full py-6" disabled={busy}>
                 {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {busy ? "Uploading…" : "Save to library"}
+                {busy ? t("uploading") : t("saveLibrary")}
               </Button>
             </form>
           </div>

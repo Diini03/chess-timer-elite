@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { registerOfflineSupport } from "@/lib/pwa";
 import { I18nProvider } from "@/lib/i18n";
+import { FirstVisitOnboarding } from "@/components/FirstVisitOnboarding";
 import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
@@ -128,6 +129,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
         <Outlet />
+        <FirstVisitOnboarding />
         <Toaster position="top-center" />
       </I18nProvider>
     </QueryClientProvider>

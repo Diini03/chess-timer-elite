@@ -9,3 +9,4 @@
 - [x] Offline play and home-screen launch for the chess clock
 - [x] AI coach that reviews a PGN or game notes
 - [ ] Sync clock preferences and finished games to signed-in accounts; verify account flow
+- [x] Show a skippable English/Arabic first-visit introduction once per device

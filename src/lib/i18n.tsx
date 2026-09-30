@@ -27,6 +27,10 @@ const en = {
   timeControl: "Time control", done: "Done", presetReset: "Choosing a preset resets the game.", minutes: "Minutes", startCustom: "Start",
   shortcuts: "Keyboard shortcuts", shortcutsBody: "Works anywhere on the clock page.", endTurn: "End your turn (on focused panel)", pauseElsewhere: "Pause / resume (elsewhere)", focusTop: "Focus top player", focusBottom: "Focus bottom player", moveControls: "Move focus in the control bar",
   gameHistory: "Game history", recentGames: "Recent games", clearHistory: "Clear history", played: "Played", avgLength: "Avg length", avgMoves: "Avg moves", noGames: "No finished games yet. Play a round to see it here.", winner: "Winner", draw: "Draw", vs: "vs",
+  onboardClockTitle: "Your board. Your time.", onboardClockBody: "Choose a time control and tap a player’s clock to begin. The timer keeps running on this device, even without a connection.",
+  onboardLibraryTitle: "Your private chess shelf.", onboardLibraryBody: "Sign in to keep your books and PDFs together. Search your collection and read right here in Taktik.",
+  onboardCoachTitle: "Learn from every game.", onboardCoachBody: "Paste a game or your notes into the AI coach for a clear review of mistakes and ideas to try next time.", onboardCoachLabel: "AI coach",
+  onboardSkip: "Skip", onboardNext: "Next", onboardFinish: "Get started", onboardProgress: "Introduction progress",
 };
 
 const ar: typeof en = {
@@ -52,6 +56,10 @@ const ar: typeof en = {
   timeControl: "نظام الوقت", done: "تم", presetReset: "اختيار وقت جديد يعيد المباراة.", minutes: "الدقائق", startCustom: "ابدأ",
   shortcuts: "اختصارات لوحة المفاتيح", shortcutsBody: "تعمل في جميع أجزاء صفحة الساعة.", endTurn: "إنهاء دورك (عند تحديد اللاعب)", pauseElsewhere: "إيقاف أو متابعة", focusTop: "تحديد اللاعب العلوي", focusBottom: "تحديد اللاعب السفلي", moveControls: "التنقل بين أدوات التحكم",
   gameHistory: "سجل المباريات", recentGames: "المباريات الأخيرة", clearHistory: "مسح السجل", played: "المباريات", avgLength: "متوسط المدة", avgMoves: "متوسط النقلات", noGames: "لا توجد مباريات مكتملة بعد. العب مباراة لتظهر هنا.", winner: "الفائز", draw: "تعادل", vs: "ضد",
+  onboardClockTitle: "رقعتك. وقتك.", onboardClockBody: "اختر نظام الوقت والمس ساعة اللاعب لتبدأ. تستمر الساعة على هذا الجهاز حتى دون اتصال بالإنترنت.",
+  onboardLibraryTitle: "مكتبتك الخاصة للشطرنج.", onboardLibraryBody: "سجّل الدخول للاحتفاظ بكتبك وملفات PDF في مكان واحد. ابحث عنها واقرأها داخل تكتيك.",
+  onboardCoachTitle: "تعلّم من كل مباراة.", onboardCoachBody: "ألصق مباراة أو ملاحظاتك لدى المدرب الذكي لتحصل على شرح للأخطاء وأفكار للمرة القادمة.", onboardCoachLabel: "المدرب الذكي",
+  onboardSkip: "تخطي", onboardNext: "التالي", onboardFinish: "لنبدأ", onboardProgress: "تقدم المقدمة",
 };
 
 export type TranslationKey = keyof typeof en;

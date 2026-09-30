@@ -1,2 +1,3 @@
 - Keep live clock state on the current device; sync only player names, chosen/custom time controls, and completed games for signed-in users, because a running over-the-board timer must not depend on network latency.
 - Keep books and PDFs in the existing private per-user Cloud tables and buckets, because library data must not leak between accounts.
+- Keep first-visit onboarding in the root UI with a device-local completion marker, so it works for guests and never interrupts repeat visits.

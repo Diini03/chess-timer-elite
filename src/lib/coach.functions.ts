@@ -4,6 +4,7 @@ import { z } from "zod";
 const Input = z.object({
   game: z.string().trim().min(10).max(20000),
   language: z.enum(["en", "ar"]).default("en"),
+  engine: z.string().max(12000).optional(),
 });
 
 export const analyzeGame = createServerFn({ method: "POST" })
@@ -39,8 +40,13 @@ export const analyzeGame = createServerFn({ method: "POST" })
           `Reply in ${lang}, plain text with short headings. Sections: Overview (2-3 sentences), ` +
           `Key mistakes (3-5 items: move number, what went wrong, the better idea), ` +
           `What went well, and Training tips (3 concrete items). If the input is not a chess game, say so briefly. ` +
-          `Be honest when a move is ambiguous rather than inventing lines. Keep it under 450 words.`,
-        prompt: data.game,
+          `Be honest when a move is ambiguous rather than inventing lines. Keep it under 450 words. ` +
+          `When Stockfish engine results are supplied, they are ground truth: base Key mistakes ONLY on the flagged moves ` +
+          `(biggest losses first), cite the engine's preferred move, explain the idea in human terms, and never contradict the evaluations. ` +
+          `If no moves are flagged, say the game was clean per the engine.`,
+        prompt: data.engine
+          ? `GAME:\n${data.game}\n\nSTOCKFISH RESULTS:\n${data.engine}`
+          : data.game,
         providerOptions: {
           openai: {
             forceReasoning: true,

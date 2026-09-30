@@ -67,7 +67,7 @@ function AuthPage() {
         if (error) throw error;
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Something went wrong");
+      toast.error(err instanceof Error ? err.message : t("somethingWrong"));
     } finally {
       setBusy(false);
     }
@@ -80,7 +80,7 @@ function AuthPage() {
         redirect_uri: window.location.origin,
       });
       if (result.error) {
-        toast.error("Google sign-in failed. Please try again.");
+        toast.error(t("googleFailed"));
         return;
       }
       if (result.redirected) return;
@@ -113,8 +113,7 @@ function AuthPage() {
               </div>
               <h1 className="font-display text-4xl tracking-wide">{t("checkEmail")}</h1>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {t("checkEmailBody")} <span className="text-foreground">{email}</span>. Click it
-                to activate your library.
+                {t("checkEmailBody")} <span className="text-foreground">{email}</span>. {t("activateLibrary")}
               </p>
               <Button variant="ghost" className="mt-6" onClick={() => setCheckEmail(false)}>
                 {t("backSignIn")}
@@ -142,7 +141,7 @@ function AuthPage() {
               <div className="my-6 flex items-center gap-4">
                 <span className="h-px flex-1 bg-border" />
                 <span className="text-[10px] font-mono uppercase tracking-[0.28em] text-muted-foreground">
-                  or
+                  {t("or")}
                 </span>
                 <span className="h-px flex-1 bg-border" />
               </div>
@@ -155,7 +154,7 @@ function AuthPage() {
                       id="displayName"
                       value={displayName}
                       onChange={(e) => setDisplayName(e.target.value)}
-                      placeholder="Magnus"
+                      placeholder={t("namePlaceholder")}
                       autoComplete="name"
                     />
                   </div>
@@ -196,9 +195,7 @@ function AuthPage() {
                 variant="link" className="mt-6 w-full text-center text-sm text-muted-foreground hover:text-foreground"
                 onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
               >
-                {mode === "signin"
-                  ? "No account yet? Create one"
-                  : "Already have an account? Sign in"}
+                {t(mode === "signin" ? "noAccount" : "haveAccount")}
               </Button>
             </>
           )}

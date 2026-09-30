@@ -31,6 +31,10 @@ const en = {
   onboardLibraryTitle: "Your private chess shelf.", onboardLibraryBody: "Sign in to keep your books and PDFs together. Search your collection and read right here in Taktik.",
   onboardCoachTitle: "Learn from every game.", onboardCoachBody: "Paste a game or your notes into the AI coach for a clear review of mistakes and ideas to try next time.", onboardCoachLabel: "AI coach",
   onboardSkip: "Skip", onboardNext: "Next", onboardFinish: "Get started", onboardProgress: "Introduction progress",
+  coachTitle: "Review your game", coachBody: "Paste a PGN. Stockfish checks every move, then the coach explains your key mistakes and how to improve.", coachPlaceholder: "1. e4 e5 2. Nf3 Nc6 … (PGN or notes)", coachInputLabel: "PGN or game notes",
+  coachAnalyze: "Analyze game", coachEngineRunning: "Engine checking moves…", coachWriting: "Writing review…", coachSample: "Try a sample", coachError: "Something went wrong. Please try again.",
+  coachEngineTitle: "Stockfish findings", coachClean: "No significant mistakes found by the engine.", coachBest: "Best:", coachNoEngine: "Couldn't read these as legal moves, so the review is based on your notes only.",
+  blunder: "Blunder", mistake: "Mistake", inaccuracy: "Inaccuracy", somethingWrong: "Something went wrong", googleFailed: "Google sign-in failed. Please try again.", namePlaceholder: "Magnus",
 };
 
 const ar: typeof en = {
@@ -60,6 +64,10 @@ const ar: typeof en = {
   onboardLibraryTitle: "مكتبتك الخاصة للشطرنج.", onboardLibraryBody: "سجّل الدخول للاحتفاظ بكتبك وملفات PDF في مكان واحد. ابحث عنها واقرأها داخل تكتيك.",
   onboardCoachTitle: "تعلّم من كل مباراة.", onboardCoachBody: "ألصق مباراة أو ملاحظاتك لدى المدرب الذكي لتحصل على شرح للأخطاء وأفكار للمرة القادمة.", onboardCoachLabel: "المدرب الذكي",
   onboardSkip: "تخطي", onboardNext: "التالي", onboardFinish: "لنبدأ", onboardProgress: "تقدم المقدمة",
+  coachTitle: "راجع مباراتك", coachBody: "ألصق نص PGN. يفحص محرك Stockfish كل نقلة، ثم يشرح المدرب أخطاءك الرئيسية وكيف تتحسن.", coachPlaceholder: "1. e4 e5 2. Nf3 Nc6 … (PGN أو ملاحظات)", coachInputLabel: "نص PGN أو ملاحظات المباراة",
+  coachAnalyze: "حلّل المباراة", coachEngineRunning: "المحرك يفحص النقلات…", coachWriting: "جارٍ كتابة المراجعة…", coachSample: "جرّب مثالًا", coachError: "حدث خطأ ما. حاول مرة أخرى.",
+  coachEngineTitle: "نتائج Stockfish", coachClean: "لم يجد المحرك أخطاء مهمة.", coachBest: "الأفضل:", coachNoEngine: "تعذرت قراءة النقلات كنقلات قانونية، لذا تعتمد المراجعة على ملاحظاتك فقط.",
+  blunder: "خطأ فادح", mistake: "خطأ", inaccuracy: "عدم دقة", somethingWrong: "حدث خطأ ما", googleFailed: "فشل تسجيل الدخول عبر Google. حاول مرة أخرى.", namePlaceholder: "ماغنوس",
 };
 
 export type TranslationKey = keyof typeof en;

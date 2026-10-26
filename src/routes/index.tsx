@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, Clock3, Gauge, Library, Play, ShieldCheck, Sparkles, Zap } from "lucide-react";
-import { LanguageToggle } from "@/components/LanguageToggle";
+import { AppNavbar } from "@/components/AppNavbar";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
@@ -27,19 +27,7 @@ function CommandCenter() {
   ];
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border bg-background/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-          <Link to="/" className="flex items-center gap-3" aria-label="Taktik home">
-            <span className="grid h-10 w-10 place-items-center rounded-lg border border-primary/50 bg-primary/10 font-display text-2xl text-primary">T</span>
-            <span><strong className="block font-display text-2xl leading-none">Taktik</strong><span className="eyebrow text-[0.55rem]">{t("command")}</span></span>
-          </Link>
-          <nav className="flex items-center gap-2" aria-label="Primary navigation">
-             <LanguageToggle compact />
-             <Link to="/library" className="flex h-11 items-center gap-2 rounded-lg border border-border px-3 text-xs font-semibold text-muted-foreground hover:border-primary/50 hover:text-foreground"><Library className="h-4 w-4" /><span className="hidden sm:inline">{t("library")}</span></Link>
-             <Link to="/clock" className="flex h-11 items-center gap-2 rounded-lg border border-primary bg-primary px-4 text-xs font-bold text-primary-foreground"><Play className="h-4 w-4" fill="currentColor" /> {t("start")}</Link>
-          </nav>
-        </div>
-      </header>
+      <AppNavbar />
 
       <main className="mx-auto grid max-w-7xl gap-5 px-5 py-5 md:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.6fr)] md:px-8 md:py-8">
         <section className="relative overflow-hidden rounded-lg border border-border bg-card p-6 md:min-h-[510px] md:p-10">

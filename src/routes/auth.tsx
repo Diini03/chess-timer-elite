@@ -4,7 +4,7 @@ import { ArrowLeft, Loader2, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
-import { LanguageToggle } from "@/components/LanguageToggle";
+import { AppNavbar } from "@/components/AppNavbar";
 import { useI18n } from "@/lib/i18n";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -91,18 +91,7 @@ function AuthPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <header className="flex items-center justify-between border-b border-border px-5 py-4 md:px-8">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="grid h-10 w-10 place-items-center rounded-lg border border-primary/50 bg-primary/10 font-display text-2xl text-primary">T</span>
-          <span className="font-display text-2xl">Taktik</span>
-        </Link>
-        <div className="flex items-center gap-2"><LanguageToggle compact /><Link
-          to="/"
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" /> {t("back")}
-        </Link></div>
-      </header>
+      <AppNavbar />
 
       <main className="flex flex-1 items-center justify-center px-5 py-12">
         <div className="w-full max-w-md border-t-2 border-primary bg-card p-6 sm:p-8">

@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
-import { LanguageToggle } from "@/components/LanguageToggle";
+import { AppNavbar } from "@/components/AppNavbar";
 
 export const Route = createFileRoute("/_authenticated/library/")({
   component: LibraryPage,
@@ -81,24 +81,7 @@ function LibraryPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-30 flex items-center justify-between gap-4 border-b border-border bg-background/95 px-5 py-4 backdrop-blur md:px-8">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="grid h-10 w-10 place-items-center rounded-lg border border-primary/50 bg-primary/10 font-display text-2xl text-primary">T</span>
-          <span className="font-display text-2xl">Taktik</span>
-        </Link>
-        <div className="flex items-center gap-2">
-          <LanguageToggle compact />
-          <Link
-            to="/clock"
-            className="hidden items-center gap-2 rounded-sm border border-border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground sm:inline-flex"
-          >
-            <Clock3 className="h-3.5 w-3.5" /> {t("clock")}
-          </Link>
-          <Button variant="ghost" size="sm" className="gap-2 rounded-sm" onClick={signOut}>
-            <LogOut className="h-4 w-4" /> {t("signOut")}
-          </Button>
-        </div>
-      </header>
+      <AppNavbar />
 
       <main className="mx-auto max-w-7xl px-5 py-8 md:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">

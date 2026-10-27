@@ -1,7 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { ArrowLeft, Cpu, Loader2, Sparkles } from "lucide-react";
+import { Cpu, Loader2, Sparkles } from "lucide-react";
 import { analyzeGame } from "@/lib/coach.functions";
 import { Button } from "@/components/ui/button";
 import { AppNavbar } from "@/components/AppNavbar";
@@ -39,20 +39,20 @@ function CoachPage() {
     if (game.trim().length < 10 || loading) return;
     setError(null); setResult(null); setReport(null); setProgress(0);
     try {
-      let engine: string | undefined;
       const { parseGame, analyzeWithEngine } = await import("@/lib/engine");
       const chess = parseGame(game);
-      if (chess) {
-        setStage("engine");
-        const r = await analyzeWithEngine(chess, 12, (d, total) => setProgress(Math.round((d / total) * 100)));
-        setReport(r);
-        engine = r.summary;
+      if (!chess) {
+        setError(t("coachInvalidGame"));
+        return;
       }
+      setStage("engine");
+      const r = await analyzeWithEngine(chess, 12, (d, total) => setProgress(Math.round((d / total) * 100)));
+      setReport(r);
       setStage("coach");
-      const res = await run({ data: { game, language: locale, engine } });
+      const res = await run({ data: { game: chess.pgn(), language: locale, engine: r.summary } });
       if (res.ok) setResult(res.text); else setError(res.error);
     } catch {
-      setError(t("coachError"));
+      setError(t("coachAnalysisError"));
     } finally {
       setStage("idle");
     }
@@ -68,6 +68,7 @@ function CoachPage() {
 
         <textarea
           value={game}
+          disabled={loading}
           onChange={(e) => setGame(e.target.value)}
           placeholder={t("coachPlaceholder")}
           aria-label={t("coachInputLabel")}
@@ -101,13 +102,14 @@ function CoachPage() {
                     </span>
                     <span dir="ltr" className="font-mono">{f.moveNumber}{f.side === "White" ? "." : "…"} {f.played}</span>
                     <span className="text-muted-foreground">{t("coachBest")} <span dir="ltr" className="font-mono text-foreground">{f.best}</span></span>
+                    <span className="text-xs text-muted-foreground">{t("coachLoss")} {(f.loss / 100).toFixed(2)}</span>
+                    {f.continuation.length > 0 && <span className="w-full text-xs text-muted-foreground">{t("coachLine")} <span dir="ltr" className="inline-block font-mono">{f.continuation.join(" → ")}</span></span>}
                   </li>
                 ))}
               </ul>
             )}
           </section>
         )}
-        {!report && result && <p className="mt-5 text-xs text-muted-foreground">{t("coachNoEngine")}</p>}
         {result && (
           <article className="mt-5 whitespace-pre-wrap rounded-lg border border-border bg-card p-5 text-sm leading-7">
             {result}

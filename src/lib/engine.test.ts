@@ -1,3 +1,4 @@
+/// <reference types="bun" />
 import { describe, expect, test } from "bun:test";
 import { Chess } from "chess.js";
 import { parseGame, principalVariation } from "./engine";

@@ -8,6 +8,6 @@
 - [x] Add English/Arabic switching with persistent RTL support across the app
 - [x] Offline play and home-screen launch for the chess clock
 - [x] AI coach that reviews a PGN or game notes
-- [ ] Require legal game positions for Stockfish coaching and verify engine-grounded analysis
+- [x] Require legal game positions for Stockfish coaching and verify engine-grounded analysis
 - [ ] Sync clock preferences and finished games to signed-in accounts; verify account flow
 - [x] Show a skippable English/Arabic first-visit introduction once per device
